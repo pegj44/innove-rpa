@@ -16,7 +16,7 @@ class AuthApiMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $auth = postRequest('auth-user', []);
+        $auth = requestApi('post', 'auth-user');
 
         if (empty($auth['authenticated'])) {
             return redirect('login');

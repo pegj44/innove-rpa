@@ -11,19 +11,20 @@ class TradingUnitController extends Controller
      */
     public function index()
     {
-        $units = getRequest('trading-units');
+        $units = requestApi( 'get','trading-units');
 
         return view('dashboard.trading-units.index')->with([
             'tradingUnits' => $units
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function settings()
     {
-        //
+        $settings = requestApi('get', 'trading-unit/settings');
+
+        return view('dashboard.trading-units.settings.index')->with([
+            'settings' => $settings
+        ]);
     }
 
     /**
@@ -33,33 +34,47 @@ class TradingUnitController extends Controller
     {
         $enable = $request->get('enable');
 
-        $createUnit = postRequest('trading-unit', [
+        $createUnit = requestApi( 'post','trading-unit', [
             'name' => $request->get('unit_name'),
             'ip_address' => $request->get('ip_address'),
             'status' => ($enable)? 1 : 0
         ]);
 
         if (!empty($createUnit['errors'])) {
-            return redirect()->back()->withErrors($createUnit['errors']);
+            return redirect()->back()->with('error', $createUnit['errors']);
         }
 
         return redirect()->back()->with('success', 'Successfully registered a unit.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function setUnitPassword(Request $request)
     {
-        //
+        $unitsPw = requestApi('post', 'trading-units/settings/set-password', [
+            'username' => $request->get('username'),
+            'password' => $request->get('password'),
+            'password_confirmation' => $request->get('password_confirm')
+        ]);
+
+        if (!empty($unitsPw['errors'])) {
+            return redirect()->back()->with('error', $unitsPw['errors']);
+        }
+
+        return redirect()->back()->with('success', $unitsPw['message']);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function updateUnitPassword(Request $request)
     {
-        //
+        $unitsPw = requestApi('post', 'trading-units/settings/update-password', [
+            'username' => $request->get('username'),
+            'password' => $request->get('password'),
+            'password_confirmation' => $request->get('password_confirm')
+        ]);
+
+        if (!empty($unitsPw['errors'])) {
+            return redirect()->back()->with('error', $unitsPw['errors']);
+        }
+
+        return redirect()->back()->with('success', $unitsPw['message']);
     }
 
     /**
@@ -67,7 +82,12 @@ class TradingUnitController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $data = $request->only(['status', 'name', 'ip_address']);
+        $data['status'] = (!empty($data['status']))? 1 : 0;
+
+        requestApi('post', 'trading-unit/'. $id, $data);
+
+        return redirect()->back();
     }
 
     /**
@@ -75,6 +95,8 @@ class TradingUnitController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        requestApi('delete', 'trading-unit/'. $id);
+
+        return redirect()->back();
     }
 }

@@ -54,4 +54,4 @@ Route::put('password', [PasswordController::class, 'update'])->name('password.up
 Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
             ->name('logout');
 
-Route::get('generate-token', [\App\Http\Controllers\UserTokenController::class, 'generateToken'])->name('generate-token');
+//Route::get('generate-token', [\App\Http\Controllers\UserTokenController::class, 'generateToken'])->name('generate-token');

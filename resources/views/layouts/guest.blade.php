@@ -25,6 +25,11 @@
             <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
                 {{ $slot }}
             </div>
+            @if(\Illuminate\Support\Facades\Route::currentRouteName() === 'login')
+                <a href="{{ route('register') }}" class="text-sm mt-5 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
+                    {{ __('Register') }}
+                </a>
+            @endif
         </div>
     </body>
 </html>
