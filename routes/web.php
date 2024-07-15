@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\FunderController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TradingIndividualController;
 use App\Http\Controllers\TradingUnitController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,7 +31,8 @@ Route::middleware(['auth_api'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::controller(TradingUnitController::class)->group(function() {
+    Route::controller(TradingUnitController::class)->group(function()
+    {
         Route::get('/trading-units/units', 'index')->name('trading-unit.units');
         Route::get('/trading-units/settings', 'settings')->name('trading-unit.settings');
 
@@ -54,6 +57,22 @@ Route::middleware(['auth_api'])->group(function () {
         Route::get('/trading-unit/settings/update-password', function() {
             return redirect('dashboard');
         });
+    });
+
+    Route::controller(FunderController::class)->group(function()
+    {
+        Route::get('/funder/list', 'index')->name('funders');
+        Route::get('/funder/add', 'create')->name('funder.create');
+        Route::post('/funder', 'store')->name('funder.store');
+        Route::get('/funder/{id}', 'edit')->name('funder.edit');
+        Route::post('/funder/{id}', 'update')->name('funder.update');
+        Route::delete('/funder/{id}', 'destroy')->name('funder.delete');
+    });
+
+    Route::controller(TradingIndividualController::class)->group(function()
+    {
+        Route::get('trading-individual/add', 'create')->name('trading-individual.create');
+        Route::post('trading-individual', 'store')->name('trading-individual.store');
     });
 });
 

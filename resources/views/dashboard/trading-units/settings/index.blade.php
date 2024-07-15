@@ -9,7 +9,7 @@
 
             @include('components.dashboard-notification')
 
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg mt-4">
+            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg mt-4 max-w-[640px]">
                 <div class="max-w-xl">
 
                     @include('dashboard.trading-units.settings.unit-login', $settings)
