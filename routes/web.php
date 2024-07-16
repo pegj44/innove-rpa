@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\FunderController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TradingCredentialsController;
 use App\Http\Controllers\TradingIndividualController;
 use App\Http\Controllers\TradingUnitController;
 use Illuminate\Support\Facades\Route;
@@ -69,11 +70,25 @@ Route::middleware(['auth_api'])->group(function () {
         Route::delete('/funder/{id}', 'destroy')->name('funder.delete');
     });
 
-    Route::controller(TradingIndividualController::class)->group(function()
+    Route::prefix('trading-account')->name('trading-account.')->group(function()
     {
-        Route::get('trading-individual/add', 'create')->name('trading-individual.create');
-        Route::post('trading-individual', 'store')->name('trading-individual.store');
+        Route::controller(TradingIndividualController::class)->group(function()
+        {
+            Route::get('/individual/list', 'getIndividuals')->name('individual.list');
+            Route::get('/individual/add', 'create')->name('individual.create');
+            Route::get('/individual/{id}', 'edit')->name('individual.edit');
+            Route::delete('/individual/{id}', 'destroy')->name('individual.delete');
+            Route::post('/individual/{id}', 'update')->name('individual.update');
+            Route::post('/individual', 'store')->name('individual.store');
+        });
+
+        Route::controller(TradingCredentialsController::class)->group(function()
+        {
+            Route::get('/credential/list', 'getCredentials')->name('credential.list');
+            Route::get('/credential/add', 'create')->name('credential.create');
+        });
     });
+
 });
 
 require __DIR__.'/auth.php';

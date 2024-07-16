@@ -19,7 +19,7 @@ class AddIndividualForm extends Form
         ->add('unit', 'select', [
             'wrapper' => ['class' => 'mb-5'],
             'label' => __('Unit (Required)'),
-//            'rules' => ['required'],
+            'rules' => ['required'],
             'choices' => $pcUnits,
             'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
             'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
@@ -29,7 +29,7 @@ class AddIndividualForm extends Form
         ->add('type', 'text', [
             'wrapper' => ['class' => 'mb-5'],
             'label' => __('Type (Required)'),
-//            'rules' => ['required'],
+            'rules' => ['required'],
             'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
             'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
             'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
@@ -38,7 +38,7 @@ class AddIndividualForm extends Form
         ->add('first_name', 'text', [
             'wrapper' => ['class' => 'mb-5'],
             'label' => __('First Name (Required)'),
-//            'rules' => ['required'],
+            'rules' => ['required'],
             'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
             'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
             'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
@@ -47,7 +47,7 @@ class AddIndividualForm extends Form
         ->add('middle_name', 'text', [
             'wrapper' => ['class' => 'mb-5'],
             'label' => __('Middle Name (Required)'),
-//            'rules' => ['required'],
+            'rules' => ['required'],
             'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
             'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
             'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
@@ -56,7 +56,7 @@ class AddIndividualForm extends Form
         ->add('last_name', 'text', [
             'wrapper' => ['class' => 'mb-5'],
             'label' => __('Last Name (Required)'),
-//            'rules' => ['required'],
+            'rules' => ['required'],
             'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
             'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
             'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
@@ -65,7 +65,7 @@ class AddIndividualForm extends Form
         ->add('email', 'email', [
             'wrapper' => ['class' => 'mb-5'],
             'label' => __('Email (Required)'),
-//            'rules' => ['required'],
+            'rules' => ['required'],
             'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
             'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
             'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
@@ -74,7 +74,7 @@ class AddIndividualForm extends Form
         ->add('address', 'text', [
             'wrapper' => ['class' => 'mb-5'],
             'label' => __('Address (Required)'),
-//            'rules' => ['required'],
+            'rules' => ['required'],
             'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
             'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
             'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
@@ -83,7 +83,7 @@ class AddIndividualForm extends Form
         ->add('city', 'text', [
             'wrapper' => ['class' => 'mb-5'],
             'label' => __('City (Required)'),
-//            'rules' => ['required'],
+            'rules' => ['required'],
             'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
             'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
             'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
@@ -92,7 +92,7 @@ class AddIndividualForm extends Form
         ->add('province', 'text', [
             'wrapper' => ['class' => 'mb-5'],
             'label' => __('Province (Required)'),
-//            'rules' => ['required'],
+            'rules' => ['required'],
             'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
             'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
             'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
@@ -101,7 +101,7 @@ class AddIndividualForm extends Form
         ->add('zip_code', 'text', [
             'wrapper' => ['class' => 'mb-5'],
             'label' => __('Zip Code (Required)'),
-//            'rules' => ['required'],
+            'rules' => ['required'],
             'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
             'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
             'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
@@ -110,7 +110,7 @@ class AddIndividualForm extends Form
         ->add('contact_number1', 'text', [
             'wrapper' => ['class' => 'mb-5'],
             'label' => __('Contact Number 1 (Required)'),
-//            'rules' => ['required'],
+            'rules' => ['required'],
             'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
             'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
             'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
@@ -127,8 +127,8 @@ class AddIndividualForm extends Form
         ])
         ->add('birth_year', 'number', [
             'wrapper' => ['class' => 'mb-5'],
-            'label' => __('Birth Year'),
-//            'rules' => ['required', 'numeric'],
+            'label' => __('Birth Year (Required)'),
+            'rules' => ['required', 'numeric'],
             'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
             'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
             'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
@@ -137,7 +137,7 @@ class AddIndividualForm extends Form
         ->add('birth_month', 'select', [
             'wrapper' => ['class' => 'mb-5'],
             'label' => __('Birth Month (Required)'),
-//            'rules' => ['required'],
+            'rules' => ['required'],
             'choices' => [
                 '01' => __('January'),
                 '02' => __('February'),
@@ -159,8 +159,8 @@ class AddIndividualForm extends Form
         ])
         ->add('birth_day', 'number', [
             'wrapper' => ['class' => 'mb-5'],
-            'label' => __('Birth Day'),
-//            'rules' => ['required', 'numeric'],
+            'label' => __('Birth Day (Required)'),
+            'rules' => ['required', 'numeric'],
             'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
             'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
             'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
@@ -169,7 +169,7 @@ class AddIndividualForm extends Form
         ->add('id_type', 'text', [
             'wrapper' => ['class' => 'mb-5'],
             'label' => __('ID Type (Required)'),
-//            'rules' => ['required'],
+            'rules' => ['required'],
             'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
             'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
             'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
@@ -178,11 +178,20 @@ class AddIndividualForm extends Form
         ->add('billing', 'text', [
             'wrapper' => ['class' => 'mb-5'],
             'label' => __('Billing (Required)'),
-//            'rules' => ['required'],
+            'rules' => ['required'],
             'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
             'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
             'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
             'default_value' => (!empty($data['billing']))? $data['billing'] : ''
+        ])
+        ->add('remarks', 'text', [
+            'wrapper' => ['class' => 'mb-5'],
+            'label' => __('Remarks'),
+            'rules' => [],
+            'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+            'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+            'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+            'default_value' => (!empty($data['remarks']))? $data['remarks'] : ''
         ]);
 
         $submitLabel = (empty($data))? __('Add Record') : __('Update Record');

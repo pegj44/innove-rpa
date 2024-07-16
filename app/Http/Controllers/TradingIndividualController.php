@@ -8,12 +8,13 @@ use Kris\LaravelFormBuilder\FormBuilder;
 
 class TradingIndividualController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function getIndividuals()
     {
-        //
+        $items = requestApi('get', 'trading-individuals');
+
+        return view('dashboard.trading-individual.index')->with([
+            'items' => $items
+        ]);
     }
 
     /**
@@ -23,7 +24,7 @@ class TradingIndividualController extends Controller
     {
         $form = $formBuilder->create(AddIndividualForm::class, [
             'method' => 'POST',
-            'url' => route('trading-individual.store')
+            'url' => route('trading-account.individual.store')
         ]);
 
         return view('dashboard.trading-individual.create')->with([
@@ -56,9 +57,22 @@ class TradingIndividualController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(FormBuilder $formBuilder, string $id)
     {
-        //
+        $item = requestApi('get', 'trading-individual/'. $id);
+
+        if (!empty($item['errors'])) {
+            return redirect()->route('trading-account.individual.list');
+        }
+
+        $form = $formBuilder->create(AddIndividualForm::class, [
+            'method' => 'POST',
+            'url' => route('trading-account.individual.update', $item['id'])
+        ], $item);
+
+        return view('dashboard.trading-individual.edit')->with([
+            'form' => $form
+        ]);
     }
 
     /**
@@ -66,7 +80,13 @@ class TradingIndividualController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $item = requestApi('post', 'trading-individual/'. $id, $request->except('_token'));
+
+        if (!empty($item['errors'])) {
+            return redirect()->back()->withErrors($item['errors'])->withInput();
+        }
+
+        return redirect()->back()->with('success', $item['message']);
     }
 
     /**
@@ -74,6 +94,12 @@ class TradingIndividualController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $removeItem = requestApi('delete', 'trading-individual/'. $id);
+
+        if (!empty($removeItem['errors'])) {
+            return redirect()->back()->with('error', $removeItem['errors']);
+        }
+
+        return redirect()->back()->with('success', $removeItem['message']);
     }
 }
