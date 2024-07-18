@@ -71,8 +71,10 @@
                         @endif
                     </td>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        @if(isset($funder['metadata']['reset_time_zone']) && isset($funder['metadata']['reset_time']))
+                        @if(isset($funder['metadata']['reset_time']))
                             {{ $funder['metadata']['reset_time'] }}
+                        @endif
+                        @if(isset($funder['metadata']['reset_time_zone']))
                             <p class="text-xs">{{ getTimeZoneOffset($funder['metadata']['reset_time_zone']) }}</p>
                         @endif
                     </td>

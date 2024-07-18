@@ -25,7 +25,7 @@ class TradingCredentialsController extends Controller
     {
         $form = $formBuilder->create(TradingAccountCredentialForm::class, [
             'method' => 'POST',
-            'url' => ''
+            'url' => route('trading-account.credential.store')
         ]);
 
         return view('dashboard.trading-credentials.create')->with([
@@ -38,7 +38,13 @@ class TradingCredentialsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $response = requestApi('post', 'credential', $request->except('_token'));
+
+        if (!empty($response['errors'])) {
+            return redirect()->back()->withErrors($response['errors'])->withInput();
+        }
+
+        return redirect()->route('trading-account.credential.list')->with('success', $response['message']);
     }
 
     /**

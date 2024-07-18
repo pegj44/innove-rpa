@@ -86,6 +86,7 @@ Route::middleware(['auth_api'])->group(function () {
         {
             Route::get('/credential/list', 'getCredentials')->name('credential.list');
             Route::get('/credential/add', 'create')->name('credential.create');
+            Route::post('/credential', 'store')->name('credential.store');
         });
     });
 

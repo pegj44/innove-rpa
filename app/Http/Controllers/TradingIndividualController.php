@@ -40,7 +40,7 @@ class TradingIndividualController extends Controller
         $response = requestApi('post', 'trading-individual', array_filter($request->except('_token')));
 
         if (!empty($response['errors'])) {
-            return redirect()->back()->withErrors($response['errors'])->withInput();
+            return redirect()->back()->withErrors($response['errors'])->withInput()->with('error', 'Failed to add item, please check the fields.');
         }
 
         return redirect()->back()->with('success', 'Successfully saved item.');
@@ -83,7 +83,7 @@ class TradingIndividualController extends Controller
         $item = requestApi('post', 'trading-individual/'. $id, $request->except('_token'));
 
         if (!empty($item['errors'])) {
-            return redirect()->back()->withErrors($item['errors'])->withInput();
+            return redirect()->back()->withErrors($item['errors'])->withInput()->with('error', 'Failed to add item, please check the fields.');
         }
 
         return redirect()->back()->with('success', $item['message']);
