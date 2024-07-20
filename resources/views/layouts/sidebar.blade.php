@@ -11,14 +11,28 @@
                     <span class="ms-3">Dashboard</span>
                 </a>
             </li>
-            <li>
-                <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+            <li data-route="trade">
+                <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="trade-dropdown" data-collapse-toggle="trade-dropdown">
                     <svg class="w-[22px] h-[22px] w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4.5V19a1 1 0 0 0 1 1h15M7 14l4-4 4 4 5-5m0 0h-3.207M20 9v3.207"/>
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1M5 12h14M5 12a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1m-2 3h.01M14 15h.01M17 9h.01M14 9h.01"/>
                     </svg>
-
-                    <span class="ms-3">Trade</span>
-                </a>
+                    <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">{{ __('Trade') }}</span>
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                    </svg>
+                </button>
+                <ul id="trade-dropdown" class="hidden py-2 space-y-2">
+                    <li data-route="#">
+                        <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                            {{ __('Make Money') }}
+                        </a>
+                    </li>
+                    <li data-route="trade.report|trade.report.create|trade.report.edit">
+                        <a href="{{route('trade.report')}}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                            {{ __('Report') }}
+                        </a>
+                    </li>
+                </ul>
             </li>
             <li data-route="trading-units">
                 <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="trading-units-dropdown" data-collapse-toggle="trading-units-dropdown">
@@ -120,11 +134,11 @@
                    childElRoutes = childElRoutes.split('|');
 
                    if(childElRoutes.indexOf('{{ $currentRouteName }}') !== -1) {
-                       childEl.classList.add('dark:bg-gray-900');
+                       childEl.querySelector('a').classList.add('dark:bg-gray-900');
                    }
                });
            } else {
-               el.classList.add('dark:bg-gray-900');
+               el.querySelector('a').classList.add('dark:bg-gray-900');
            }
        }
 

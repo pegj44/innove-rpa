@@ -64,7 +64,7 @@ class FunderController extends Controller
     {
         $funder = requestApi('get', 'funder/'. $id);
 
-        if (!empty($funder['errors'])) {
+        if (empty($funder) || !empty($funder['errors'])) {
             return redirect('funder/list');
         }
 

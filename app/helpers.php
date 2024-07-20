@@ -14,6 +14,21 @@ function getFunderAmountsType($amount, $type)
     return $amount;
 }
 
+function getPhaseName($phase)
+{
+    $phases = [
+        'phase-1' => __('Phase 1'),
+        'phase-2' => __('Phase 2'),
+        'phase-3' => __('Phase 3')
+    ];
+
+    if (!isset($phases[$phase])) {
+        return '';
+    }
+
+    return $phases[$phase];
+}
+
 function getFunderStepName($key)
 {
     $steps = [
@@ -21,6 +36,10 @@ function getFunderStepName($key)
         '2-step' => __('2 Step'),
         'funded' => __('Funded')
     ];
+
+    if (!isset($steps[$key])) {
+        return '';
+    }
 
     return $steps[$key];
 }

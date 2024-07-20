@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\FunderController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TradeController;
+use App\Http\Controllers\TradeReportController;
 use App\Http\Controllers\TradingCredentialsController;
 use App\Http\Controllers\TradingIndividualController;
 use App\Http\Controllers\TradingUnitController;
@@ -86,10 +88,30 @@ Route::middleware(['auth_api'])->group(function () {
         {
             Route::get('/credential/list', 'getCredentials')->name('credential.list');
             Route::get('/credential/add', 'create')->name('credential.create');
+            Route::get('/credential/{id}', 'edit')->name('credential.edit');
+            Route::post('/credential/{id}', 'update')->name('credential.update');
+            Route::delete('/credential/{id}', 'destroy')->name('credential.delete');
             Route::post('/credential', 'store')->name('credential.store');
         });
     });
 
+    Route::prefix('trade/')->name('trade.')->group(function()
+    {
+       Route::controller(TradeController::class)->group(function()
+       {
+
+       });
+
+        Route::controller(TradeReportController::class)->group(function()
+        {
+            Route::get('report','index')->name('report');
+            Route::get('report/create','create')->name('report.create');
+            Route::get('report/{id}', 'edit')->name('report.edit');
+            Route::post('report/{id}', 'update')->name('report.update');
+            Route::delete('report/{id}', 'destroy')->name('report.delete');
+            Route::post('report','store')->name('report.store');
+        });
+    });
 });
 
 require __DIR__.'/auth.php';

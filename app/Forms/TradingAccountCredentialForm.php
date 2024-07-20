@@ -8,7 +8,7 @@ class TradingAccountCredentialForm extends Form
 {
     public function buildForm()
     {
-        $data = $this->getData('metadata');
+        $data = $this->getData('data');
         $tradingAccounts = requestApi('get', 'user/entities/individuals-and-funders');
 
         $individualsArr = [];
@@ -45,6 +45,7 @@ class TradingAccountCredentialForm extends Form
                 'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
                 'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
                 'empty_value' => __('-- Choose Unit --'),
+                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                 'default_value' => (!empty($data['trading_individual']))? $data['trading_individual'] : ''
             ])
             ->add('funder_id', 'select', [
@@ -55,7 +56,47 @@ class TradingAccountCredentialForm extends Form
                 'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
                 'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
                 'empty_value' => __('-- Choose Unit --'),
+                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                 'default_value' => (!empty($data['funder']))? $data['funder'] : ''
+            ])
+            ->add('account_id', 'text', [
+                'wrapper' => ['class' => 'mb-5'],
+                'label' => __('Account ID (Required)'),
+                'rules' => ['required'],
+                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+                'default_value' => (!empty($data['account_id']))? $data['account_id'] : ''
+            ])
+            ->add('phase', 'select', [
+                'wrapper' => ['class' => 'mb-5'],
+                'label' => __('Current Phase (Required)'),
+//                'rules' => ['required'],
+                'choices' => [
+                    'phase-1' => __('Phase 1'),
+                    'phase-2' => __('Phase 2'),
+                    'phase-3' => __('Phase 3')
+                ],
+                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+                'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
+                'empty_value' => __('-- Choose Phase --'),
+                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+                'default_value' => (!empty($data['phase']))? $data['phase'] : ''
+            ])
+            ->add('status', 'select', [
+                'wrapper' => ['class' => 'mb-5'],
+                'label' => __('Status (Required)'),
+//                'rules' => ['required'],
+                'choices' => [
+                    'active' => __('Active'),
+                    'inactive' => __('Inactive'),
+                    'failed' => __('Failed')
+                ],
+                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+                'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
+                'empty_value' => __('-- Choose Status --'),
+                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+                'default_value' => (!empty($data['status']))? $data['status'] : ''
             ])
             ->add('dashboard_login_wrapper', 'wrapper', [
                 'label' => 'Dashboard Login',
@@ -135,44 +176,6 @@ class TradingAccountCredentialForm extends Form
                     ])
                 ]
             ]);
-
-//
-//            ->add('login_name', 'text', [
-//                'wrapper' => ['class' => 'mb-5'],
-//                'label' => __('Login Name (Required)'),
-//                'rules' => ['required'],
-//                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
-//                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-//                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-//                'default_value' => (!empty($data['login_name']))? $data['login_name'] : ''
-//            ])
-//            ->add('login_url', 'text', [
-//                'wrapper' => ['class' => 'mb-5'],
-//                'label' => __('Login URL (Required)'),
-//                'rules' => ['required'],
-//                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
-//                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-//                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-//                'default_value' => (!empty($data['login_url']))? $data['login_url'] : ''
-//            ])
-//            ->add('username', 'text', [
-//                'wrapper' => ['class' => 'mb-5'],
-//                'label' => __('Username (Required)'),
-//                'rules' => ['required'],
-//                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
-//                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-//                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-//                'default_value' => (!empty($data['username']))? $data['username'] : ''
-//            ])
-//            ->add('password', 'password', [
-//                'wrapper' => ['class' => 'mb-5'],
-//                'label' => __('Password (Required)'),
-//                'rules' => ['required'],
-//                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
-//                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-//                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-//                'default_value' => (!empty($data['password']))? $data['password'] : ''
-//            ]);
 
         $submitLabel = (empty($data))? __('Save') : __('Update');
 

@@ -61,7 +61,7 @@ class TradingIndividualController extends Controller
     {
         $item = requestApi('get', 'trading-individual/'. $id);
 
-        if (!empty($item['errors'])) {
+        if (empty($item) || !empty($item['errors'])) {
             return redirect()->route('trading-account.individual.list');
         }
 
