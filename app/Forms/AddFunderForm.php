@@ -42,6 +42,7 @@ class AddFunderForm extends Form
             'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
             'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
             'empty_value' => __('-- Choose Type --'),
+            'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
             'default_value' => (!empty($data['evaluation_type']))? $data['evaluation_type'] : ''
         ])
         ->add('daily_threshold_group', 'wrapper', [
@@ -55,6 +56,7 @@ class AddFunderForm extends Form
                     'rules' => ['required'],
                     'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
                     'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block w-full'],
+                    'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                     'default_value' => (!empty($data['daily_threshold']))? $data['daily_threshold'] : ''
                 ]),
                 $this->makeField('daily_threshold_type', 'select', [
@@ -66,6 +68,7 @@ class AddFunderForm extends Form
                     ],
                     'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
                     'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
+                    'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                     'default_value' => (!empty($data['daily_threshold_type']))? $data['daily_threshold_type'] : ''
                 ])
             ]
@@ -81,6 +84,7 @@ class AddFunderForm extends Form
                     'rules' => ['required'],
                     'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
                     'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block w-full'],
+                    'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                     'default_value' => (!empty($data['max_drawdown']))? $data['max_drawdown'] : ''
                 ]),
                 $this->makeField('max_drawdown_type', 'select', [
@@ -92,6 +96,7 @@ class AddFunderForm extends Form
                     ],
                     'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
                     'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
+                    'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                     'default_value' => (!empty($data['max_drawdown_type']))? $data['max_drawdown_type'] : ''
                 ])
             ]
@@ -107,6 +112,7 @@ class AddFunderForm extends Form
                     'rules' => ['required'],
                     'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
                     'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block w-full'],
+                    'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                     'default_value' => (!empty($data['phase_one_target_profit']))? $data['phase_one_target_profit'] : ''
                 ]),
                 $this->makeField('phase_one_target_profit_type', 'select', [
@@ -118,6 +124,7 @@ class AddFunderForm extends Form
                     ],
                     'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
                     'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
+                    'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                     'default_value' => (!empty($data['phase_one_target_profit_type']))? $data['phase_one_target_profit_type'] : ''
                 ])
             ]
@@ -133,6 +140,7 @@ class AddFunderForm extends Form
                     'rules' => ['required'],
                     'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
                     'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block w-full'],
+                    'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                     'default_value' => (!empty($data['phase_two_target_profit']))? $data['phase_two_target_profit'] : ''
                 ]),
                 $this->makeField('phase_two_target_profit_type', 'select', [
@@ -144,6 +152,7 @@ class AddFunderForm extends Form
                     ],
                     'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
                     'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
+                    'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                     'default_value' => (!empty($data['phase_two_target_profit_type']))? $data['phase_two_target_profit_type'] : ''
                 ])
             ]
@@ -158,6 +167,7 @@ class AddFunderForm extends Form
                     'label' => __('Value'),
                     'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
                     'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block w-full'],
+                    'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                     'default_value' => (!empty($data['consistency_rule']))? $data['consistency_rule'] : ''
                 ]),
                 $this->makeField('consistency_rule_type', 'select', [
@@ -168,6 +178,7 @@ class AddFunderForm extends Form
                     ],
                     'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
                     'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
+                    'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                     'default_value' => (!empty($data['consistency_rule_type']))? $data['consistency_rule_type'] : ''
                 ])
             ]
@@ -182,6 +193,7 @@ class AddFunderForm extends Form
                     'label' => __('Time'),
                     'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
                     'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block w-full'],
+                    'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                     'default_value' => (!empty($data['reset_time']))? $data['reset_time'] : ''
                 ]),
                 $this->makeField('reset_time_zone', 'select', [
@@ -190,6 +202,7 @@ class AddFunderForm extends Form
                     'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
                     'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
                     'empty_value' => '-- Select Timezone --',
+                    'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                     'default_value' => (!empty($data['reset_time_zone']))? $data['reset_time_zone'] : ''
                 ])
             ]

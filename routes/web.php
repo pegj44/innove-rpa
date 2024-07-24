@@ -82,6 +82,7 @@ Route::middleware(['auth_api'])->group(function () {
             Route::delete('/individual/{id}', 'destroy')->name('individual.delete');
             Route::post('/individual/{id}', 'update')->name('individual.update');
             Route::post('/individual', 'store')->name('individual.store');
+            Route::post('/individuals', 'uploadIndividuals')->name('individuals.store');
         });
 
         Route::controller(TradingCredentialsController::class)->group(function()

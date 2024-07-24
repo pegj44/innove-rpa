@@ -40,13 +40,21 @@ class FunderController extends Controller
      */
     public function store(Request $request)
     {
-        $funder = requestApi('post', 'funder', array_filter($request->except('_token')));
+        $funder = requestApi('post', 'funder', parseArgs($request->except('_token'), [
+            'consistency_rule' => 0,
+            'reset_time' => '',
+            'reset_time_zone' => ''
+        ]));
 
-        if (!empty($funder['errors'])) {
-            return redirect()->back()->withErrors($funder['errors'])->withInput();
+        if (!empty($funder['validation_error'])) {
+            return redirect()->back()->with('error', __('Please check the field errors below.'))->withErrors($funder['validation_error'])->withInput();
         }
 
-        return redirect()->back()->with('success', 'Successfully saved Funder.');
+        if (!empty($funder['errors'])) {
+            return redirect()->back()->with('error', $funder['errors']);
+        }
+
+        return redirect()->route('funders')->with('success', $funder['message']);
     }
 
     /**
@@ -83,7 +91,7 @@ class FunderController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $funderUpdate = requestApi('post', 'funder/'. $id, array_filter($request->except('_token')));
+        $funderUpdate = requestApi('post', 'funder/'. $id, $request->except('_token'));
 
         if (!empty($funderUpdate['errors'])) {
             return redirect()->back()->withErrors($funderUpdate['errors'])->withInput();

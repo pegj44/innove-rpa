@@ -3,8 +3,33 @@
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 
+function parseArgs($array, $default)
+{
+    if (!is_array($array)) {
+        $array = [];
+    }
+    if (!is_array($default)) {
+        $default = [];
+    }
+
+    $newArr = [];
+
+    foreach ($array as $key => $value) {
+        $newArr[$key] = $value;
+        if ($value === null && isset($default[$key])) {
+            $newArr[$key] = $default[$key];
+        }
+    }
+
+    return array_merge($default, $newArr);
+}
+
 function getFunderAmountsType($amount, $type)
 {
+    if (empty($amount)) {
+        return '';
+    }
+
     if ($type === 'percentage') {
         return $amount .'%';
     } elseif ($type === 'fixed') {
@@ -78,6 +103,11 @@ function requestApi($method, $endpoint, $args = [])
                 break;
             case 'DELETE':
                 $response = Http::withHeaders($headers)->delete(env('RPA_API_URL'). $endpoint, $args);
+                break;
+            case 'ATTACH_SINGLE':
+                $response = Http::withHeaders($headers)->attach(
+                    'file', fopen($args['file']->getRealPath(), 'r'), $args['file']->getClientOriginalName()
+                )->post(env('RPA_API_URL'). $endpoint);
                 break;
             default:
                 throw new InvalidArgumentException("Invalid HTTP method: $method");

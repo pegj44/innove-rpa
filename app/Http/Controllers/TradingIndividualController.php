@@ -37,21 +37,30 @@ class TradingIndividualController extends Controller
      */
     public function store(Request $request)
     {
-        $response = requestApi('post', 'trading-individual', array_filter($request->except('_token')));
+        $response = requestApi('post', 'trading-individual', $request->except('_token'));
 
-        if (!empty($response['errors'])) {
+        if (isset($response['validation_error'])) {
             return redirect()->back()->withErrors($response['errors'])->withInput()->with('error', 'Failed to add item, please check the fields.');
         }
 
-        return redirect()->back()->with('success', 'Successfully saved item.');
+        if (isset($response['errors'])) {
+            return redirect()->back()->with('error', $response['errors']);
+        }
+
+        return redirect()->route('trading-account.individual.list')->with('success', 'Successfully saved item.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function uploadIndividuals(Request $request)
     {
-        //
+        $response = requestApi('attach_single', 'trading-individuals', [
+            'file' => $request->file('individuals_record')
+        ]);
+
+        if (!empty($response['errors'])) {
+            return redirect()->route('trading-account.individual.list')->with('error', $response['errors']);
+        }
+
+        return redirect()->route('trading-account.individual.list')->with('success', $response['message']);
     }
 
     /**
@@ -82,8 +91,12 @@ class TradingIndividualController extends Controller
     {
         $item = requestApi('post', 'trading-individual/'. $id, $request->except('_token'));
 
+        if (!empty($item['validation_error'])) {
+            return redirect()->back()->withErrors($item['validation_error'])->withInput()->with('error', 'Failed to add item, please check the fields.');
+        }
+
         if (!empty($item['errors'])) {
-            return redirect()->back()->withErrors($item['errors'])->withInput()->with('error', 'Failed to add item, please check the fields.');
+            return redirect()->back()->with('error', $item['errors']);
         }
 
         return redirect()->back()->with('success', $item['message']);

@@ -18,7 +18,7 @@
                     @foreach($tradingUnits as $unit)
 
                         @php
-                            $isConnected = false;
+                            $isConnected = true;
                             $isEnabled = ($unit['status'])? 'checked' : ''
                         @endphp
                         <div class="block max-w-full min-w-[145px] p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">

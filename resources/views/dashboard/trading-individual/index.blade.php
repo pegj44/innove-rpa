@@ -9,6 +9,8 @@
                     <div class="text-gray-900 dark:text-gray-100 mb-4">
                         <h3 class="mb-5">{{ __("You have no records added yet. Click ") }} <a href="{{ route('trading-account.individual.create') }}" class="text-blue-500">{{ __('HERE') }}</a> {{ __('to add a one.') }}</h3>
                     </div>
+
+                    @include('dashboard.trading-individual.bulk-upload')
                 @else
 
 {{--                    <h3 class="mb-5">{{ __('Trade Individuals') }}</h3>--}}
@@ -23,6 +25,7 @@
 
                     @include('components.dashboard-notification')
                     @include('dashboard.trading-individual.list', ['items' => $items])
+                    @include('dashboard.trading-individual.bulk-upload')
 
                 @endif
             </div>

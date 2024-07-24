@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Forms\TradeForm;
+use App\Forms\TradeReportForm;
 use App\Forms\TradingAccountCredentialForm;
 use Illuminate\Http\Request;
 use Kris\LaravelFormBuilder\FormBuilder;
@@ -20,7 +20,7 @@ class TradeReportController extends Controller
 
     public function create(FormBuilder $formBuilder)
     {
-        $form = $formBuilder->create(TradeForm::class, [
+        $form = $formBuilder->create(TradeReportForm::class, [
             'method' => 'POST',
             'url' => route('trade.report.store')
         ]);
@@ -49,7 +49,7 @@ class TradeReportController extends Controller
             return redirect()->route('trade.report');
         }
 
-        $form = $formBuilder->create(TradeForm::class, [
+        $form = $formBuilder->create(TradeReportForm::class, [
             'method' => 'POST',
             'url' => route('trade.report.update', $item['id'])
         ], ['data' => $item]);

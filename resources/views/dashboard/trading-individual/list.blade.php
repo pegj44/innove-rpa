@@ -41,6 +41,12 @@
         @foreach($items as $item)
 
             @php
+
+                $item['metadata']['first_name'] = $item['first_name'];
+                $item['metadata']['last_name'] = $item['last_name'];
+                $item['metadata']['middle_name'] = $item['middle_name'];
+                $item['metadata']['email'] = $item['email'];
+
                 $metadata = [
                     'type',
                     'first_name',

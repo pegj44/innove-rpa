@@ -66,15 +66,15 @@
                         {{ getFunderAmountsType($funder['metadata']['phase_two_target_profit'], $funder['metadata']['phase_two_target_profit_type']) }}
                     </td>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        @if(isset($funder['metadata']['consistency_rule']))
+                        @if(!empty($funder['metadata']['consistency_rule']))
                             {{ getFunderAmountsType($funder['metadata']['consistency_rule'], $funder['metadata']['consistency_rule_type']) }}
                         @endif
                     </td>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        @if(isset($funder['metadata']['reset_time']))
+                        @if(!empty($funder['metadata']['reset_time']))
                             {{ $funder['metadata']['reset_time'] }}
                         @endif
-                        @if(isset($funder['metadata']['reset_time_zone']))
+                        @if(!empty($funder['metadata']['reset_time_zone']))
                             <p class="text-xs">{{ getTimeZoneOffset($funder['metadata']['reset_time_zone']) }}</p>
                         @endif
                     </td>

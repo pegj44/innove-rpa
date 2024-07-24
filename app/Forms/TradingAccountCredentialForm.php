@@ -9,25 +9,22 @@ class TradingAccountCredentialForm extends Form
     public function buildForm()
     {
         $data = $this->getData('data');
-        $tradingAccounts = requestApi('get', 'user/entities/individuals-and-funders');
+        $tradingAccounts = requestApi('get', 'user/entities', [
+            'tradingIndividuals',
+            'funders.metadata'
+        ]);
 
-        $individualsArr = [];
         $individuals = [];
 
         if (!empty($tradingAccounts['trading_individuals'])) {
             foreach ($tradingAccounts['trading_individuals'] as $individual) {
-                foreach ($individual['metadata'] as $meta) {
-                    $individualsArr[$individual['id']][$meta['key']] = $meta['value'];
-                }
-            }
-
-            foreach ($individualsArr as $key => $val) {
-                $individuals[$key] = $val['first_name'] .' '. $val['middle_name']. ' '. $val['last_name'];
+                $individuals[$individual['id']] = $individual['first_name'] .' '. $individual['middle_name']. ' '. $individual['last_name'] .' - '. $individual['email'];
             }
         }
 
         $funders = [];
-
+//!d($tradingAccounts['funders']);
+//die();
         if (!empty($tradingAccounts['funders'])) {
             foreach ($tradingAccounts['funders'] as $funder) {
                 foreach ($funder['metadata'] as $funderMeta) {
@@ -44,7 +41,7 @@ class TradingAccountCredentialForm extends Form
                 'choices' => $individuals,
                 'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
                 'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
-                'empty_value' => __('-- Choose Unit --'),
+                'empty_value' => __('-- Choose Account --'),
                 'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                 'default_value' => (!empty($data['trading_individual']))? $data['trading_individual'] : ''
             ])
@@ -55,7 +52,7 @@ class TradingAccountCredentialForm extends Form
                 'choices' => $funders,
                 'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
                 'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
-                'empty_value' => __('-- Choose Unit --'),
+                'empty_value' => __('-- Choose Funder --'),
                 'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                 'default_value' => (!empty($data['funder']))? $data['funder'] : ''
             ])

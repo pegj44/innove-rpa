@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Forms\TradeForm;
+use App\Forms\TradeReportForm;
 use Illuminate\Http\Request;
 use Kris\LaravelFormBuilder\FormBuilder;
 
