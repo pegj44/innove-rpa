@@ -64,11 +64,11 @@ class TradingUnitController extends Controller
 
     public function updateUnitPassword(Request $request)
     {
-        $unitsPw = requestApi('post', 'trading-units/settings/update-password', [
+        $unitsPw = requestApi('post', 'trading-units/settings/update-password', array_filter([
             'username' => $request->get('username'),
             'password' => $request->get('password'),
             'password_confirmation' => $request->get('password_confirm')
-        ]);
+        ]));
 
         if (!empty($unitsPw['errors'])) {
             return redirect()->back()->with('error', $unitsPw['errors']);
