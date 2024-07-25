@@ -27,7 +27,7 @@
                 <div class="flex flex-1 flex-col max-w-[300px] p-6">
                     @if($item['status'] === 'paired')
                         <div class="flex flex-1 justify-center items-center">
-                            <h4 class="text-green-500">{{ __('Ready to trade') }}</h4>
+                            <h4 class="text-green-500">{{ __('Ready to Trade') }}</h4>
                         </div>
                         <div class="h-12 text-center">
                             <form method="POST" action="">
