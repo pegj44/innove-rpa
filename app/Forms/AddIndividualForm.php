@@ -10,7 +10,7 @@ class AddIndividualForm extends Form
     public function buildForm()
     {
         $data = $this->getData();
-        $metadata = $data['metadata'];
+        $metadata = (!empty($data['metadata']))? $data['metadata'] : [];
 
         $tradingUnits = requestApi( 'get','trading-units');
         $pcUnits = collect($tradingUnits)->mapWithKeys(function ($item) {

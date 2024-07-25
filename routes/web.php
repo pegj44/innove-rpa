@@ -100,7 +100,8 @@ Route::middleware(['auth_api'])->group(function () {
     {
        Route::controller(TradeController::class)->group(function()
        {
-
+           Route::get('play', 'index')->name('play');
+           Route::post('pair', 'pairAccounts')->name('pair');
        });
 
         Route::controller(TradeReportController::class)->group(function()

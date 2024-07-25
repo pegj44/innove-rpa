@@ -3,6 +3,90 @@
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 
+function getTradeReportCalculations($data)
+{
+    $funderDailyThreshold = 0;
+    $funderDailyThresholdType = 'percentage';
+    $funderMaxDrawdown = 0;
+    $funderMaxDrawdownType = 'percentage';
+    $funderPhaseOneTargetProfit = 0;
+    $funderPhaseOneTargetProfitType = 'percentage';
+    $funderPhaseTwoTargetProfit = 0;
+    $funderPhaseTwoTargetProfitType = 'percentage';
+
+    foreach ($data['trade_credential']['funder']['metadata'] as $funderMeta) {
+        if ($funderMeta['key'] === 'daily_threshold') {
+            $funderDailyThreshold = $funderMeta['value'];
+        }
+        if ($funderMeta['key'] === 'daily_threshold_type') {
+            $funderDailyThresholdType = $funderMeta['value'];
+        }
+        if ($funderMeta['key'] === 'max_drawdown') {
+            $funderMaxDrawdown = $funderMeta['value'];
+        }
+        if ($funderMeta['key'] === 'max_drawdown_type') {
+            $funderMaxDrawdownType = $funderMeta['value'];
+        }
+        if ($funderMeta['key'] === 'phase_one_target_profit') {
+            $funderPhaseOneTargetProfit = $funderMeta['value'];
+        }
+        if ($funderMeta['key'] === 'phase_one_target_profit_type') {
+            $funderPhaseOneTargetProfitType = $funderMeta['value'];
+        }
+        if ($funderMeta['key'] === 'phase_two_target_profit') {
+            $funderPhaseTwoTargetProfit = $funderMeta['value'];
+        }
+        if ($funderMeta['key'] === 'phase_two_target_profit_type') {
+            $funderPhaseTwoTargetProfitType = $funderMeta['value'];
+        }
+    }
+
+    $currentPhase = $data['trade_credential']['phase'];
+
+    if ($currentPhase === 'phase-1') {
+        $targetProfit = $funderPhaseOneTargetProfit;
+        $targetProfitStr = ($funderPhaseOneTargetProfitType === 'percentage')? $targetProfit .'%' : $targetProfit;
+    } elseif ($currentPhase === 'phase-2') {
+        $targetProfit = $funderPhaseTwoTargetProfit;
+        $targetProfitStr = ($funderPhaseTwoTargetProfitType === 'percentage')? $targetProfit .'%' : $targetProfit;
+    } else {
+        $targetProfit = 0;
+        $targetProfitStr = '';
+    }
+
+    $dailyThresholdDeduction = ($funderDailyThresholdType === 'percentage')? floatval($data['latest_equity']) * (floatval($funderDailyThreshold) / 100) : floatval($funderDailyThreshold);
+    $finalDailyThresholdAmount = floatval($data['latest_equity']) - floatval($dailyThresholdDeduction);
+    $dailyThreshold = $finalDailyThresholdAmount;
+
+    $maxThresholdDeduction = ($funderMaxDrawdownType === 'percentage')? floatval($data['starting_balance']) * (floatval($funderMaxDrawdown) / 100) : floatval($funderMaxDrawdown);
+    $finalMaxDrawdownAmount = floatval($data['starting_balance']) - floatval($maxThresholdDeduction);
+    $maxThreshold = $finalMaxDrawdownAmount;
+
+    $rdd = ($finalDailyThresholdAmount > $finalMaxDrawdownAmount)? floatval($data['latest_equity']) - $finalDailyThresholdAmount : floatval($data['latest_equity'] - $finalMaxDrawdownAmount);
+
+    $totalProfit = floatval($data['latest_equity']) - floatval($data['starting_balance']);
+    $totalProfitPercent = ($totalProfit / floatval($data['starting_balance'])) * 100;
+    $dailyPL = floatval($data['latest_equity']) - floatval($data['starting_equity']);
+    $dailyPLPercent = $dailyPL / floatval($data['starting_equity']);
+
+    $remainingTargetProfit = (floatval($data['starting_balance']) * ($targetProfit / 100)) - $totalProfit;
+    $maxDrawdown = floatval($data['latest_equity'] - $finalMaxDrawdownAmount);
+
+    return [
+        'target_profit' => $targetProfit,
+        'target_profit_str' => $targetProfitStr,
+        'daily_threshold' => $dailyThreshold,
+        'max_threshold' => $maxThreshold,
+        'rdd' => $rdd,
+        'total_profit' => $totalProfit,
+        'total_profit_percent' => $totalProfitPercent,
+        'daily_pl' => $dailyPL,
+        'daily_pl_percent' => $dailyPLPercent,
+        'remaining_target_profit' => $remainingTargetProfit,
+        'max_drawdown' => $maxDrawdown
+    ];
+}
+
 function parseArgs($array, $default)
 {
     if (!is_array($array)) {
@@ -154,6 +238,10 @@ function postRequest($endpoint, $args = [])
 function getTimeZoneOffset($timezone)
 {
     $timezones = getTimezonesWithOffsets(false);
+
+    if (!isset($timezones[$timezone])) {
+        return '';
+    }
 
     return $timezones[$timezone];
 }

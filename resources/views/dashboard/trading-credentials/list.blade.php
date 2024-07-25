@@ -5,6 +5,9 @@
         <tr>
             <th scope="col" class="px-6 py-3"></th>
             <th scope="col" class="px-6 py-3">
+                {{ __('Unit') }}
+            </th>
+            <th scope="col" class="px-6 py-3">
                 {{ __('Name') }}
             </th>
             <th scope="col" class="px-6 py-3">
@@ -42,6 +45,14 @@
         </thead>
         <tbody>
         @foreach($items as $item)
+
+            @php
+                $personName = implode(' ', [
+                    trim($item['trading_individual']['first_name']),
+                    trim($item['trading_individual']['middle_name']),
+                    trim($item['trading_individual']['last_name']),
+                ]);
+            @endphp
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <td class="px-6 py-4 text-right border-r border-gray-600">
                     <a href="{{ route('trading-account.credential.edit', $item['id']) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
@@ -51,10 +62,13 @@
                     </a>
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ $item['name'] }}
+                    {{ $item['trading_individual']['trading_unit']['name'] }}
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ $item['funder'] }}
+                    {{ $personName }}
+                </td>
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{ $item['funder']['name'] }}
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{ $item['account_id'] }}

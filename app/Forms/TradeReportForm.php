@@ -9,37 +9,11 @@ class TradeReportForm extends Form
     public function buildForm()
     {
         $data = $this->getData('data');
-        $accountEntities = requestApi('get', 'user/entities', [
-//            'funders.metadata',
-            'accountCredentials.tradingIndividual.metadata',
-//            'units'
-        ]);
-
-        !d($accountEntities);
-        die();
-//        $units = [];
-//        if (!empty($accountEntities['units'])) {
-//            foreach ($accountEntities['units'] as $unit) {
-//                $units[$unit['id']] = $unit['name'];
-//            }
-//        }
-//
-//        $funders = [];
-//        if (!empty($accountEntities['funders'])) {
-//            foreach ($accountEntities['funders'] as $funder) {
-//                foreach ($funder['metadata'] as $funderMeta) {
-//                    if ($funderMeta['key'] === 'name') {
-//                        $funders[$funder['id']] = $funderMeta['value'];
-//                    }
-//                }
-//            }
-//        }
+        $tradingAccounts = requestApi('get', 'credentials');
 
         $accountCreds = [];
-        if (!empty($accountEntities['account_credentials'])) {
-            foreach ($accountEntities['account_credentials'] as $accCred) {
-                $accountCreds[$accCred['id']] = $accCred['account_id'];
-            }
+        foreach ($tradingAccounts as $accCred) {
+            $accountCreds[$accCred['id']] = $accCred['account_id'];
         }
 
         $statuses = [
@@ -50,28 +24,6 @@ class TradeReportForm extends Form
         ];
 
         $this
-//            ->add('trading_unit_id', 'select', [
-//                'wrapper' => ['class' => 'mb-5'],
-//                'label' => __('Unit (Required)'),
-//                'rules' => ['required'],
-//                'choices' => $units,
-//                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
-//                'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
-//                'empty_value' => __('-- Choose Unit --'),
-//                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-//                'default_value' => (!empty($data['trading_unit_id']))? $data['trading_unit_id'] : ''
-//            ])
-//            ->add('funder_id', 'select', [
-//                'wrapper' => ['class' => 'mb-5'],
-//                'label' => __('Funder (Required)'),
-//                'rules' => ['required'],
-//                'choices' => $funders,
-//                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
-//                'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
-//                'empty_value' => __('-- Choose Funder --'),
-//                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-//                'default_value' => (!empty($data['funder_id']))? $data['funder_id'] : ''
-//            ])
             ->add('trade_account_credential_id', 'select', [
                 'wrapper' => ['class' => 'mb-5'],
                 'label' => __('Account ID (Required)'),

@@ -22,8 +22,8 @@
                     </svg>
                 </button>
                 <ul id="trade-dropdown" class="hidden py-2 space-y-2">
-                    <li data-route="#">
-                        <a href="#" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                    <li data-route="play|trade.play">
+                        <a href="{{ route('trade.play') }}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                             {{ __('Make Money') }}
                         </a>
                     </li>

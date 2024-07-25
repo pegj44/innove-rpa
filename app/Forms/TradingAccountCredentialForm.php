@@ -10,7 +10,7 @@ class TradingAccountCredentialForm extends Form
     {
         $data = $this->getData('data');
         $tradingAccounts = requestApi('get', 'user/entities', [
-            'tradingIndividuals',
+            'tradingIndividuals.tradingUnit',
             'funders.metadata'
         ]);
 
@@ -18,18 +18,15 @@ class TradingAccountCredentialForm extends Form
 
         if (!empty($tradingAccounts['trading_individuals'])) {
             foreach ($tradingAccounts['trading_individuals'] as $individual) {
-                $individuals[$individual['id']] = $individual['first_name'] .' '. $individual['middle_name']. ' '. $individual['last_name'] .' - '. $individual['email'];
+                $individuals[$individual['id']] = '['. $individual['trading_unit']['name'] .'] '. $individual['first_name'] .' '. $individual['middle_name']. ' '. $individual['last_name'] .' - '. $individual['email'];
             }
         }
 
         $funders = [];
-//!d($tradingAccounts['funders']);
-//die();
+
         if (!empty($tradingAccounts['funders'])) {
             foreach ($tradingAccounts['funders'] as $funder) {
-                foreach ($funder['metadata'] as $funderMeta) {
-                    $funders[$funderMeta['funder_id']] = $funderMeta['value'];
-                }
+                $funders[$funder['id']] = $funder['name'];
             }
         }
 

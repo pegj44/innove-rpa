@@ -45,10 +45,10 @@
                         </a>
                     </td>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ ucfirst($funder['metadata']['name']) }}
+                        {{ ucfirst($funder['name']) }}
                     </td>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ strtoupper($funder['metadata']['alias']) }}
+                        {{ strtoupper($funder['alias']) }}
                     </td>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ getFunderStepName($funder['metadata']['evaluation_type']) }}
@@ -74,7 +74,7 @@
                         @if(!empty($funder['metadata']['reset_time']))
                             {{ $funder['metadata']['reset_time'] }}
                         @endif
-                        @if(!empty($funder['metadata']['reset_time_zone']))
+                        @if(!empty($funder['metadata']['reset_time_zone']) && !empty($funder['metadata']['reset_time']))
                             <p class="text-xs">{{ getTimeZoneOffset($funder['metadata']['reset_time_zone']) }}</p>
                         @endif
                     </td>

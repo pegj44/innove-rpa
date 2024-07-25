@@ -67,75 +67,7 @@
         <tbody>
         @foreach($items as $item)
             @php
-                $funderAlias = '';
-                $funderDailyThreshold = 0;
-                $funderDailyThresholdType = 'percentage';
-                $funderMaxDrawdown = 0;
-                $funderMaxDrawdownType = 'percentage';
-                $funderPhaseOneTargetProfit = 0;
-                $funderPhaseOneTargetProfitType = 'percentage';
-                $funderPhaseTwoTargetProfit = 0;
-                $funderPhaseTwoTargetProfitType = 'percentage';
-
-                foreach ($item['funder']['metadata'] as $funderMeta) {
-                    if ($funderMeta['key'] === 'alias') {
-                        $funderAlias = $funderMeta['value'];
-                    }
-                    if ($funderMeta['key'] === 'daily_threshold') {
-                        $funderDailyThreshold = $funderMeta['value'];
-                    }
-                    if ($funderMeta['key'] === 'daily_threshold_type') {
-                        $funderDailyThresholdType = $funderMeta['value'];
-                    }
-                    if ($funderMeta['key'] === 'max_drawdown') {
-                        $funderMaxDrawdown = $funderMeta['value'];
-                    }
-                    if ($funderMeta['key'] === 'max_drawdown_type') {
-                        $funderMaxDrawdownType = $funderMeta['value'];
-                    }
-                    if ($funderMeta['key'] === 'phase_one_target_profit') {
-                        $funderPhaseOneTargetProfit = $funderMeta['value'];
-                    }
-                    if ($funderMeta['key'] === 'phase_one_target_profit_type') {
-                        $funderPhaseOneTargetProfitType = $funderMeta['value'];
-                    }
-                    if ($funderMeta['key'] === 'phase_two_target_profit') {
-                        $funderPhaseTwoTargetProfit = $funderMeta['value'];
-                    }
-                    if ($funderMeta['key'] === 'phase_two_target_profit_type') {
-                        $funderPhaseTwoTargetProfitType = $funderMeta['value'];
-                    }
-                }
-
-                $currentPhase = $item['trade_credential']['phase'];
-
-                if ($currentPhase === 'phase-1') {
-                    $targetProfit = $funderPhaseOneTargetProfit;
-                    $targetProfitStr = ($funderPhaseOneTargetProfitType === 'percentage')? $targetProfit .'%' : $targetProfit;
-                } elseif ($currentPhase === 'phase-2') {
-                    $targetProfit = $funderPhaseTwoTargetProfit;
-                    $targetProfitStr = ($funderPhaseTwoTargetProfitType === 'percentage')? $targetProfit .'%' : $targetProfit;
-                } else {
-                    $targetProfit = 0;
-                }
-
-                $dailyThresholdDeduction = ($funderDailyThresholdType === 'percentage')? floatval($item['latest_equity']) * (floatval($funderDailyThreshold) / 100) : floatval($funderDailyThreshold);
-                $finalDailyThresholdAmount = floatval($item['latest_equity']) - floatval($dailyThresholdDeduction);
-                $dailyThreshold = $finalDailyThresholdAmount;
-
-                $maxThresholdDeduction = ($funderMaxDrawdownType === 'percentage')? floatval($item['starting_balance']) * (floatval($funderMaxDrawdown) / 100) : floatval($funderMaxDrawdown);
-                $finalMaxDrawdownAmount = floatval($item['starting_balance']) - floatval($maxThresholdDeduction);
-                $maxThreshold = $finalMaxDrawdownAmount;
-
-                $rdd = ($finalDailyThresholdAmount > $finalMaxDrawdownAmount)? floatval($item['latest_equity']) - $finalDailyThresholdAmount : floatval($item['latest_equity'] - $finalMaxDrawdownAmount);
-
-                $totalProfit = floatval($item['latest_equity']) - floatval($item['starting_balance']);
-                $totalProfitPercent = ($totalProfit / floatval($item['starting_balance'])) * 100;
-                $dailyPL = floatval($item['latest_equity']) - floatval($item['starting_equity']);
-                $dailyPLPercent = $dailyPL / floatval($item['starting_equity']);
-
-                $remainingTargetProfit = (floatval($item['starting_balance']) * ($targetProfit / 100)) - $totalProfit;
-                $maxDrawdown = floatval($item['latest_equity'] - $finalMaxDrawdownAmount);
+                $reportInfo = getTradeReportCalculations($item);
             @endphp
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <td class="px-6 py-4 text-right border-r border-gray-600">
@@ -146,10 +78,10 @@
                     </a>
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ $item['unit']['name'] }}
+                    {{ $item['trade_credential']['trading_individual']['trading_unit']['name'] }}
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ $funderAlias }}
+                    {{ $item['trade_credential']['funder']['alias'] }}
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{ $item['trade_credential']['account_id'] }}
@@ -170,34 +102,34 @@
                     {{ number_format($item['latest_equity'], 2) }}
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ number_format($dailyThreshold, 2) }}
+                    {{ number_format($reportInfo['daily_threshold'], 2) }}
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ number_format($maxThreshold, 2) }}
+                    {{ number_format($reportInfo['max_threshold'], 2) }}
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ number_format($rdd, 2) }}
+                    {{ number_format($reportInfo['rdd'], 2) }}
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ number_format($totalProfitPercent, 2) }}%
+                    {{ number_format($reportInfo['total_profit_percent'], 2) }}%
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ number_format($dailyPL, 2) }}
+                    {{ number_format($reportInfo['daily_pl'], 2) }}
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ number_format($dailyPLPercent, 2) }}%
+                    {{ number_format($reportInfo['daily_pl_percent'], 2) }}%
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ $targetProfitStr }}
+                    {{ $reportInfo['target_profit_str'] }}
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ number_format($remainingTargetProfit, 2) }}
+                    {{ number_format($reportInfo['remaining_target_profit'], 2) }}
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ number_format($totalProfit, 2) }}
+                    {{ number_format($reportInfo['total_profit'], 2) }}
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ number_format($maxDrawdown, 2) }}
+                    {{ number_format($reportInfo['max_drawdown'], 2) }}
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{ strip_tags($item['remarks']) }}

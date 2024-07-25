@@ -41,6 +41,7 @@ class FunderController extends Controller
     public function store(Request $request)
     {
         $funder = requestApi('post', 'funder', parseArgs($request->except('_token'), [
+            'phase_one_target_profit' => 0,
             'consistency_rule' => 0,
             'reset_time' => '',
             'reset_time_zone' => ''
@@ -91,10 +92,19 @@ class FunderController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $funderUpdate = requestApi('post', 'funder/'. $id, $request->except('_token'));
+        $funderUpdate = requestApi('post', 'funder/'. $id, parseArgs($request->except('_token'), [
+            'phase_one_target_profit' => 0,
+            'consistency_rule' => 0,
+            'reset_time' => '',
+            'reset_time_zone' => ''
+        ]));
+
+        if (!empty($funderUpdate['validation_error'])) {
+            return redirect()->back()->withErrors($funderUpdate['validation_error'])->withInput()->with('error', 'Failed to update item, please check the fields.');
+        }
 
         if (!empty($funderUpdate['errors'])) {
-            return redirect()->back()->withErrors($funderUpdate['errors'])->withInput();
+            return redirect()->back()->with('error', $funderUpdate['errors']);
         }
 
         return redirect()->back()->with('success', $funderUpdate['message']);
