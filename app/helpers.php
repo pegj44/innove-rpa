@@ -165,10 +165,10 @@ function firstRouteSegment()
     return \Illuminate\Support\Arr::first($urlSegments);
 }
 
-function requestApi($method, $endpoint, $args = [])
+function requestApi($method, $endpoint, $args = [], $token = false)
 {
     try {
-        $sessionToken = Session::get('innove_auth_api');
+        $sessionToken = (!$token)? Session::get('innove_auth_api') : $token;
 
         $headers = [
             'Accept' => 'application/json',

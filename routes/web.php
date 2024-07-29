@@ -26,6 +26,17 @@ Route::get('/', function () {
 
 Route::middleware(['auth_api'])->group(function () {
 
+//    Route::get('/test', function() {
+////        $test = requestApi('get', 'test');
+//        $units = requestApi( 'post','unit-login', [
+//
+//            'ip' => '120.192.168.57'
+//        ]);
+//        !d($units);
+//
+//        return response()->json($units);
+//    });
+
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
