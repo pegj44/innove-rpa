@@ -17,8 +17,24 @@
         <script src="//code.jquery.com/jquery-3.7.1.min.js"></script>
         <script src="//cdn.datatables.net/2.0.2/js/dataTables.min.js"></script>
 
+{{--        <script src="//js.pusher.com/8.2.0/pusher.min.js"></script>--}}
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+{{--        <script>--}}
+
+{{--            // Enable pusher logging - don't include this in production--}}
+{{--            Pusher.logToConsole = true;--}}
+
+{{--            var pusher = new Pusher('cb8324f95fcedd6059f7', {--}}
+{{--                cluster: 'ap1'--}}
+{{--            });--}}
+
+{{--            var channel = pusher.subscribe('my-channel');--}}
+{{--            channel.bind('my-event', function(data) {--}}
+{{--                alert(JSON.stringify(data));--}}
+{{--            });--}}
+{{--        </script>--}}
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">

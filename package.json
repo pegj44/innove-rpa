@@ -20,6 +20,8 @@
         "@heroicons/vue": "^2.0.18",
         "datatables.net-dt": "^2.0.2",
         "flowbite": "^2.1.1",
-        "php-unserialize": "^0.0.1"
+        "laravel-echo": "^1.16.1",
+        "php-unserialize": "^0.0.1",
+        "pusher-js": "^8.4.0-rc2"
     }
 }
