@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 
+//function outPutArrayVar($)
+
 function getTradeReportCalculations($data)
 {
     $funderDailyThreshold = 0;

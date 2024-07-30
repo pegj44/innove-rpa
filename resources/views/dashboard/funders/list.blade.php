@@ -45,37 +45,37 @@
                         </a>
                     </td>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ ucfirst($funder['name']) }}
+                        {{ ucfirst(Arr::get($funder, 'name')) }}
                     </td>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ strtoupper($funder['alias']) }}
+                        {{ strtoupper(Arr::get($funder, 'alias')) }}
                     </td>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ getFunderStepName($funder['metadata']['evaluation_type']) }}
+                        {{ getFunderStepName(Arr::get($funder, 'metadata.evaluation_type')) }}
                     </td>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ getFunderAmountsType($funder['metadata']['daily_threshold'], $funder['metadata']['daily_threshold_type']) }}
+                        {{ getFunderAmountsType(Arr::get($funder, 'metadata.daily_threshold'), Arr::get($funder, 'metadata.daily_threshold_type')) }}
                     </td>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ getFunderAmountsType($funder['metadata']['max_drawdown'], $funder['metadata']['max_drawdown_type']) }}
+                        {{ getFunderAmountsType(Arr::get($funder, 'metadata.max_drawdown'), Arr::get($funder, 'metadata.max_drawdown_type')) }}
                     </td>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ getFunderAmountsType($funder['metadata']['phase_one_target_profit'], $funder['metadata']['phase_one_target_profit_type']) }}
+                        {{ getFunderAmountsType(Arr::get($funder, 'metadata.phase_one_target_profit'), Arr::get($funder, 'metadata.phase_one_target_profit_type')) }}
                     </td>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ getFunderAmountsType($funder['metadata']['phase_two_target_profit'], $funder['metadata']['phase_two_target_profit_type']) }}
+                        {{ getFunderAmountsType(Arr::get($funder, 'metadata.phase_two_target_profit'), Arr::get($funder, 'metadata.phase_two_target_profit_type')) }}
                     </td>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        @if(!empty($funder['metadata']['consistency_rule']))
-                            {{ getFunderAmountsType($funder['metadata']['consistency_rule'], $funder['metadata']['consistency_rule_type']) }}
+                        @if(!empty(Arr::get($funder, 'metadata.consistency_rule')))
+                            {{ getFunderAmountsType(Arr::get($funder, 'metadata.consistency_rule'), Arr::get($funder, 'metadata.consistency_rule_type')) }}
                         @endif
                     </td>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        @if(!empty($funder['metadata']['reset_time']))
-                            {{ $funder['metadata']['reset_time'] }}
+                        @if(!empty(Arr::get($funder, 'metadata.reset_time')))
+                            {{ Arr::get($funder, 'metadata.reset_time') }}
                         @endif
-                        @if(!empty($funder['metadata']['reset_time_zone']) && !empty($funder['metadata']['reset_time']))
-                            <p class="text-xs">{{ getTimeZoneOffset($funder['metadata']['reset_time_zone']) }}</p>
+                        @if(!empty(Arr::get($funder, 'metadata.reset_time_zone')) && !empty(Arr::get($funder, 'metadata.reset_time')))
+                            <p class="text-xs">{{ getTimeZoneOffset(Arr::get($funder, 'metadata.reset_time_zone')) }}</p>
                         @endif
                     </td>
                     <td class="px-6 py-4 text-right border-l border-gray-600">
