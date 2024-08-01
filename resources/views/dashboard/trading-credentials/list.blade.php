@@ -52,6 +52,18 @@
                     trim($item['trading_individual']['middle_name']),
                     trim($item['trading_individual']['last_name']),
                 ]);
+
+                $dashboard_url = '';
+                $platform_url = '';
+
+                foreach ($item['funder']['metadata'] as $funderMeta) {
+                    if ($funderMeta['key'] === 'dashboard_url') {
+                        $dashboard_url = $funderMeta['value'];
+                    }
+                    if ($funderMeta['key'] === 'platform_url') {
+                        $platform_url = $funderMeta['value'];
+                    }
+                }
             @endphp
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <td class="px-6 py-4 text-right border-r border-gray-600">
@@ -80,7 +92,7 @@
                     {{ ucfirst($item['status']) }}
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ $item['dashboard_login_url'] }}
+                    {{ $dashboard_url }}
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{ $item['dashboard_login_username'] }}
@@ -89,7 +101,7 @@
                     {{ $item['dashboard_login_password'] }}
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ $item['platform_login_url'] }}
+                    {{ $platform_url }}
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{ $item['platform_login_username'] }}

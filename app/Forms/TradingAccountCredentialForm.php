@@ -98,15 +98,15 @@ class TradingAccountCredentialForm extends Form
                 'wrapper_class' => '',
                 'field_col_class' => 'mb-5',
                 'fields' => [
-                    $this->makeField('dashboard_login_url', 'url', [
-                        'wrapper' => ['class' => 'mb-5'],
-                        'label' => __('Login URL'),
-                        'rules' => [],
-                        'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
-                        'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-                        'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                        'default_value' => (!empty($data['dashboard_login_url']))? $data['dashboard_login_url'] : ''
-                    ]),
+//                    $this->makeField('dashboard_login_url', 'url', [
+//                        'wrapper' => ['class' => 'mb-5'],
+//                        'label' => __('Login URL'),
+//                        'rules' => [],
+//                        'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
+//                        'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+//                        'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+//                        'default_value' => (!empty($data['dashboard_login_url']))? $data['dashboard_login_url'] : ''
+//                    ]),
                     $this->makeField('dashboard_login_wrapper', 'wrapper', [
                         'label_show' => false,
                         'label_attr' => ['class' => 'block mb-1 text-sm font-medium text-gray-900 dark:text-white'],
@@ -137,15 +137,15 @@ class TradingAccountCredentialForm extends Form
                 'wrapper_class' => '',
                 'field_col_class' => 'mb-5',
                 'fields' => [
-                    $this->makeField('platform_login_url', 'url', [
-                        'wrapper' => ['class' => 'mb-5'],
-                        'label' => __('Login URL'),
-                        'rules' => [],
-                        'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
-                        'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-                        'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                        'default_value' => (!empty($data['platform_login_url']))? $data['platform_login_url'] : ''
-                    ]),
+//                    $this->makeField('platform_login_url', 'url', [
+//                        'wrapper' => ['class' => 'mb-5'],
+//                        'label' => __('Login URL'),
+//                        'rules' => [],
+//                        'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
+//                        'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+//                        'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+//                        'default_value' => (!empty($data['platform_login_url']))? $data['platform_login_url'] : ''
+//                    ]),
                     $this->makeField('platform_login_wrapper', 'wrapper', [
                         'label_show' => false,
                         'label_attr' => ['class' => 'block mb-1 text-sm font-medium text-gray-900 dark:text-white'],

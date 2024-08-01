@@ -22,15 +22,6 @@ class AddFunderForm extends Form
             'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
             'default_value' => (!empty($data['name']))? $data['name'] : ''
         ])
-//        ->add('name', 'dashboard_url', [
-//            'wrapper' => ['class' => 'mb-5'],
-//            'label' => __('Funder Name (Required)'),
-//            'rules' => ['required'],
-//            'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
-//            'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-//            'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-//            'default_value' => (!empty($data['name']))? $data['name'] : ''
-//        ])
         ->add('alias', 'text', [
             'wrapper' => ['class' => 'mb-5'],
             'label' => __('Funder Alias (Required)'),
@@ -39,6 +30,24 @@ class AddFunderForm extends Form
             'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
             'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
             'default_value' => (!empty($data['alias']))? $data['alias'] : ''
+        ])
+        ->add('dashboard_url', 'text', [
+            'wrapper' => ['class' => 'mb-5'],
+            'label' => __('Dashboard URL (Required)'),
+            'rules' => ['required', 'url'],
+            'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+            'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+            'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+            'default_value' => (!empty($metadata['dashboard_url']))? $metadata['dashboard_url'] : ''
+        ])
+        ->add('platform_url', 'text', [
+            'wrapper' => ['class' => 'mb-5'],
+            'label' => __('Platform URL (Required)'),
+            'rules' => ['required', 'url'],
+            'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+            'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+            'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+            'default_value' => (!empty($metadata['platform_url']))? $metadata['platform_url'] : ''
         ])
         ->add('evaluation_type', 'select', [
             'wrapper' => ['class' => 'mb-5'],
