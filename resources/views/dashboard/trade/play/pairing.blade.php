@@ -1,14 +1,22 @@
 
-
-<form method="POST" action="{{ route('trade.pair') }}">
-    @csrf
-    <button type="submit" class="px-5 py-3 text-base font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-        <svg class="w-[28px] h-[28px] mr-1 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16 10 3-3m0 0-3-3m3 3H5v3m3 4-3 3m0 0 3 3m-3-3h14v-3"/>
-        </svg>
-        Pair Accounts
-    </button>
-</form>
+<div class="flex items-center">
+    <form method="POST" action="{{ route('trade.pair') }}" class="mr-5">
+        @csrf
+        <button type="submit" class="px-5 py-3 text-base font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            <svg class="w-[28px] h-[28px] mr-1 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16 10 3-3m0 0-3-3m3 3H5v3m3 4-3 3m0 0 3 3m-3-3h14v-3"/>
+            </svg>
+            Pair Accounts
+        </button>
+    </form>
+    @if(!empty($pairedItems))
+        <form method="POST" action="{{ route('trade.pair.clear') }}">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="text-blue-500">Clear Pairing</button>
+        </form>
+    @endif
+</div>
 
 @if(!empty($pairedItems))
     <div class="mt-10">

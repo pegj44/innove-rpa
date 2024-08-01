@@ -27,4 +27,11 @@ class TradeController extends Controller
 
         return redirect()->route('trade.play')->with('pairedItems', $pairs);
     }
+
+    public function clearPairing()
+    {
+        $response = requestApi('delete', 'trade/paired-items');
+
+        return redirect()->route('trade.play');
+    }
 }

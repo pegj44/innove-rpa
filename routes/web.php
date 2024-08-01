@@ -113,6 +113,7 @@ Route::middleware(['auth_api'])->group(function () {
        {
            Route::get('play', 'index')->name('play');
            Route::post('pair', 'pairAccounts')->name('pair');
+           Route::delete('pair', 'clearPairing')->name('pair.clear');
        });
 
         Route::controller(TradeReportController::class)->group(function()
