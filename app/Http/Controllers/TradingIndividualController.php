@@ -40,7 +40,7 @@ class TradingIndividualController extends Controller
         $response = requestApi('post', 'trading-individual', $request->except('_token'));
 
         if (isset($response['validation_error'])) {
-            return redirect()->back()->withErrors($response['errors'])->withInput()->with('error', 'Failed to add item, please check the fields.');
+            return redirect()->back()->withErrors($response['validation_error'])->withInput()->with('error', 'Failed to add item, please check the fields.');
         }
 
         if (isset($response['errors'])) {
