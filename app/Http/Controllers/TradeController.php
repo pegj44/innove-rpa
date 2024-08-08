@@ -22,10 +22,21 @@ class TradeController extends Controller
         $pairs = requestApi('post', 'trade/pair-accounts');
 
         if (empty($pairs)) {
-            return redirect()->back()->with('success', __('No available accounts to pair'));
+            return redirect()->back()->with('error', __('No available accounts to pair'));
         }
 
         return redirect()->route('trade.play')->with('pairedItems', $pairs);
+    }
+
+    public function initiateTrade(Request $request)
+    {
+        $response = requestApi('post', 'trade/initiate', $request->except('__token'));
+
+        if (empty($response)) {
+            return redirect()->back()->with('error', __('The unit is not connected.'));
+        }
+
+        return redirect()->back()->with('success', __('Unit is now initiating.'));
     }
 
     public function clearPairing()

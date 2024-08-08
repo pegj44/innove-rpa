@@ -38,9 +38,11 @@
                             <h4 class="text-green-500">{{ __('Ready to Trade') }}</h4>
                         </div>
                         <div class="h-12 text-center">
-                            <form method="POST" action="">
+                            <form method="POST" action="{{ route('trade.initiate') }}">
                                 @csrf
-                                <button type="button" class="px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                <input type="hidden" name="unit1" value="{{ $pair1['trade_credential']['trading_individual']['trading_unit']['ip_address'] }}">
+                                <input type="hidden" name="unit2" value="{{ $pair2['trade_credential']['trading_individual']['trading_unit']['ip_address'] }}">
+                                <button type="submit" class="px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                     <svg class="w-[24px] h-[24px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 18V6l8 6-8 6Z"/>
                                     </svg>
