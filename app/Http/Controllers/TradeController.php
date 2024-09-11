@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Forms\TradeReportForm;
 use Illuminate\Http\Request;
 use Kris\LaravelFormBuilder\FormBuilder;
+use Illuminate\Support\Facades\Session;
 
 class TradeController extends Controller
 {
@@ -17,15 +18,29 @@ class TradeController extends Controller
         ]);
     }
 
+    public function setTradeAccountPurchaseType(Request $request)
+    {
+        $response = requestApi('post', 'trade/set-account-purchase-type', $request->except('__token'));
+
+        if (empty($response)) {
+            return response()->json('error', __('Error updating the purchase type.'));
+        }
+
+        return response()->json($response);
+    }
+
     public function pairAccounts()
     {
         $pairs = requestApi('post', 'trade/pair-accounts');
 
         if (empty($pairs)) {
-            return redirect()->back()->with('error', __('No available accounts to pair'));
+//            return redirect()->back()->with('error', __('No available accounts to pair'));
+            return response()->json(['result' => false]);
         }
 
-        return redirect()->route('trade.play')->with('pairedItems', $pairs);
+//        return redirect()->route('trade.play')->with('pairedItems', $pairs);
+
+        return response()->json(['result' => $pairs]);
     }
 
     public function initiateTrade(Request $request)

@@ -7,7 +7,11 @@ use App\Http\Controllers\TradeReportController;
 use App\Http\Controllers\TradingCredentialsController;
 use App\Http\Controllers\TradingIndividualController;
 use App\Http\Controllers\TradingUnitController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
+use Pusher\Pusher;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,18 +28,36 @@ Route::get('/', function () {
     return redirect('dashboard');
 });
 
-Route::middleware(['auth_api'])->group(function () {
+Route::post('/pusher/broadcasting/auth', function (Request $request)
+{
+    $channelName = $request->input('channel_name');
+    $socketId = $request->input('socket_id');
 
-//    Route::get('/test', function() {
-////        $test = requestApi('get', 'test');
-//        $units = requestApi( 'post','unit-login', [
-//
-//            'ip' => '120.192.168.57'
-//        ]);
-//        !d($units);
-//
-//        return response()->json($units);
-//    });
+    if (strpos($channelName, 'private-unit.') === 0) {
+        $currentUserId = Session::get('api_user_data');
+        $unitId = (int) str_replace('private-unit.', '', $channelName);
+        if ($currentUserId['userId'] !== $unitId) {
+            return response()->json(['message' => 'Forbidden'], 403);
+        }
+    }
+
+    $pusher = new Pusher(
+        config('broadcasting.connections.pusher.key'),
+        config('broadcasting.connections.pusher.secret'),
+        config('broadcasting.connections.pusher.app_id'),
+        [
+            'cluster' => config('broadcasting.connections.pusher.options.cluster'),
+            'useTLS' => true,
+        ]
+    );
+
+    // Authenticate the private channel
+    $authResponse = $pusher->authorizeChannel($channelName, $socketId);
+
+    return response($authResponse, 200);
+});
+
+Route::middleware(['auth_api'])->group(function () {
 
     Route::get('/dashboard', function () {
         return view('dashboard');
@@ -116,6 +138,8 @@ Route::middleware(['auth_api'])->group(function () {
            Route::delete('pair', 'clearPairing')->name('pair.clear');
 
            Route::post('initiate', 'initiateTrade')->name('initiate');
+
+           Route::post('set-trade-account-purchase-type', 'setTradeAccountPurchaseType')->name('set-purchase-type');
        });
 
         Route::controller(TradeReportController::class)->group(function()

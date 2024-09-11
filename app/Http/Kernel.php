@@ -68,6 +68,7 @@ class Kernel extends HttpKernel
     ];
 
     protected $routeMiddleware = [
-        'auth_api' => \App\Http\Middleware\AuthApiMiddleware::class
+        'auth_api' => \App\Http\Middleware\AuthApiMiddleware::class,
+//        'custom.broadcast.auth' => \App\Http\Middleware\CustomBroadcastAuth::class,
     ];
 }

@@ -2,6 +2,7 @@
 
 namespace App\Forms;
 
+use App\Http\Controllers\FunderController;
 use Kris\LaravelFormBuilder\Form;
 use Kris\LaravelFormBuilder\FormBuilder;
 
@@ -33,8 +34,8 @@ class AddFunderForm extends Form
         ])
         ->add('dashboard_url', 'text', [
             'wrapper' => ['class' => 'mb-5'],
-            'label' => __('Dashboard URL (Required)'),
-            'rules' => ['required', 'url'],
+            'label' => __('Dashboard URL'),
+            'rules' => ['url'],
             'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
             'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
             'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
@@ -42,12 +43,36 @@ class AddFunderForm extends Form
         ])
         ->add('platform_url', 'text', [
             'wrapper' => ['class' => 'mb-5'],
-            'label' => __('Platform URL (Required)'),
-            'rules' => ['required', 'url'],
+            'label' => __('Platform URL'),
+            'rules' => ['url'],
             'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
             'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
             'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
             'default_value' => (!empty($metadata['platform_url']))? $metadata['platform_url'] : ''
+        ])
+        ->add('pips_calculation_type', 'select', [
+            'wrapper' => ['class' => 'mb-5'],
+            'label' => __('Pips Calculation Type'),
+            'rules' => ['required'],
+            'choices' => FunderController::$pipCalculationTypes,
+            'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+            'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
+            'empty_value' => __('-- Select Calculation Type --'),
+            'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+            'default_value' => (!empty($metadata['pips_calculation_type']))? $metadata['pips_calculation_type'] : ''
+        ])
+        ->add('asset_type', 'select', [
+            'wrapper' => ['class' => 'mb-5'],
+            'label' => __('Asset Type'),
+            'rules' => ['required'],
+            'choices' => [
+                'XAUUSD' => __('XAUUSD')
+            ],
+            'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+            'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
+            'empty_value' => __('-- Select Asset Type --'),
+            'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+            'default_value' => (!empty($metadata['asset_type']))? $metadata['asset_type'] : ''
         ])
         ->add('evaluation_type', 'select', [
             'wrapper' => ['class' => 'mb-5'],

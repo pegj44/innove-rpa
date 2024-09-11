@@ -8,6 +8,17 @@ use Kris\LaravelFormBuilder\FormBuilder;
 
 class FunderController extends Controller
 {
+    public static $platforms = [
+        'mt5' => 'MT5',
+        'tower' => 'QuanTower',
+        'web' => 'Web'
+    ];
+
+    public static $pipCalculationTypes = [
+        'volume' => 'Volume',
+        'contract' => 'Contract'
+    ];
+
     /**
      * Display a listing of the resource.
      */

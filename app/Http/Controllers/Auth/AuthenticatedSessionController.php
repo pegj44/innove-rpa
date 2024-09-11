@@ -39,7 +39,8 @@ class AuthenticatedSessionController extends Controller
             Session::put('innove_auth_api', $responseBody['token']);
             Session::put('api_user_data', [
                 'name' => $responseBody['name'],
-                'email' => $responseBody['email']
+                'email' => $responseBody['email'],
+                'userId' => $responseBody['userId']
             ]);
 
             return redirect()->route('dashboard');

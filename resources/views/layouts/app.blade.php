@@ -5,6 +5,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
+        @php
+            $sessionToken = \Illuminate\Support\Facades\Session::get('innove_auth_api');
+        @endphp
+        <meta name="user-token" content="{{ $sessionToken }}">
+
         <title>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Fonts -->
