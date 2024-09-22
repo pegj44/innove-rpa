@@ -70,6 +70,17 @@ class TradeReportController extends Controller
         return redirect()->route('trade.report')->with('success', $itemUpdate['message']);
     }
 
+    public function updateTradeSettings(Request $request)
+    {
+        $response = requestApi('post', 'trade/update-trade-report-settings', $request->except('__token'));
+
+        if (empty($response)) {
+            return redirect()->back()->with('error', __('Error updating the purchase type'));
+        }
+
+        return redirect()->back();
+    }
+
     public function destroy(string $id)
     {
         $removeFunder = requestApi('delete', 'trade/report/'. $id);

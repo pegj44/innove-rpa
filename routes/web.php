@@ -28,6 +28,39 @@ Route::get('/', function () {
     return redirect('dashboard');
 });
 
+Route::post('/pusher/broadcasting/unit-presence-auth', function (Request $request)
+{
+    $channelName = $request->input('channel_name');
+    $socketId = $request->input('socket_id');
+    info(print_r([
+        '$channelName' => $channelName,
+    ], true));
+    if (strpos($channelName, 'presence-unit.') === 0) {
+        $currentUserId = Session::get('api_user_data');
+        $channelNameArr = explode('.', $channelName);
+        $unitId = (int) $channelNameArr[1];
+
+        if ($currentUserId['userId'] !== $unitId) {
+            return response()->json(['message' => 'Forbidden'], 403);
+        }
+    }
+
+    $pusher = new Pusher(
+        config('broadcasting.connections.pusher.key'),
+        config('broadcasting.connections.pusher.secret'),
+        config('broadcasting.connections.pusher.app_id'),
+        [
+            'cluster' => config('broadcasting.connections.pusher.options.cluster'),
+            'useTLS' => true,
+        ]
+    );
+
+    // Authenticate the private channel
+    $authResponse = $pusher->authorizeChannel($channelName, $socketId);
+
+    return response($authResponse, 200);
+});
+
 Route::post('/pusher/broadcasting/auth', function (Request $request)
 {
     $channelName = $request->input('channel_name');
@@ -53,7 +86,10 @@ Route::post('/pusher/broadcasting/auth', function (Request $request)
 
     // Authenticate the private channel
     $authResponse = $pusher->authorizeChannel($channelName, $socketId);
-
+    info(print_r([
+        '$channelName33' => $channelName,
+        '$authRespons3e33' => $authResponse,
+    ], true));
     return response($authResponse, 200);
 });
 
@@ -138,8 +174,6 @@ Route::middleware(['auth_api'])->group(function () {
            Route::delete('pair', 'clearPairing')->name('pair.clear');
 
            Route::post('initiate', 'initiateTrade')->name('initiate');
-
-           Route::post('set-trade-account-purchase-type', 'setTradeAccountPurchaseType')->name('set-purchase-type');
        });
 
         Route::controller(TradeReportController::class)->group(function()
@@ -150,6 +184,8 @@ Route::middleware(['auth_api'])->group(function () {
             Route::post('report/{id}', 'update')->name('report.update');
             Route::delete('report/{id}', 'destroy')->name('report.delete');
             Route::post('report','store')->name('report.store');
+
+            Route::post('update-trade-report-settings', 'updateTradeSettings')->name('update-trade-report-settings');
         });
     });
 });

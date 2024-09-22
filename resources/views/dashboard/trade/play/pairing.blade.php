@@ -8,6 +8,7 @@
             </svg>
             Pair Accounts
         </button>
+        <div class="mt-2 text-sm text-red-600 pairing-error"></div>
     </form>
     @if(!empty($pairedItems))
         <form method="POST" action="{{ route('trade.pair.clear') }}">
@@ -56,14 +57,24 @@
                             <form method="POST" action="{{ route('trade.initiate') }}">
                                 @csrf
                                 <input type="hidden" name="unit1[ip]" value="{{ $pair1['trade_credential']['trading_individual']['trading_unit']['ip_address'] }}">
-                                <input type="hidden" name="unit1[machine]" value="{{ $pair1['trade_credential']['funder']['alias'] .'_'. $pair1['trade_credential']['account_id'] }}">
+                                <input type="hidden" name="unit1[machine]" value="{{ $pair1['trade_credential']['funder']['automation'] }}">
                                 <input type="hidden" name="unit1[latest_equity]" value="{{ $pair1['latest_equity'] }}">
-                                <input type="hidden" name="unit1[purchase_type]" value="sell">
+                                <input type="hidden" name="unit1[purchase_type]" value="{{ $pair1['purchase_type'] }}">
+                                <input type="hidden" name="unit1[order_amount]" value="{{ $pair1['order_amount'] }}">
+                                <input type="hidden" name="unit1[take_profit_ticks]" value="{{ $pair1['take_profit_ticks'] }}">
+                                <input type="hidden" name="unit1[stop_loss_ticks]" value="{{ $pair1['stop_loss_ticks'] }}">
+                                <input type="hidden" name="unit1[account_id]" value="{{ $pair1['trade_credential']['account_id'] }}">
+                                <input type="hidden" name="unit1[asset_type]" value="{{ $pair1['trade_credential']['funder']['asset_type'] }}">
 
                                 <input type="hidden" name="unit2[ip]" value="{{ $pair2['trade_credential']['trading_individual']['trading_unit']['ip_address'] }}">
-                                <input type="hidden" name="unit2[machine]" value="{{ $pair2['trade_credential']['funder']['alias'] .'_'. $pair2['trade_credential']['account_id'] }}">
+                                <input type="hidden" name="unit2[machine]" value="{{ $pair2['trade_credential']['funder']['automation'] }}">
                                 <input type="hidden" name="unit2[latest_equity]" value="{{ $pair2['latest_equity'] }}">
-                                <input type="hidden" name="unit2[purchase_type]" value="buy">
+                                <input type="hidden" name="unit2[purchase_type]" value="{{ $pair2['purchase_type'] }}">
+                                <input type="hidden" name="unit2[order_amount]" value="{{ $pair2['order_amount'] }}">
+                                <input type="hidden" name="unit2[take_profit_ticks]" value="{{ $pair2['take_profit_ticks'] }}">
+                                <input type="hidden" name="unit2[stop_loss_ticks]" value="{{ $pair2['stop_loss_ticks'] }}">
+                                <input type="hidden" name="unit2[account_id]" value="{{ $pair2['trade_credential']['account_id'] }}">
+                                <input type="hidden" name="unit2[asset_type]" value="{{ $pair2['trade_credential']['funder']['asset_type'] }}">
 
                                 <button type="submit" class="px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                     <svg class="w-[24px] h-[24px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -134,16 +145,60 @@
                             </table>
                         </div>
 
-{{--                        <div class="mt-5 w-20">--}}
-{{--                            <form method="post" action="{{ route('trade.set-purchase-type') }}" class="set-purchase-type">--}}
-{{--                                @csrf--}}
-{{--                                <input type="hidden" name="funder_id" value="{{ $pair1['trade_credential']['funder']['id'] }}">--}}
-{{--                                <select name="purchase_type" class="purchase-type bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">--}}
-{{--                                    <option value="buy" class="buy" {{ (isset($pair1FunderMetadata['purchase_type']) && $pair1FunderMetadata['purchase_type'] === 'buy')? 'selected' : '' }} style="background: green">Buy</option>--}}
-{{--                                    <option value="sell" class="sell" {{ (isset($pair1FunderMetadata['purchase_type']) && $pair1FunderMetadata['purchase_type'] === 'sell')? 'selected' : '' }} style="background: #fb4c4c">Sell</option>--}}
-{{--                                </select>--}}
-{{--                            </form>--}}
-{{--                        </div>--}}
+                        <div class="mt-5">
+                            <form method="post" action="{{ route('trade.update-trade-report-settings') }}" class="update-trade-report-settings">
+                                @csrf
+                                <input type="hidden" name="trade_report_id" value="{{ $pair1['id'] }}">
+                                <input type="hidden" name="trade_report_pair_id" value="{{ $pair2['id'] }}">
+                                <table>
+                                    <tr class="border-b border-gray-200 dark:border-gray-700 text-left">
+                                        <th scope="row" class="bg-gray-50 dark:bg-gray-800 dark:text-white font-medium px-6 py-2 text-gray-900 whitespace-nowrap">
+                                            @if($pair1['order_type'] === 'quantity')
+                                                Quantity/Contract
+                                            @endif
+                                            @if($pair1['order_type'] === 'lot')
+                                                Lot/Volume
+                                            @endif
+                                        </th>
+                                        <td class="px-6 py-2 w-1/2 dark:bg-gray-900 text-left">
+                                            <input type="number" name="order_amount" step="0.01" value="{{ $pair1['order_amount'] }}" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block w-full">
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b border-gray-200 dark:border-gray-700 text-left">
+                                        <th scope="row" class="bg-gray-50 dark:bg-gray-800 dark:text-white font-medium px-6 py-2 text-gray-900 whitespace-nowrap">
+                                            Take Profit (Ticks)
+                                        </th>
+                                        <td class="px-6 py-2 w-1/2 dark:bg-gray-900 text-left">
+                                            <input type="number" name="take_profit_ticks" value="{{ $pair1['take_profit_ticks'] }}" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block w-full">
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b border-gray-200 dark:border-gray-700 text-left">
+                                        <th scope="row" class="bg-gray-50 dark:bg-gray-800 dark:text-white font-medium px-6 py-2 text-gray-900 whitespace-nowrap">
+                                            Stop Loss (Ticks)
+                                        </th>
+                                        <td class="px-6 py-2 w-1/2 dark:bg-gray-900 text-left">
+                                            <input type="number" name="stop_loss_ticks" value="{{ $pair1['stop_loss_ticks'] }}" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block w-full">
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b border-gray-200 dark:border-gray-700 text-left">
+                                        <th scope="row" class="bg-gray-50 dark:bg-gray-800 dark:text-white font-medium px-6 py-2 text-gray-900 whitespace-nowrap">
+                                            Purchase Type
+                                        </th>
+                                        <td class="px-6 py-2 w-1/2 dark:bg-gray-900">
+                                            <select name="purchase_type" class="purchase-type bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                <option value="buy" class="buy" {{ (isset($pair1['purchase_type']) && $pair1['purchase_type'] === 'buy')? 'selected' : '' }} style="background: green">Buy</option>
+                                                <option value="sell" class="sell" {{ (isset($pair1['purchase_type']) && $pair1['purchase_type'] === 'sell')? 'selected' : '' }} style="background: #fb4c4c">Sell</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div class="mt-2 text-center">
+                                    <button type="submit" class="px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                        Update
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                     <div class="p-6">
 
@@ -203,16 +258,60 @@
                             </table>
                         </div>
 
-{{--                        <div class="mt-5 w-20">--}}
-{{--                            <form method="post" action="{{ route('trade.set-purchase-type') }}" class="set-purchase-type">--}}
-{{--                                @csrf--}}
-{{--                                <input type="hidden" name="funder_id" value="{{ $pair2['trade_credential']['funder']['id'] }}">--}}
-{{--                                <select name="purchase_type" class="purchase-type bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">--}}
-{{--                                    <option class="buy" {{ (isset($pair2FunderMetadata['purchase_type']) && $pair2FunderMetadata['purchase_type'] === 'buy')? 'selected' : '' }} style="background: green" value="buy">Buy</option>--}}
-{{--                                    <option class="sell" {{ (isset($pair2FunderMetadata['purchase_type']) && $pair2FunderMetadata['purchase_type'] === 'sell')? 'selected' : '' }} style="background: #fb4c4c" value="sell">Sell</option>--}}
-{{--                                </select>--}}
-{{--                            </form>--}}
-{{--                        </div>--}}
+                        <div class="mt-5">
+                            <form method="post" action="{{ route('trade.update-trade-report-settings') }}" class="update-trade-report-settings">
+                                @csrf
+                                <input type="hidden" name="trade_report_id" value="{{ $pair2['id'] }}">
+                                <input type="hidden" name="trade_report_pair_id" value="{{ $pair1['id'] }}">
+                                <table>
+                                    <tr class="border-b border-gray-200 dark:border-gray-700 text-left">
+                                        <th scope="row" class="bg-gray-50 dark:bg-gray-800 dark:text-white font-medium px-6 py-2 text-gray-900 whitespace-nowrap">
+                                            @if($pair2['order_type'] === 'quantity')
+                                                Quantity/Contract
+                                            @endif
+                                            @if($pair2['order_type'] === 'lot')
+                                                Lot/Volume
+                                            @endif
+                                        </th>
+                                        <td class="px-6 py-2 w-1/2 dark:bg-gray-900 text-left">
+                                            <input type="number" name="order_amount" step="0.01" value="{{ $pair2['order_amount'] }}" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block w-full">
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b border-gray-200 dark:border-gray-700 text-left">
+                                        <th scope="row" class="bg-gray-50 dark:bg-gray-800 dark:text-white font-medium px-6 py-2 text-gray-900 whitespace-nowrap">
+                                            Take Profit (Ticks)
+                                        </th>
+                                        <td class="px-6 py-2 w-1/2 dark:bg-gray-900 text-left">
+                                            <input type="number" name="take_profit_ticks" value="{{ $pair2['take_profit_ticks'] }}" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block w-full">
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b border-gray-200 dark:border-gray-700 text-left">
+                                        <th scope="row" class="bg-gray-50 dark:bg-gray-800 dark:text-white font-medium px-6 py-2 text-gray-900 whitespace-nowrap">
+                                            Stop Loss (Ticks)
+                                        </th>
+                                        <td class="px-6 py-2 w-1/2 dark:bg-gray-900 text-left">
+                                            <input type="number" name="stop_loss_ticks" value="{{ $pair2['stop_loss_ticks'] }}" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block w-full">
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b border-gray-200 dark:border-gray-700 text-left">
+                                        <th scope="row" class="bg-gray-50 dark:bg-gray-800 dark:text-white font-medium px-6 py-2 text-gray-900 whitespace-nowrap">
+                                            Purchase Type
+                                        </th>
+                                        <td class="px-6 py-2 w-1/2 dark:bg-gray-900">
+                                            <select name="purchase_type" class="purchase-type bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                <option value="buy" class="buy" {{ (isset($pair2['purchase_type']) && $pair2['purchase_type'] === 'buy')? 'selected' : '' }} style="background: green">Buy</option>
+                                                <option value="sell" class="sell" {{ (isset($pair2['purchase_type']) && $pair2['purchase_type'] === 'sell')? 'selected' : '' }} style="background: #fb4c4c">Sell</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div class="mt-2 text-center">
+                                    <button type="submit" class="px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                        Update
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -221,9 +320,6 @@
 @endif
 
 <script>
-
-
-
 
     const form = document.getElementById('pair-accounts');
     const submitButton = form.querySelector('button[type="submit"]');
@@ -249,7 +345,10 @@
                 }
             })
             .then(data => {
-                console.log(data);
+                console.log('data::', data);
+                if (!data.success) {
+                    form.querySelector('.pairing-error').textContent = data.error;
+                }
                 // Enable the submit button again and remove the class
             })
             .catch(error => {
@@ -264,49 +363,31 @@
     document.addEventListener('pusherNotificationEvent', function(event) {
         console.log('event triggered: ', event.detail);
 
+        if(event.detail.action === 'no-pairable-accounts') {
+            form.querySelector('.pairing-error').textContent = 'No pairs found.';
+            submitButton.disabled = false;
+            submitButton.classList.remove('dark:bg-gray-700', 'bg-gray-700');
+        }
+
         if(event.detail.action === 'pair_accounts-success') {
             location.reload();
         }
     });
 
-
-    document.addEventListener('DOMContentLoaded', function() {
-        // Select all .set-purchase-type forms
-        const forms = document.querySelectorAll('.set-purchase-type');
-
-        forms.forEach(form => {
-            // Select the purchase-type select element within each form
-            const select = form.querySelector('.purchase-type');
-
-            // Add change event listener to the select element
-            select.addEventListener('change', function() {
-                // Create a new FormData object from the form
-                const formData = new FormData(form);
-
-                // Create a new XMLHttpRequest object
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', form.action, true);
-
-                // Set up the callback function to handle the response
-                xhr.onload = function() {
-                    if (xhr.status >= 200 && xhr.status < 300) {
-                        // Success: handle the response if needed
-                        console.log('Form submitted successfully:', xhr.responseText);
-                    } else {
-                        // Error: handle the error if needed
-                        console.error('Form submission failed:', xhr.statusText);
-                    }
-                };
-
-                // Handle request errors
-                xhr.onerror = function() {
-                    console.error('Request error.');
-                };
-
-                // Send the form data via AJAX
-                xhr.send(formData);
-            });
-        });
-    });
+    //
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     // Select all .update-trade-report-settings forms
+    //     const forms = document.querySelectorAll('.update-trade-report-settings');
+    //
+    //     forms.forEach(form => {
+    //         // Select the purchase-type select element within each form
+    //         const select = form.querySelector('.purchase-type');
+    //
+    //         // Add change event listener to the select element
+    //         select.addEventListener('change', function() {
+    //             form.submit();
+    //         });
+    //     });
+    // });
 
 </script>

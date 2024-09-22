@@ -50,20 +50,25 @@ class AddFunderForm extends Form
             'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
             'default_value' => (!empty($metadata['platform_url']))? $metadata['platform_url'] : ''
         ])
-        ->add('pips_calculation_type', 'select', [
+        ->add('automation', 'select', [
             'wrapper' => ['class' => 'mb-5'],
-            'label' => __('Pips Calculation Type'),
+            'label' => __('Automation'),
             'rules' => ['required'],
-            'choices' => FunderController::$pipCalculationTypes,
+            'choices' => [
+                'MT5_Web' => __('MT5-Web'),
+                'Rtrader_base' => __('Rithmic Trader'),
+                'TradingView' => __('Trading View'),
+                'NinjaTrader' => __('Ninja Trader')
+            ],
             'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
             'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
             'empty_value' => __('-- Select Calculation Type --'),
             'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-            'default_value' => (!empty($metadata['pips_calculation_type']))? $metadata['pips_calculation_type'] : ''
+            'default_value' => (!empty($data['automation']))? $data['automation'] : ''
         ])
         ->add('asset_type', 'select', [
             'wrapper' => ['class' => 'mb-5'],
-            'label' => __('Asset Type'),
+            'label' => __('Instrument/Symbol'),
             'rules' => ['required'],
             'choices' => [
                 'XAUUSD' => __('XAUUSD'),

@@ -47,14 +47,14 @@
                             <h5 class="mb-2 text-xl text-center font-bold tracking-tight text-gray-900 dark:text-white mt-3">{{ $unit['name'] }}</h5>
                             <p class="font-normal text-center text-gray-700 dark:text-gray-400">{{ $unit['ip_address'] }}</p>
 
-                            <div class="flex justify-center mt-4">
-                                <button type="button" class="px-3 py-2 text-sm font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-md hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                    <svg class="w-[18px] h-[18px] text-gray-800 dark:text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M6 4v10m0 0a2 2 0 1 0 0 4m0-4a2 2 0 1 1 0 4m0 0v2m6-16v2m0 0a2 2 0 1 0 0 4m0-4a2 2 0 1 1 0 4m0 0v10m6-16v10m0 0a2 2 0 1 0 0 4m0-4a2 2 0 1 1 0 4m0 0v2"/>
-                                    </svg>
-                                    {{ __("Initialize") }}
-                                </button>
-                            </div>
+{{--                            <div class="flex justify-center mt-4">--}}
+{{--                                <button type="button" class="px-3 py-2 text-sm font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-md hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">--}}
+{{--                                    <svg class="w-[18px] h-[18px] text-gray-800 dark:text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">--}}
+{{--                                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M6 4v10m0 0a2 2 0 1 0 0 4m0-4a2 2 0 1 1 0 4m0 0v2m6-16v2m0 0a2 2 0 1 0 0 4m0-4a2 2 0 1 1 0 4m0 0v10m6-16v10m0 0a2 2 0 1 0 0 4m0-4a2 2 0 1 1 0 4m0 0v2"/>--}}
+{{--                                    </svg>--}}
+{{--                                    {{ __("Initialize") }}--}}
+{{--                                </button>--}}
+{{--                            </div>--}}
 
                             <div class="mt-5 pt-5 flex justify-between border-t border-gray-600">
                                 <form id="update-status-{{ $unit['id'] }}" method="POST" action="{{ route('trading-unit.update', $unit['id']) }}" x-data="">
@@ -207,6 +207,8 @@
         </div>
     </div>
 
+    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+
     <script>
 
         const tradingUnits = @json($tradingUnits);
@@ -291,6 +293,7 @@
 
             form.setAttribute('action', action.replace(/trading-unit\/\d+/, 'trading-unit/' + unitId));
         }
+
     </script>
 
 

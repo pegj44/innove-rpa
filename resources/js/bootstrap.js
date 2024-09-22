@@ -14,9 +14,10 @@ import Pusher from 'pusher-js';
 window.Pusher = Pusher;
 
 let userToken = document.querySelector('meta[name="user-token"]').getAttribute('content');
+let userId = document.querySelector('meta[name="user-id"]').getAttribute('content');
 let baseUrl = window.location.origin;
 
-window.Echo = new Echo({
+window.Echo1 = new Echo({
     broadcaster: 'pusher',
     key: import.meta.env.VITE_PUSHER_APP_KEY,
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
@@ -29,19 +30,19 @@ window.Echo = new Echo({
     }
 });
 
-window.Echo.connector.pusher.connection.bind('connected', () => {
+window.Echo1.connector.pusher.connection.bind('connected', () => {
     console.log('Connected to Pusher successfully!');
 });
 
-window.Echo.connector.pusher.connection.bind('disconnected', () => {
+window.Echo1.connector.pusher.connection.bind('disconnected', () => {
     console.log('Disconnected from Pusher.');
 });
 
-window.Echo.connector.pusher.connection.bind('error', (err) => {
+window.Echo1.connector.pusher.connection.bind('error', (err) => {
     console.error('Error with Pusher connection:', err);
 });
 
-window.Echo.private('unit.3').listen('UnitResponse', (data) => {
+window.Echo1.private('unit.'+ userId).listen('UnitResponse', (data) => {
     console.log('Received data:', data);
 
     const customEvent = new CustomEvent('pusherNotificationEvent', {
@@ -59,92 +60,87 @@ window.Echo.private('unit.3').listen('UnitResponse', (data) => {
     }
 });
 
-// import Echo from 'laravel-echo';
+
+// const pusher = new Pusher({
+//     appId: 'YOUR_APP_ID',
+//     key: 'YOUR_APP_KEY',
+//     secret: 'YOUR_APP_SECRET',
+//     cluster: 'YOUR_APP_CLUSTER',
+//     useTLS: true
+// });
+
+
 //
-// import Pusher from 'pusher-js';
-// window.Pusher = Pusher;
 //
-// window.Echo = new Echo({
+// window.Echo2 = new Echo({
 //     broadcaster: 'pusher',
 //     key: import.meta.env.VITE_PUSHER_APP_KEY,
-//     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER ?? 'mt1',
-//     wsHost: import.meta.env.VITE_PUSHER_HOST ? import.meta.env.VITE_PUSHER_HOST : `ws-${import.meta.env.VITE_PUSHER_APP_CLUSTER}.pusher.com`,
-//     wsPort: import.meta.env.VITE_PUSHER_PORT ?? 80,
-//     wssPort: import.meta.env.VITE_PUSHER_PORT ?? 443,
-//     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
-//     enabledTransports: ['ws', 'wss']
+//     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
+//     forceTLS: true,
+//     authEndpoint: `${baseUrl}/pusher/broadcasting/unit-presence-auth`,
+//     auth: {
+//         headers: {
+//             'Authorization': 'Bearer ' + userToken,
+//         },
+//     },
 // });
 //
-// window.Echo.private('unit.3').listen('UnitResponse', e => {
-//     console.log('event fired');
-//     console.log(e);
+//
+// const pusherClient = window.Echo2.connector.pusher;
+//
+// // Access the channel by its name
+// const channel = pusherClient.channel('private-unit.3.112.198.98.12');
+//
+// // Check if the channel is subscribed and connected
+// const isActive = channel && channel.subscribed;
+//
+// console.log(`Is channel "private-unit.3.112.198.98.12" active?`, isActive);
+
+// Subscribe to a private channel
+// const channel = Echo2.private('unit.3.112.198.98.12');
+//
+// // Check connection status
+// if (Echo2.connector.pusher.connection.state === 'connected') {
+//     console.log('Echo is connected');
+// } else {
+//     console.log('Echo is not connected');
+// }
+
+// Listen for connection state changes
+// Echo2.connector.pusher.connection.bind('state_change', (states) => {
+//     console.log('Connection state changed from', states.previous, 'to', states.current);
+//
+//     if (states.current === 'connected') {
+//         console.log('Echo is connected');
+//     }
 // });
-//
 
-
-
-
-/**
- * Echo exposes an expressive API for subscribing to channels and listening
- * for events that are broadcast by Laravel. Echo and event broadcasting
- * allows your team to easily build robust real-time web applications.
- */
-
-// import Echo from 'laravel-echo';
-// import Pusher from 'pusher-js';
+// Define channel names for each app
+// const channelNames = ['unit.3.112.198.98.12', 'unit.3.112.198.98.13', 'unit.3.112.198.98.14'];
 //
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: import.meta.env.VITE_PUSHER_APP_KEY,
-//     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER ?? 'mt1',
-//     forceTLS: true
-// });
+// // Function to handle connection status updates
+// function updateConnectionStatus(channelName, members) {
+//     console.log(`Connected members in ${channelName}:`, members.count);
 //
-
-// const Pusher = require('pusher');
-
-
-
-// import Echo from 'laravel-echo';
+//     // Use this information to update your UI or perform other actions
+// }
 //
-// import Pusher from 'pusher';
-// // window.Pusher = Pusher;
-// //
-// // window.Echo = new Echo({
-// //     broadcaster: 'pusher',
-// //     key: import.meta.env.VITE_PUSHER_APP_KEY,
-// //     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER ?? 'mt1',
-// //     wsHost: import.meta.env.VITE_PUSHER_HOST ? import.meta.env.VITE_PUSHER_HOST : `ws-${import.meta.env.VITE_PUSHER_APP_CLUSTER}.pusher.com`,
-// //     wsPort: import.meta.env.VITE_PUSHER_PORT ?? 80,
-// //     wssPort: import.meta.env.VITE_PUSHER_PORT ?? 443,
-// //     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
-// //     enabledTransports: ['ws', 'wss'],
-// // });
-// //
-// // window.Echo.private('unit.3').listen('UnitResponse', e => {
-// //     console.log('event fired');
-// //     console.log(e);
-// // });
-//
-//
-//
-// let pusher = new Pusher(import.meta.env.VITE_PUSHER_APP_KEY, {
-//     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER ?? 'mt1',
-//     authEndpoint: 'pusher-auth',
-//     encrypted: true,
-// });
-//
-// console.log(pusher);
-// console.log(import.meta.env.VITE_PUSHER_APP_KEY);
-// console.log(import.meta.env.VITE_PUSHER_APP_CLUSTER);
-
-// let channelId = 3;
-// let channel = pusher.subscribe('private-unit.'+ channelId);
-//
-// pusher.connection.bind('connected', function () {
-//     console.log('Successfully connected to Pusher.');
-// });
-//
-// pusher.connection.bind('error', function (err) {
-//     console.error('Connection error:', err);
+// // Subscribe to each presence channel
+// channelNames.forEach((name) => {
+//     console.log(`presence-${name}`);
+//     window.Echo2.join(`presence-${name}`)
+//         .here((members) => {
+//             // Called when you initially subscribe to the channel
+//             updateConnectionStatus(name, { count: members.length });
+//         })
+//         .joining((member) => {
+//             // Called when a new member joins
+//             console.log(`${member.id} has connected to ${name}`);
+//             updateConnectionStatus(name, window.Echo2.join(`presence-${name}`).members);
+//         })
+//         .leaving((member) => {
+//             // Called when a member leaves
+//             console.log(`${member.id} has disconnected from ${name}`);
+//             updateConnectionStatus(name, window.Echo2.join(`presence-${name}`).members);
+//         });
 // });

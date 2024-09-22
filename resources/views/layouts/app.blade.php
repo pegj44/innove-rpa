@@ -7,8 +7,10 @@
 
         @php
             $sessionToken = \Illuminate\Support\Facades\Session::get('innove_auth_api');
+            $userData = \Illuminate\Support\Facades\Session::get('api_user_data');
         @endphp
         <meta name="user-token" content="{{ $sessionToken }}">
+        <meta name="user-id" content="{{ $userData['userId'] }}">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 

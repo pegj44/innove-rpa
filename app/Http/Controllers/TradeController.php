@@ -18,40 +18,35 @@ class TradeController extends Controller
         ]);
     }
 
-    public function setTradeAccountPurchaseType(Request $request)
-    {
-        $response = requestApi('post', 'trade/set-account-purchase-type', $request->except('__token'));
-
-        if (empty($response)) {
-            return response()->json('error', __('Error updating the purchase type.'));
-        }
-
-        return response()->json($response);
-    }
-
     public function pairAccounts()
     {
         $pairs = requestApi('post', 'trade/pair-accounts');
 
-        if (empty($pairs)) {
+        if (empty($pairs) || isset($pairs['error'])) {
 //            return redirect()->back()->with('error', __('No available accounts to pair'));
-            return response()->json(['result' => false]);
+            return response()->json([
+                'success' => false,
+                'error' => $pairs['error']
+            ]);
         }
 
 //        return redirect()->route('trade.play')->with('pairedItems', $pairs);
 
-        return response()->json(['result' => $pairs]);
+        return response()->json([
+            'success' => true,
+            'accounts' => $pairs
+        ]);
     }
 
     public function initiateTrade(Request $request)
     {
         $response = requestApi('post', 'trade/initiate', $request->except('__token'));
 
-        if (empty($response)) {
-            return redirect()->back()->with('error', __('The unit is not connected.'));
+        if (isset($response['error'])) {
+            return redirect()->back()->with('error', $response['error']);
         }
 
-        return redirect()->back()->with('success', __('Unit is now initiating.'));
+        return redirect()->back()->with('success', $response['message']);
     }
 
     public function clearPairing()
