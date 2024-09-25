@@ -32,55 +32,50 @@ class AddFunderForm extends Form
             'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
             'default_value' => (!empty($data['alias']))? $data['alias'] : ''
         ])
-        ->add('dashboard_url', 'text', [
+//        ->add('dashboard_url', 'text', [
+//            'wrapper' => ['class' => 'mb-5'],
+//            'label' => __('Dashboard URL'),
+//            'rules' => ['url'],
+//            'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+//            'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+//            'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+//            'default_value' => (!empty($metadata['dashboard_url']))? $metadata['dashboard_url'] : ''
+//        ])
+        ->add('automation', 'select', [
             'wrapper' => ['class' => 'mb-5'],
-            'label' => __('Dashboard URL'),
-            'rules' => ['url'],
+            'label' => __('Platform Type'),
+            'rules' => ['required'],
+            'choices' => FunderController::$platforms,
             'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
-            'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+            'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
+            'empty_value' => __('-- Select Platform Type --'),
             'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-            'default_value' => (!empty($metadata['dashboard_url']))? $metadata['dashboard_url'] : ''
+            'default_value' => (!empty($data['automation']))? $data['automation'] : ''
         ])
         ->add('platform_url', 'text', [
-            'wrapper' => ['class' => 'mb-5'],
-            'label' => __('Platform URL'),
+            'wrapper' => ['class' => 'mb-5 platform-url'],
+            'label' => __('Platform URL (Required)'),
             'rules' => ['url'],
             'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
             'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
             'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
             'default_value' => (!empty($metadata['platform_url']))? $metadata['platform_url'] : ''
         ])
-        ->add('automation', 'select', [
-            'wrapper' => ['class' => 'mb-5'],
-            'label' => __('Automation'),
-            'rules' => ['required'],
-            'choices' => [
-                'MT5_Web' => __('MT5-Web'),
-                'Rtrader_base' => __('Rithmic Trader'),
-                'TradingView' => __('Trading View'),
-                'NinjaTrader' => __('Ninja Trader')
-            ],
-            'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
-            'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
-            'empty_value' => __('-- Select Calculation Type --'),
-            'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-            'default_value' => (!empty($data['automation']))? $data['automation'] : ''
-        ])
-        ->add('asset_type', 'select', [
-            'wrapper' => ['class' => 'mb-5'],
-            'label' => __('Instrument/Symbol'),
-            'rules' => ['required'],
-            'choices' => [
-                'XAUUSD' => __('XAUUSD'),
-                'BTCUSD' => __('BTCUSD'),
-                'ETHUSD' => __('ETHUSD'),
-            ],
-            'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
-            'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
-            'empty_value' => __('-- Select Asset Type --'),
-            'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-            'default_value' => (!empty($data['asset_type']))? $data['asset_type'] : ''
-        ])
+//        ->add('asset_type', 'select', [
+//            'wrapper' => ['class' => 'mb-5'],
+//            'label' => __('Instrument/Symbol'),
+//            'rules' => ['required'],
+//            'choices' => [
+//                'XAUUSD' => __('XAUUSD'),
+//                'BTCUSD' => __('BTCUSD'),
+//                'ETHUSD' => __('ETHUSD'),
+//            ],
+//            'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+//            'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
+//            'empty_value' => __('-- Select Asset Type --'),
+//            'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+//            'default_value' => (!empty($data['asset_type']))? $data['asset_type'] : ''
+//        ])
         ->add('evaluation_type', 'select', [
             'wrapper' => ['class' => 'mb-5'],
             'label' => __('Evaluation Type (Required)'),
@@ -136,7 +131,7 @@ class AddFunderForm extends Form
                     'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
                     'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block w-full'],
                     'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                    'default_value' => (!empty($metadata['max_drawdown']))? $metadata['max_drawdown'] : ''
+                    'default_value' => (!empty($metadata['max_drawdown']))? $metadata['max_drawdown'] : 0
                 ]),
                 $this->makeField('max_drawdown_type', 'select', [
                     'label' => __('Type'),

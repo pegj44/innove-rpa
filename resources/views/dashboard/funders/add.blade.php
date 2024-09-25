@@ -20,4 +20,21 @@
         </div>
     </div>
 
+    <script>
+        const webAutomations = '{{ json_encode(array_keys(\App\Http\Controllers\FunderController::$webPlatforms)) }}';
+
+        function togglePlatformUrl() {
+            const selectedValue = document.getElementById('automation').value;
+            const platformUrlElement = document.querySelector('.platform-url');
+
+            if (webAutomations.includes(selectedValue)) {
+                platformUrlElement.style.display = 'block';
+            } else {
+                platformUrlElement.style.display = 'none';
+            }
+        }
+
+        document.getElementById('automation').addEventListener('change', togglePlatformUrl);
+        window.addEventListener('DOMContentLoaded', togglePlatformUrl);
+    </script>
 </x-app-layout>

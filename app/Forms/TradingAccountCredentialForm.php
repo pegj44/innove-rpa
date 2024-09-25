@@ -33,7 +33,7 @@ class TradingAccountCredentialForm extends Form
         $this
             ->add('trading_individual_id', 'select', [
                 'wrapper' => ['class' => 'mb-5'],
-                'label' => __('Account (Required)'),
+                'label' => __('User Account (Required)'),
                 'rules' => ['required'],
                 'choices' => $individuals,
                 'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
@@ -61,6 +61,30 @@ class TradingAccountCredentialForm extends Form
                 'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
                 'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                 'default_value' => (!empty($data['account_id']))? $data['account_id'] : ''
+            ])
+            ->add('account_type', 'select', [
+                'wrapper' => ['class' => 'mb-5'],
+                'label' => __('Account Type (Required)'),
+                'rules' => ['required'],
+                'choices' => [
+                    'futures' => __('Futures'),
+                    'forex' => __('Forex'),
+                    'crypto' => __('Crypto')
+                ],
+                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+                'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
+                'empty_value' => __('-- Choose Account Type --'),
+                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+                'default_value' => (!empty($data['account_type']))? $data['account_type'] : ''
+            ])
+            ->add('starting_balance', 'number', [
+                'wrapper' => ['class' => 'mb-5'],
+                'label' => __('Starting Balance (Required)'),
+                'rules' => ['required'],
+                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+                'attr' => ['min' => 0, 'class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+                'default_value' => (!empty($data['starting_balance']))? $data['starting_balance'] : ''
             ])
             ->add('phase', 'select', [
                 'wrapper' => ['class' => 'mb-5'],
@@ -92,45 +116,45 @@ class TradingAccountCredentialForm extends Form
                 'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                 'default_value' => (!empty($data['status']))? $data['status'] : ''
             ])
-            ->add('dashboard_login_wrapper', 'wrapper', [
-                'label' => 'Dashboard Login',
-                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
-                'wrapper_class' => '',
-                'field_col_class' => 'mb-5',
-                'fields' => [
-//                    $this->makeField('dashboard_login_url', 'url', [
-//                        'wrapper' => ['class' => 'mb-5'],
-//                        'label' => __('Login URL'),
-//                        'rules' => [],
-//                        'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
-//                        'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-//                        'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-//                        'default_value' => (!empty($data['dashboard_login_url']))? $data['dashboard_login_url'] : ''
-//                    ]),
-                    $this->makeField('dashboard_login_wrapper', 'wrapper', [
-                        'label_show' => false,
-                        'label_attr' => ['class' => 'block mb-1 text-sm font-medium text-gray-900 dark:text-white'],
-                        'wrapper_class' => '',
-                        'field_col_class' => 'grid grid-cols-1 md:grid-cols-2 gap-4 mb-5',
-                        'fields' => [
-                            $this->makeField('dashboard_login_username', 'text', [
-                                'label' => __('Username'),
-                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
-                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                                'default_value' => (!empty($data['dashboard_login_username']))? $data['dashboard_login_username'] : ''
-                            ]),
-                            $this->makeField('dashboard_login_password', 'password', [
-                                'label' => __('Password'),
-                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
-                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                                'default_value' => (!empty($data['dashboard_login_password']))? $data['dashboard_login_password'] : ''
-                            ]),
-                        ]
-                    ])
-                ]
-            ])
+//            ->add('dashboard_login_wrapper', 'wrapper', [
+//                'label' => 'Dashboard Login',
+//                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+//                'wrapper_class' => '',
+//                'field_col_class' => 'mb-5',
+//                'fields' => [
+////                    $this->makeField('dashboard_login_url', 'url', [
+////                        'wrapper' => ['class' => 'mb-5'],
+////                        'label' => __('Login URL'),
+////                        'rules' => [],
+////                        'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
+////                        'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+////                        'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+////                        'default_value' => (!empty($data['dashboard_login_url']))? $data['dashboard_login_url'] : ''
+////                    ]),
+//                    $this->makeField('dashboard_login_wrapper', 'wrapper', [
+//                        'label_show' => false,
+//                        'label_attr' => ['class' => 'block mb-1 text-sm font-medium text-gray-900 dark:text-white'],
+//                        'wrapper_class' => '',
+//                        'field_col_class' => 'grid grid-cols-1 md:grid-cols-2 gap-4 mb-5',
+//                        'fields' => [
+//                            $this->makeField('dashboard_login_username', 'text', [
+//                                'label' => __('Username'),
+//                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
+//                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+//                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+//                                'default_value' => (!empty($data['dashboard_login_username']))? $data['dashboard_login_username'] : ''
+//                            ]),
+//                            $this->makeField('dashboard_login_password', 'password', [
+//                                'label' => __('Password'),
+//                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
+//                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+//                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+//                                'default_value' => (!empty($data['dashboard_login_password']))? $data['dashboard_login_password'] : ''
+//                            ]),
+//                        ]
+//                    ])
+//                ]
+//            ])
             ->add('platform_login_wrapper', 'wrapper', [
                 'label' => 'Platform Login',
                 'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],

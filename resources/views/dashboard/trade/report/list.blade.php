@@ -68,8 +68,27 @@
         @foreach($items as $item)
             @php
                 $reportInfo = getTradeReportCalculations($item);
+
+                switch ($item['status']) {
+                    case 'trading':
+                        $trHtmlClass = 'bg-blue-500';
+                        break;
+                    case 'abstained':
+                        $trHtmlClass = 'bg-gray-700';
+                        break;
+                    case 'breached':
+                        $trHtmlClass = 'bg-red-500';
+                    break;
+                    case 'onhold':
+                        $trHtmlClass = 'bg-orange-400';
+                    break;
+                    default:
+                        $trHtmlClass = '';
+                        break;
+                }
             @endphp
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+
+            <tr class="border-b border-gray-700 bg-gray-800 hover:bg-gray-600">
                 <td class="px-6 py-4 text-right border-r border-gray-600">
                     <a href="{{ route('trade.report.edit', $item['id']) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                         <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -89,7 +108,7 @@
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{ getPhaseName($item['trade_credential']['phase']) }}
                 </td>
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <td class="{{ $trHtmlClass }} px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{ ucfirst($item['status']) }}
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">

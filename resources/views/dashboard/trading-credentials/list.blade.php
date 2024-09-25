@@ -22,15 +22,15 @@
             <th scope="col" class="px-6 py-3">
                 {{ __('Status') }}
             </th>
-            <th scope="col" class="px-6 py-3">
-                {{ __('Dashboard URL') }}
-            </th>
-            <th scope="col" class="px-6 py-3">
-                {{ __('Dashboard Username') }}
-            </th>
-            <th scope="col" class="px-6 py-3">
-                {{ __('Dashboard Password') }}
-            </th>
+{{--            <th scope="col" class="px-6 py-3">--}}
+{{--                {{ __('Dashboard URL') }}--}}
+{{--            </th>--}}
+{{--            <th scope="col" class="px-6 py-3">--}}
+{{--                {{ __('Dashboard Username') }}--}}
+{{--            </th>--}}
+{{--            <th scope="col" class="px-6 py-3">--}}
+{{--                {{ __('Dashboard Password') }}--}}
+{{--            </th>--}}
             <th scope="col" class="px-6 py-3">
                 {{ __('Platform URL') }}
             </th>
@@ -91,15 +91,15 @@
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{ ucfirst($item['status']) }}
                 </td>
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ $dashboard_url }}
-                </td>
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ $item['dashboard_login_username'] }}
-                </td>
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ $item['dashboard_login_password'] }}
-                </td>
+{{--                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">--}}
+{{--                    {{ $dashboard_url }}--}}
+{{--                </td>--}}
+{{--                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">--}}
+{{--                    {{ $item['dashboard_login_username'] }}--}}
+{{--                </td>--}}
+{{--                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">--}}
+{{--                    {{ $item['dashboard_login_password'] }}--}}
+{{--                </td>--}}
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{ $platform_url }}
                 </td>

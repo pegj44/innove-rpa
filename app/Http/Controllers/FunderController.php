@@ -9,9 +9,15 @@ use Kris\LaravelFormBuilder\FormBuilder;
 class FunderController extends Controller
 {
     public static $platforms = [
-        'mt5' => 'MT5',
-        'tower' => 'QuanTower',
-        'web' => 'Web'
+        'MT5_Web' => 'MT5-Web',
+        'Rtrader_base' => 'Rithmic Trader',
+        'TradingView' => 'Trading View',
+        'NinjaTrader' => 'Ninja Trader'
+    ];
+
+    public static $webPlatforms = [
+        'MT5_Web' => 'MT5-Web',
+        'TradingView' => 'Trading View'
     ];
 
     public static $pipCalculationTypes = [

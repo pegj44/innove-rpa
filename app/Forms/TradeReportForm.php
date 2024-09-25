@@ -18,10 +18,11 @@ class TradeReportForm extends Form
 
         $statuses = [
             'idle' => __('Idle'),
-            'ongoing' => __('Ongoing'),
-            'passed' => __('Passed'),
-            'failed' => __('Failed'),
-            'onhold' => __('On Hold')
+            'trading' => __('Ongoing Trade'),
+            'abstained' => __('Abstained'),
+            'breached' => __('Breached'),
+            'onhold' => __('On Hold'),
+            'pairing' => __('Pairing')
         ];
 
         $this
