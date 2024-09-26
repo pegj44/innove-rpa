@@ -36,7 +36,7 @@ class TradingUnitController extends Controller
 
         $createUnit = requestApi( 'post','trading-unit', [
             'name' => $request->get('unit_name'),
-            'ip_address' => $request->get('ip_address'),
+            'unit_id' => $request->get('unit_id'),
             'status' => ($enable)? 1 : 0
         ]);
 
@@ -82,7 +82,7 @@ class TradingUnitController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $data = $request->only(['status', 'name', 'ip_address']);
+        $data = $request->only(['status', 'name', 'unit_id']);
         $data['status'] = (!empty($data['status']))? 1 : 0;
 
         requestApi('post', 'trading-unit/'. $id, $data);

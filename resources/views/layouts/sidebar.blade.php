@@ -70,7 +70,7 @@
                 <ul id="trading-accounts-dropdown" class="hidden py-2 space-y-2">
                     <li data-route="trading-account.credential.list|trading-account.credential.create|trading-account.credential.edit">
                         <a href="{{ route('trading-account.credential.list') }}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                            {{ __('Credentials') }}
+                            {{ __('Funder Accounts') }}
                         </a>
                     </li>
                     <li data-route="trading-account.individual.list|trading-account.individual.create|trading-account.individual.edit">

@@ -45,7 +45,7 @@
                             </div>
 
                             <h5 class="mb-2 text-xl text-center font-bold tracking-tight text-gray-900 dark:text-white mt-3">{{ $unit['name'] }}</h5>
-                            <p class="font-normal text-center text-gray-700 dark:text-gray-400">{{ $unit['ip_address'] }}</p>
+                            <p class="font-normal text-center text-gray-700 dark:text-gray-400">{{ $unit['unit_id'] }}</p>
 
 {{--                            <div class="flex justify-center mt-4">--}}
 {{--                                <button type="button" class="px-3 py-2 text-sm font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-md hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">--}}
@@ -176,8 +176,8 @@
                         </div>
 
                         <div class="mb-6">
-                            <label for="update_ip_address" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Unit ID</label>
-                            <input type="text" id="update_ip_address" name="ip_address" title="" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                            <label for="update_unit_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Unit ID</label>
+                            <input type="text" id="update_unit_id" name="unit_id" title="" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                         </div>
 
                         <div class="mb-6">
@@ -282,13 +282,13 @@
             const unit = tradingUnits[unitId];
             const form = document.getElementById('update-unit-form');
             const name = document.getElementById('update_unit_name');
-            const ip_address = document.getElementById('update_ip_address');
+            const unit_id = document.getElementById('update_unit_id');
             const status = document.getElementById('update_unit_status');
 
             const action = form.getAttribute('action');
 
             name.value = unit.name;
-            ip_address.value = unit.ip_address;
+            unit_id.value = unit.unit_id;
             status.checked = (unit.status);
 
             form.setAttribute('action', action.replace(/trading-unit\/\d+/, 'trading-unit/' + unitId));

@@ -58,8 +58,6 @@ class FunderController extends Controller
     public function store(Request $request)
     {
         $funder = requestApi('post', 'funder', parseArgs($request->except('_token'), [
-            'phase_one_target_profit' => 0,
-            'consistency_rule' => 0,
             'reset_time' => '',
             'reset_time_zone' => ''
         ]));
@@ -110,8 +108,6 @@ class FunderController extends Controller
     public function update(Request $request, string $id)
     {
         $funderUpdate = requestApi('post', 'funder/'. $id, parseArgs($request->except('_token'), [
-            'phase_one_target_profit' => 0,
-            'consistency_rule' => 0,
             'reset_time' => '',
             'reset_time_zone' => ''
         ]));

@@ -11,24 +11,6 @@
                 {{ __('Funder Alias') }}
             </th>
             <th scope="col" class="px-6 py-3">
-                {{ __('Type of Evaluation') }}
-            </th>
-            <th scope="col" class="px-6 py-3">
-                {{ __('Daily Threshold') }}
-            </th>
-            <th scope="col" class="px-6 py-3">
-                {{ __('Max Drawdown') }}
-            </th>
-            <th scope="col" class="px-6 py-3">
-                {{ __('Phase 1 Target Profit') }}
-            </th>
-            <th scope="col" class="px-6 py-3">
-                {{ __('Phase 2 Target Profit') }}
-            </th>
-            <th scope="col" class="px-6 py-3">
-                {{ __('Consistency Rule') }}
-            </th>
-            <th scope="col" class="px-6 py-3">
                 {{ __('Reset Time') }}
             </th>
             <th scope="col" class="px-6 py-3"></th>
@@ -51,31 +33,11 @@
                         {{ strtoupper(Arr::get($funder, 'alias')) }}
                     </td>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ getFunderStepName(Arr::get($funder, 'metadata.evaluation_type')) }}
-                    </td>
-                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ getFunderAmountsType(Arr::get($funder, 'metadata.daily_threshold'), Arr::get($funder, 'metadata.daily_threshold_type')) }}
-                    </td>
-                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ getFunderAmountsType(Arr::get($funder, 'metadata.max_drawdown'), Arr::get($funder, 'metadata.max_drawdown_type')) }}
-                    </td>
-                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ getFunderAmountsType(Arr::get($funder, 'metadata.phase_one_target_profit'), Arr::get($funder, 'metadata.phase_one_target_profit_type')) }}
-                    </td>
-                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ getFunderAmountsType(Arr::get($funder, 'metadata.phase_two_target_profit'), Arr::get($funder, 'metadata.phase_two_target_profit_type')) }}
-                    </td>
-                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        @if(!empty(Arr::get($funder, 'metadata.consistency_rule')))
-                            {{ getFunderAmountsType(Arr::get($funder, 'metadata.consistency_rule'), Arr::get($funder, 'metadata.consistency_rule_type')) }}
+                        @if(!empty(Arr::get($funder, 'reset_time')))
+                            {{ Arr::get($funder, 'reset_time') }}
                         @endif
-                    </td>
-                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        @if(!empty(Arr::get($funder, 'metadata.reset_time')))
-                            {{ Arr::get($funder, 'metadata.reset_time') }}
-                        @endif
-                        @if(!empty(Arr::get($funder, 'metadata.reset_time_zone')) && !empty(Arr::get($funder, 'metadata.reset_time')))
-                            <p class="text-xs">{{ getTimeZoneOffset(Arr::get($funder, 'metadata.reset_time_zone')) }}</p>
+                        @if(!empty(Arr::get($funder, 'reset_time_zone')) && !empty(Arr::get($funder, 'reset_time')))
+                            <p class="text-xs">{{ getTimeZoneOffset(Arr::get($funder, 'reset_time_zone')) }}</p>
                         @endif
                     </td>
                     <td class="px-6 py-4 text-right border-l border-gray-600">

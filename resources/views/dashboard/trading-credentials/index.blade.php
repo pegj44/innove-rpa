@@ -11,7 +11,7 @@
                     </div>
                 @else
 
-                    <h3 class="mb-3">{{ __('Credentials') }}</h3>
+                    <h3 class="mb-3">{{ __('Funder Accounts') }}</h3>
 
                     @include('components.dashboard-notification')
 
