@@ -13,7 +13,7 @@ class TradeReportForm extends Form
 
         $accountCreds = [];
         foreach ($tradingAccounts as $accCred) {
-            $accountCreds[$accCred['id']] = $accCred['account_id'];
+            $accountCreds[$accCred['id']] = $accCred['funder']['alias'] .' | '. $accCred['funder_account_id'] .' ['. $accCred['user_account']['trading_unit']['name'] .']'; // FTT - 111111111111 [PC-7]
         }
 
         $statuses = [
@@ -25,35 +25,29 @@ class TradeReportForm extends Form
             'pairing' => __('Pairing')
         ];
 
+        $tradingAccountId = (!empty($data['trade_account_credential_id']))? $data['trade_account_credential_id'] : '';
+
+        if (isset($accountCreds[$tradingAccountId])) {
+            $tradingAccountId = $accountCreds[$tradingAccountId];
+        }
+
         $this
-            ->add('trade_account_credential_id', 'select', [
-                'wrapper' => ['class' => 'mb-5'],
-                'label' => __('Account ID (Required)'),
-                'rules' => ['required'],
-                'choices' => $accountCreds,
-                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
-                'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
-                'empty_value' => __('-- Choose Account ID --'),
-                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                'default_value' => (!empty($data['trade_account_credential_id']))? $data['trade_account_credential_id'] : ''
+            ->add('trade_account', 'static-field', [
+                'tag' => 'div',
+                'wrapper_class' => 'border-b border-gray-600 flex form-group items-center mb-4 pb-3',
+                'label_attr' => ['class' => 'block font-medium text-gray-900 dark:text-white mr-2'],
+                'value_class' => 'bg-gray-900 form px-2 py-1 rounded',
+                'label' => 'Funder Account: ',
+                'value' => $tradingAccountId
             ])
-            ->add('starting_balance', 'number', [
-                'wrapper' => ['class' => 'mb-5'],
-                'label' => __('Starting Balance (Required)'),
-                'rules' => ['required'],
-                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
-                'attr' => ['step' => '0.01', 'class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                'default_value' => (!empty($data['starting_balance']))? $data['starting_balance'] : ''
-            ])
-            ->add('starting_equity', 'number', [
+            ->add('starting_daily_equity', 'number', [
                 'wrapper' => ['class' => 'mb-5'],
                 'label' => __('Starting Daily Equity (Required)'),
                 'rules' => ['required'],
                 'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
                 'attr' => ['step' => '0.01', 'class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
                 'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                'default_value' => (!empty($data['starting_equity']))? $data['starting_equity'] : ''
+                'default_value' => (!empty($data['starting_daily_equity']))? $data['starting_daily_equity'] : ''
             ])
             ->add('latest_equity', 'number', [
                 'wrapper' => ['class' => 'mb-5'],
@@ -63,44 +57,6 @@ class TradeReportForm extends Form
                 'attr' => ['step' => '0.01', 'class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
                 'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                 'default_value' => (!empty($data['latest_equity']))? $data['latest_equity'] : ''
-            ])
-            ->add('order_type', 'select', [
-                'wrapper' => ['class' => 'mb-5'],
-                'label' => __('Order Type (Required)'),
-                'rules' => ['required'],
-                'choices' => [
-                    'lot' => __('Lot/Volume'),
-                    'quantity' => __('Quantity/Contract')
-                ],
-                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
-                'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
-                'empty_value' => __('-- Choose Order Type --'),
-                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                'default_value' => (!empty($data['order_type']))? $data['order_type'] : ''
-            ])
-            ->add('order_amount', 'number', [
-                'wrapper' => ['class' => 'mb-5'],
-                'label' => __('Order Amount'),
-                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
-                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                'default_value' => (!empty($data['order_amount']))? $data['order_amount'] : ''
-            ])
-            ->add('take_profit_ticks', 'number', [
-                'wrapper' => ['class' => 'mb-5'],
-                'label' => __('Take Profit (Ticks)'),
-                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
-                'attr' => ['step' => '0.01', 'class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                'default_value' => (!empty($data['take_profit_ticks']))? $data['take_profit_ticks'] : ''
-            ])
-            ->add('stop_loss_ticks', 'number', [
-                'wrapper' => ['class' => 'mb-5'],
-                'label' => __('Stop Loss (Ticks)'),
-                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
-                'attr' => ['step' => '0.01', 'class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                'default_value' => (!empty($data['stop_loss_ticks']))? $data['stop_loss_ticks'] : ''
             ])
 //            ->add('purchase_type', 'select', [
 //                'wrapper' => ['class' => 'mb-5'],
@@ -115,6 +71,30 @@ class TradeReportForm extends Form
 //                'empty_value' => __('-- Choose Purchase Type --'),
 //                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
 //                'default_value' => (!empty($data['purchase_type']))? $data['purchase_type'] : ''
+//            ])
+//            ->add('order_amount', 'number', [
+//                'wrapper' => ['class' => 'mb-5'],
+//                'label' => __('Order Amount'),
+//                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+//                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+//                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+//                'default_value' => (!empty($data['order_amount']))? $data['order_amount'] : ''
+//            ])
+//            ->add('stop_loss_ticks', 'number', [
+//                'wrapper' => ['class' => 'mb-5'],
+//                'label' => __('Stop Loss (Ticks)'),
+//                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+//                'attr' => ['step' => '0.01', 'class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+//                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+//                'default_value' => (!empty($data['stop_loss_ticks']))? $data['stop_loss_ticks'] : ''
+//            ])
+//            ->add('take_profit_ticks', 'number', [
+//                'wrapper' => ['class' => 'mb-5'],
+//                'label' => __('Take Profit (Ticks)'),
+//                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+//                'attr' => ['step' => '0.01', 'class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+//                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+//                'default_value' => (!empty($data['take_profit_ticks']))? $data['take_profit_ticks'] : ''
 //            ])
             ->add('status', 'select', [
                 'wrapper' => ['class' => 'mb-5'],
@@ -151,7 +131,7 @@ class TradeReportForm extends Form
                 'label' => __('Cancel'),
                 'attr' => [
                     'class' => 'px-3 py-2 text-sm font-medium text-center inline-flex items-center text-white bg-gray-700 rounded-md hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800',
-                    'onclick' => 'window.location.href="'. route('funders') .'";'
+                    'onclick' => 'window.location.href="'. route('trade.report') .'";'
                 ]
             ]);
         }

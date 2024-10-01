@@ -20,50 +20,25 @@
                 {{ __('Phase') }}
             </th>
             <th scope="col" class="px-6 py-3">
+                {{ __('Asset Type') }}
+            </th>
+            <th scope="col" class="px-6 py-3">
+                {{ __('Symbol') }}
+            </th>
+            <th scope="col" class="px-6 py-3">
                 {{ __('Status') }}
-            </th>
-{{--            <th scope="col" class="px-6 py-3">--}}
-{{--                {{ __('Dashboard URL') }}--}}
-{{--            </th>--}}
-{{--            <th scope="col" class="px-6 py-3">--}}
-{{--                {{ __('Dashboard Username') }}--}}
-{{--            </th>--}}
-{{--            <th scope="col" class="px-6 py-3">--}}
-{{--                {{ __('Dashboard Password') }}--}}
-{{--            </th>--}}
-            <th scope="col" class="px-6 py-3">
-                {{ __('Platform URL') }}
-            </th>
-            <th scope="col" class="px-6 py-3">
-                {{ __('Platform Username') }}
-            </th>
-            <th scope="col" class="px-6 py-3">
-                {{ __('Platform Password') }}
             </th>
             <th scope="col" class="px-6 py-3"></th>
         </tr>
         </thead>
         <tbody>
         @foreach($items as $item)
-
             @php
                 $personName = implode(' ', [
-                    trim($item['trading_individual']['first_name']),
-                    trim($item['trading_individual']['middle_name']),
-                    trim($item['trading_individual']['last_name']),
+                    trim($item['user_account']['first_name']),
+                    trim($item['user_account']['middle_name']),
+                    trim($item['user_account']['last_name']),
                 ]);
-
-                $dashboard_url = '';
-                $platform_url = '';
-
-                foreach ($item['funder']['metadata'] as $funderMeta) {
-                    if ($funderMeta['key'] === 'dashboard_url') {
-                        $dashboard_url = $funderMeta['value'];
-                    }
-                    if ($funderMeta['key'] === 'platform_url') {
-                        $platform_url = $funderMeta['value'];
-                    }
-                }
             @endphp
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <td class="px-6 py-4 text-right border-r border-gray-600">
@@ -74,7 +49,7 @@
                     </a>
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ $item['trading_individual']['trading_unit']['name'] }}
+                    {{ $item['user_account']['trading_unit']['name'] }}
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{ $personName }}
@@ -83,31 +58,19 @@
                     {{ $item['funder']['name'] }}
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ $item['account_id'] }}
+                    {{ $item['funder_account_id'] }}
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ getPhaseName($item['phase']) }}
+                    {{ getPhaseName($item['current_phase']) }}
+                </td>
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{ ucfirst($item['asset_type']) }}
+                </td>
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{ $item['symbol'] }}
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{ ucfirst($item['status']) }}
-                </td>
-{{--                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">--}}
-{{--                    {{ $dashboard_url }}--}}
-{{--                </td>--}}
-{{--                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">--}}
-{{--                    {{ $item['dashboard_login_username'] }}--}}
-{{--                </td>--}}
-{{--                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">--}}
-{{--                    {{ $item['dashboard_login_password'] }}--}}
-{{--                </td>--}}
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ $platform_url }}
-                </td>
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ $item['platform_login_username'] }}
-                </td>
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ $item['platform_login_password'] }}
                 </td>
                 <td class="px-6 py-4 text-right border-l border-gray-600">
                     <form id="delete-item-{{ $item['id'] }}" method="POST" action="{{ route('trading-account.credential.delete', $item['id']) }}" class="flex flex-col justify-center" x-data="">

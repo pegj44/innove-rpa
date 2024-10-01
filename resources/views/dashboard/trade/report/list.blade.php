@@ -5,22 +5,13 @@
         <tr>
             <th scope="col" class="px-6 py-3"></th>
             <th scope="col" class="px-6 py-3">
-                {{ __('PC') }}
-            </th>
-            <th scope="col" class="px-6 py-3">
                 {{ __('Funder') }}
             </th>
             <th scope="col" class="px-6 py-3">
                 {{ __('Account') }}
             </th>
             <th scope="col" class="px-6 py-3">
-                {{ __('Phase') }}
-            </th>
-            <th scope="col" class="px-6 py-3">
                 {{ __('Status') }}
-            </th>
-            <th scope="col" class="px-6 py-3">
-                {{ __('Starting Balance') }}
             </th>
             <th scope="col" class="px-6 py-3">
                 {{ __('Starting Daily Equity') }}
@@ -29,37 +20,16 @@
                 {{ __('Latest Equity') }}
             </th>
             <th scope="col" class="px-6 py-3">
-                {{ __('Daily Threshold') }}
-            </th>
-            <th scope="col" class="px-6 py-3">
-                {{ __('Max Loss Threshold') }}
-            </th>
-            <th scope="col" class="px-6 py-3">
                 {{ __('RDD') }}
-            </th>
-            <th scope="col" class="px-6 py-3">
-                {{ __('Total Profit %') }}
             </th>
             <th scope="col" class="px-6 py-3">
                 {{ __('Daily P&L') }}
             </th>
             <th scope="col" class="px-6 py-3">
-                {{ __('Daily P&L %') }}
-            </th>
-            <th scope="col" class="px-6 py-3">
-                {{ __('Target Profit') }}
-            </th>
-            <th scope="col" class="px-6 py-3">
-                {{ __('Remaining Target Profit') }}
-            </th>
-            <th scope="col" class="px-6 py-3">
                 {{ __('Total Profit') }}
             </th>
             <th scope="col" class="px-6 py-3">
-                {{ __('Max Drawdown') }}
-            </th>
-            <th scope="col" class="px-6 py-3">
-                {{ __('Remarks') }}
+                {{ __('PC') }}
             </th>
             <th scope="col" class="px-6 py-3"></th>
         </tr>
@@ -67,7 +37,7 @@
         <tbody>
         @foreach($items as $item)
             @php
-                $reportInfo = getTradeReportCalculations($item);
+                //$reportInfo = getTradeReportCalculations($item);
 
                 switch ($item['status']) {
                     case 'trading':
@@ -89,80 +59,42 @@
             @endphp
 
             <tr class="border-b border-gray-700 bg-gray-800 hover:bg-gray-600">
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+
+                </td>
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{ $item['trade_credential']['funder']['alias'] }}
+                </td>
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{ $item['trade_credential']['funder_account_id'] }}
+                </td>
+                <td class="{{ $trHtmlClass }} px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{ ucfirst($item['status']) }}
+                </td>
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{ number_format($item['starting_daily_equity'], 2) }}
+                </td>
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{ number_format($item['latest_equity'], 2) }}
+                </td>
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+
+                </td>
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+
+                </td>
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+
+                </td>
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{ $item['trade_credential']['user_account']['trading_unit']['name'] }}
+                </td>
                 <td class="px-6 py-4 text-right border-r border-gray-600">
                     <a href="{{ route('trade.report.edit', $item['id']) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                         <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
                         </svg>
                     </a>
-                </td>
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ $item['trade_credential']['trading_individual']['trading_unit']['name'] }}
-                </td>
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ $item['trade_credential']['funder']['alias'] }}
-                </td>
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ $item['trade_credential']['account_id'] }}
-                </td>
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ getPhaseName($item['trade_credential']['phase']) }}
-                </td>
-                <td class="{{ $trHtmlClass }} px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ ucfirst($item['status']) }}
-                </td>
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ number_format($item['starting_balance'], 2) }}
-                </td>
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ number_format($item['starting_equity'], 2) }}
-                </td>
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ number_format($item['latest_equity'], 2) }}
-                </td>
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ number_format($reportInfo['daily_threshold'], 2) }}
-                </td>
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ number_format($reportInfo['max_threshold'], 2) }}
-                </td>
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ number_format($reportInfo['rdd'], 2) }}
-                </td>
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ number_format($reportInfo['total_profit_percent'], 2) }}%
-                </td>
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ number_format($reportInfo['daily_pl'], 2) }}
-                </td>
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ number_format($reportInfo['daily_pl_percent'], 2) }}%
-                </td>
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ $reportInfo['target_profit_str'] }}
-                </td>
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ number_format($reportInfo['remaining_target_profit'], 2) }}
-                </td>
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ number_format($reportInfo['total_profit'], 2) }}
-                </td>
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ number_format($reportInfo['max_drawdown'], 2) }}
-                </td>
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ strip_tags($item['remarks']) }}
-                </td>
-                <td class="px-6 py-4 text-right border-l border-gray-600">
-                    <form id="delete-item-{{ $item['id'] }}" method="POST" action="{{ route('trade.report.delete', $item['id']) }}" class="flex flex-col justify-center" x-data="">
-                        @csrf
-                        @method('DELETE')
-                        <a href="#" x-on:click.prevent="requestDeleteItem({{$item['id']}}, event)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                            <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
-                            </svg>
-                        </a>
-                    </form>
                 </td>
             </tr>
         @endforeach

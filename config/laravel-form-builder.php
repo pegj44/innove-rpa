@@ -64,7 +64,8 @@ return [
 
     'custom_fields' => [
 //        'datetime' => App\Forms\Fields\Datetime::class
-        'wrapper' => \App\Forms\Fields\WrapperField::class
+        'wrapper' => \App\Forms\Fields\WrapperField::class,
+        'static-field' => \App\Forms\Fields\StaticField::class
     ],
 
     'plain_form_class' => \Kris\LaravelFormBuilder\Form::class,

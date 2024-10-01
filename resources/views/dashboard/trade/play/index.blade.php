@@ -5,7 +5,7 @@
         <div class="shadow-sm">
             <div class="text-gray-900 dark:text-gray-100 mb-4">
 
-                <h3 class="mb-3">{{ __('Make Money') }}</h3>
+{{--                <h3 class="mb-3">{{ __('Make Money') }}</h3>--}}
 
                 @include('components.dashboard-notification')
 
