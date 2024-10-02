@@ -7,71 +7,63 @@ use Illuminate\Support\Facades\Session;
 
 function getTradeReportCalculations($data)
 {
+    $currentPhase = $data['trading_account_credential']['current_phase'];
+
+    $targetProfit = 0;
     $funderDailyThreshold = 0;
-    $funderDailyThresholdType = 'percentage';
+    $funderDailyThresholdType = 'fixed';
     $funderMaxDrawdown = 0;
-    $funderMaxDrawdownType = 'percentage';
+    $funderMaxDrawdownType = 'fixed';
     $funderPhaseOneTargetProfit = 0;
-    $funderPhaseOneTargetProfitType = 'percentage';
+    $funderPhaseOneTargetProfitType = 'fixed';
     $funderPhaseTwoTargetProfit = 0;
-    $funderPhaseTwoTargetProfitType = 'percentage';
-
-    foreach ($data['trade_credential']['funder']['metadata'] as $funderMeta) {
-        if ($funderMeta['key'] === 'daily_threshold') {
-            $funderDailyThreshold = $funderMeta['value'];
-        }
-        if ($funderMeta['key'] === 'daily_threshold_type') {
-            $funderDailyThresholdType = $funderMeta['value'];
-        }
-        if ($funderMeta['key'] === 'max_drawdown') {
-            $funderMaxDrawdown = $funderMeta['value'];
-        }
-        if ($funderMeta['key'] === 'max_drawdown_type') {
-            $funderMaxDrawdownType = $funderMeta['value'];
-        }
-        if ($funderMeta['key'] === 'phase_one_target_profit') {
-            $funderPhaseOneTargetProfit = $funderMeta['value'];
-        }
-        if ($funderMeta['key'] === 'phase_one_target_profit_type') {
-            $funderPhaseOneTargetProfitType = $funderMeta['value'];
-        }
-        if ($funderMeta['key'] === 'phase_two_target_profit') {
-            $funderPhaseTwoTargetProfit = $funderMeta['value'];
-        }
-        if ($funderMeta['key'] === 'phase_two_target_profit_type') {
-            $funderPhaseTwoTargetProfitType = $funderMeta['value'];
-        }
-    }
-
-    $currentPhase = $data['trade_credential']['phase'];
+    $funderPhaseTwoTargetProfitType = 'fixed';
 
     if ($currentPhase === 'phase-1') {
-        $targetProfit = $funderPhaseOneTargetProfit;
-        $targetProfitStr = ($funderPhaseOneTargetProfitType === 'percentage')? $targetProfit .'%' : $targetProfit;
+        $funderDailyThreshold = $data['trading_account_credential']['phase_1_daily_drawdown'];
+        $funderMaxDrawdown = $data['trading_account_credential']['phase_1_max_drawdown'];
+        $targetProfit = $data['trading_account_credential']['phase_1_daily_target_profit'];
     } elseif ($currentPhase === 'phase-2') {
-        $targetProfit = $funderPhaseTwoTargetProfit;
-        $targetProfitStr = ($funderPhaseTwoTargetProfitType === 'percentage')? $targetProfit .'%' : $targetProfit;
-    } else {
-        $targetProfit = 0;
-        $targetProfitStr = '';
+        $funderDailyThreshold = $data['trading_account_credential']['phase_2_daily_drawdown'];
+        $funderMaxDrawdown = $data['trading_account_credential']['phase_2_max_drawdown'];
+        $targetProfit = $data['trading_account_credential']['phase_2_daily_target_profit'];
+    } elseif ($currentPhase === 'phase-3') {
+        $funderDailyThreshold = $data['trading_account_credential']['phase_3_daily_drawdown'];
+        $funderMaxDrawdown = $data['trading_account_credential']['phase_3_max_drawdown'];
+        $targetProfit = $data['trading_account_credential']['phase_3_daily_target_profit'];
     }
+
+    $targetProfitStr = $targetProfit;
+
+//    $currentPhase = $data['trading_account_credential']['current_phase'];
+
+//    if ($currentPhase === 'phase-1') {
+//        $targetProfit = $funderPhaseOneTargetProfit;
+//        $targetProfitStr = ($funderPhaseOneTargetProfitType === 'percentage')? $targetProfit .'%' : $targetProfit;
+//    } elseif ($currentPhase === 'phase-2') {
+//        $targetProfit = $funderPhaseTwoTargetProfit;
+//        $targetProfitStr = ($funderPhaseTwoTargetProfitType === 'percentage')? $targetProfit .'%' : $targetProfit;
+//    } else {
+//        $targetProfit = 0;
+//        $targetProfitStr = '';
+//    }
 
     $dailyThresholdDeduction = ($funderDailyThresholdType === 'percentage')? floatval($data['latest_equity']) * (floatval($funderDailyThreshold) / 100) : floatval($funderDailyThreshold);
     $finalDailyThresholdAmount = floatval($data['latest_equity']) - floatval($dailyThresholdDeduction);
     $dailyThreshold = $finalDailyThresholdAmount;
 
-    $maxThresholdDeduction = ($funderMaxDrawdownType === 'percentage')? floatval($data['starting_balance']) * (floatval($funderMaxDrawdown) / 100) : floatval($funderMaxDrawdown);
-    $finalMaxDrawdownAmount = floatval($data['starting_balance']) - floatval($maxThresholdDeduction);
+    $maxThresholdDeduction = ($funderMaxDrawdownType === 'percentage')? floatval($data['trading_account_credential']['starting_balance']) * (floatval($funderMaxDrawdown) / 100) : floatval($funderMaxDrawdown);
+    $finalMaxDrawdownAmount = floatval($data['trading_account_credential']['starting_balance']) - floatval($maxThresholdDeduction);
     $maxThreshold = $finalMaxDrawdownAmount;
 
     $rdd = ($finalDailyThresholdAmount > $finalMaxDrawdownAmount)? floatval($data['latest_equity']) - $finalDailyThresholdAmount : floatval($data['latest_equity'] - $finalMaxDrawdownAmount);
 
-    $totalProfit = floatval($data['latest_equity']) - floatval($data['starting_balance']);
-    $totalProfitPercent = ($totalProfit / floatval($data['starting_balance'])) * 100;
-    $dailyPL = floatval($data['latest_equity']) - floatval($data['starting_equity']);
-    $dailyPLPercent = $dailyPL / floatval($data['starting_equity']);
+    $totalProfit = floatval($data['latest_equity']) - floatval($data['trading_account_credential']['starting_balance']);
+    $totalProfitPercent = ($totalProfit / floatval($data['trading_account_credential']['starting_balance'])) * 100;
+    $dailyPL = floatval($data['latest_equity']) - floatval($data['starting_daily_equity']);
+    $dailyPLPercent = $dailyPL / floatval($data['starting_daily_equity']);
 
-    $remainingTargetProfit = (floatval($data['starting_balance']) * ($targetProfit / 100)) - $totalProfit;
+    $remainingTargetProfit = (floatval($data['trading_account_credential']['starting_balance']) * ($targetProfit / 100)) - $totalProfit;
     $maxDrawdown = floatval($data['latest_equity'] - $finalMaxDrawdownAmount);
 
     return [
@@ -87,6 +79,104 @@ function getTradeReportCalculations($data)
         'remaining_target_profit' => $remainingTargetProfit,
         'max_drawdown' => $maxDrawdown
     ];
+}
+
+function getPnLHtml($data, $duration = 'daily')
+{
+    $pnl = ($duration === 'daily')? getDailyPnLCalculation($data, false) : getTotalPnLCalculation($data, false);
+    $pnlHtmlClass = '';
+
+    if ($pnl > 0) {
+        $pnlHtmlClass = 'text-green-500';
+    } elseif ($pnl < 0) {
+        $pnlHtmlClass = 'text-red-500';
+    }
+
+    return '<span class="'. $pnlHtmlClass .'">'. number_format($pnl, 2) .'</span>';
+}
+
+function getTakeProfitTicks($data)
+{
+    if ($data['trading_account_credential']['asset_type'] === 'futures') {
+        return \App\Http\Controllers\TradeController::$futuresTpPips;
+    }
+    if ($data['trading_account_credential']['asset_type'] === 'forex') {
+        return \App\Http\Controllers\TradeController::$forexTpPips;
+    }
+
+    return 0;
+}
+
+function getStopLossTicks($data)
+{
+    if ($data['trading_account_credential']['asset_type'] === 'futures') {
+        return \App\Http\Controllers\TradeController::$futuresSlPips;
+    }
+    if ($data['trading_account_credential']['asset_type'] === 'forex') {
+        return \App\Http\Controllers\TradeController::$forexSlPips;
+    }
+
+    return 0;
+}
+
+function getTotalPnLCalculation($data, $formatted = true)
+{
+    $startingBal = (float) $data['trading_account_credential']['starting_balance'];
+    $latestEquity = (float) $data['latest_equity'];
+    $pnl = $latestEquity - $startingBal;
+
+    if ($formatted) {
+        return number_format($pnl, 2);
+    }
+
+    return $pnl;
+}
+
+function getDailyPnLCalculation($data, $formatted = true)
+{
+    $dailyEquity = (float) $data['starting_daily_equity'];
+    $latestEquity = (float) $data['latest_equity'];
+    $pnl = $latestEquity - $dailyEquity;
+
+    if ($formatted) {
+        return number_format($pnl, 2);
+    }
+
+    return $pnl;
+}
+
+
+
+function getCalculatedOrderAmount($data, $orderType = 'futures', $outputType = 'pips')
+{
+    $currentPhase = str_replace('phase-', '', $data['trading_account_credential']['current_phase']);
+
+    $consistencyRuleType = 'fixed';
+    $consistencyRule = (float) $data['trading_account_credential']['phase_'. $currentPhase .'_daily_target_profit'];
+    $latestEquity = (float) $data['latest_equity'];
+    $startingEquity = (float) $data['starting_daily_equity'];
+
+    $consistencyAmount = ($consistencyRuleType === 'fixed')? $consistencyRule : ($consistencyRule / 100) * $startingEquity;
+    $idealAmount = $startingEquity + $consistencyAmount;
+    $takeProfit = $consistencyAmount;
+
+    if ($latestEquity > $startingEquity && $latestEquity < $idealAmount) {
+        $takeProfit = $idealAmount - $latestEquity;
+    }
+
+    if ($outputType === 'pips') {
+
+        if ($orderType === 'futures') {
+            return floor($takeProfit / 49);
+        }
+
+        if ($orderType === 'forex') {
+            $takeProfit = floor($takeProfit / 4.9);
+            return $takeProfit / 100;
+        }
+    }
+
+    return $takeProfit;
 }
 
 function parseArgs($array, $default)

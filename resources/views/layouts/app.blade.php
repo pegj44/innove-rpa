@@ -19,10 +19,10 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <link href="//cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.css" rel="stylesheet" />
-        <link href="//cdn.datatables.net/2.0.2/css/dataTables.dataTables.min.css" rel="stylesheet">
+{{--        <link href="//cdn.datatables.net/2.1.7/css/dataTables.dataTables.min.css" rel="stylesheet">--}}
 
         <script src="//code.jquery.com/jquery-3.7.1.min.js"></script>
-        <script src="//cdn.datatables.net/2.0.2/js/dataTables.min.js"></script>
+        <script src="//cdn.datatables.net/2.1.7/js/dataTables.min.js"></script>
 
 {{--        <script src="//js.pusher.com/8.2.0/pusher.min.js"></script>--}}
         <!-- Scripts -->

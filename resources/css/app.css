@@ -5,3 +5,108 @@
 input[type="time"]::-webkit-calendar-picker-indicator {
     filter: invert(50%);
 }
+
+table.dataTable thead>tr>th.dt-orderable-asc, table.dataTable thead>tr>th.dt-orderable-desc, table.dataTable thead>tr>td.dt-orderable-asc, table.dataTable thead>tr>td.dt-orderable-desc {
+    cursor: pointer;
+}
+table.dataTable thead>tr>th.dt-orderable-asc, table.dataTable thead>tr>th.dt-orderable-desc, table.dataTable thead>tr>th.dt-ordering-asc, table.dataTable thead>tr>th.dt-ordering-desc, table.dataTable thead>tr>td.dt-orderable-asc, table.dataTable thead>tr>td.dt-orderable-desc, table.dataTable thead>tr>td.dt-ordering-asc, table.dataTable thead>tr>td.dt-ordering-desc {
+    position: relative;
+    padding-right: 30px;
+}
+table.dataTable th.dt-type-numeric, table.dataTable th.dt-type-date, table.dataTable td.dt-type-numeric, table.dataTable td.dt-type-date {
+    text-align: right;
+}
+table.dataTable thead>tr>th.dt-orderable-asc span.dt-column-order, table.dataTable thead>tr>th.dt-orderable-desc span.dt-column-order, table.dataTable thead>tr>th.dt-ordering-asc span.dt-column-order, table.dataTable thead>tr>th.dt-ordering-desc span.dt-column-order, table.dataTable thead>tr>td.dt-orderable-asc span.dt-column-order, table.dataTable thead>tr>td.dt-orderable-desc span.dt-column-order, table.dataTable thead>tr>td.dt-ordering-asc span.dt-column-order, table.dataTable thead>tr>td.dt-ordering-desc span.dt-column-order {
+    position: absolute;
+    right: 12px;
+    top: 0;
+    bottom: 0;
+    width: 12px;
+}
+table.dataTable thead>tr>th.dt-orderable-asc span.dt-column-order:before, table.dataTable thead>tr>th.dt-orderable-asc span.dt-column-order:after, table.dataTable thead>tr>th.dt-orderable-desc span.dt-column-order:before, table.dataTable thead>tr>th.dt-orderable-desc span.dt-column-order:after, table.dataTable thead>tr>th.dt-ordering-asc span.dt-column-order:before, table.dataTable thead>tr>th.dt-ordering-asc span.dt-column-order:after, table.dataTable thead>tr>th.dt-ordering-desc span.dt-column-order:before, table.dataTable thead>tr>th.dt-ordering-desc span.dt-column-order:after, table.dataTable thead>tr>td.dt-orderable-asc span.dt-column-order:before, table.dataTable thead>tr>td.dt-orderable-asc span.dt-column-order:after, table.dataTable thead>tr>td.dt-orderable-desc span.dt-column-order:before, table.dataTable thead>tr>td.dt-orderable-desc span.dt-column-order:after, table.dataTable thead>tr>td.dt-ordering-asc span.dt-column-order:before, table.dataTable thead>tr>td.dt-ordering-asc span.dt-column-order:after, table.dataTable thead>tr>td.dt-ordering-desc span.dt-column-order:before, table.dataTable thead>tr>td.dt-ordering-desc span.dt-column-order:after {
+    left: 0;
+    opacity: .125;
+    line-height: 9px;
+    font-size: .8em;
+}
+table.dataTable thead>tr>th.dt-orderable-desc span.dt-column-order:after, table.dataTable thead>tr>th.dt-ordering-desc span.dt-column-order:after, table.dataTable thead>tr>td.dt-orderable-desc span.dt-column-order:after, table.dataTable thead>tr>td.dt-ordering-desc span.dt-column-order:after {
+    position: absolute;
+    display: block;
+    top: 50%;
+    content: "▼";
+    content: "▼"/"";
+}
+table.dataTable thead>tr>th.dt-orderable-asc span.dt-column-order:before, table.dataTable thead>tr>th.dt-ordering-asc span.dt-column-order:before, table.dataTable thead>tr>td.dt-orderable-asc span.dt-column-order:before, table.dataTable thead>tr>td.dt-ordering-asc span.dt-column-order:before {
+    position: absolute;
+    display: block;
+    bottom: 50%;
+    content: "▲";
+    content: "▲" / "";
+}
+table.dataTable thead>tr>th.dt-ordering-asc span.dt-column-order:before, table.dataTable thead>tr>th.dt-ordering-desc span.dt-column-order:after, table.dataTable thead>tr>td.dt-ordering-asc span.dt-column-order:before, table.dataTable thead>tr>td.dt-ordering-desc span.dt-column-order:after {
+    opacity: .6;
+}
+.dt-orderable-none .dt-column-order {
+    display: none;
+}
+.show-pairables-only .item-not-pairable {
+    display: none !important;
+}
+tr.pair-select {
+    background: #3b82f6 !important;
+}
+tr.pair-select .pair-item-btn {
+    display: none;
+}
+a.cancel-pair-item-btn {
+    display: none;
+}
+.pair-full .pair-item-btn {
+    display: none;
+}
+tr.pair-select a.cancel-pair-item-btn {
+    display: block;
+}
+
+.do-pair-btn {
+    background: linear-gradient(-45deg, #ee7752, #F7C701, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradientbg 5s ease infinite;
+    max-width: 177px;
+}
+
+@keyframes gradientbg {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+#pair-accounts-btn-wrapper {
+    position: fixed;
+    z-index: 9999999;
+    bottom: 15px;
+    right: 40px;
+}
+#cancel-pair-accounts-btn {
+    flex-grow: 1;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+}
+.filter-phase[data-phase="phase-1"]
+tr.account-item:not([data-phase="phase-1"]) {
+    display: none;
+}
+.filter-phase[data-phase="phase-2"]
+tr.account-item:not([data-phase="phase-2"]) {
+    display: none;
+}
+.filter-phase[data-phase="phase-3"]
+tr.account-item:not([data-phase="phase-3"]) {
+    display: none;
+}

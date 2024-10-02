@@ -2,6 +2,7 @@
 
 namespace App\Forms;
 
+use App\Http\Controllers\TradeReportController;
 use Kris\LaravelFormBuilder\Form;
 
 class TradeReportForm extends Form
@@ -15,15 +16,6 @@ class TradeReportForm extends Form
         foreach ($tradingAccounts as $accCred) {
             $accountCreds[$accCred['id']] = $accCred['funder']['alias'] .' | '. $accCred['funder_account_id'] .' ['. $accCred['user_account']['trading_unit']['name'] .']'; // FTT - 111111111111 [PC-7]
         }
-
-        $statuses = [
-            'idle' => __('Idle'),
-            'trading' => __('Ongoing Trade'),
-            'abstained' => __('Abstained'),
-            'breached' => __('Breached'),
-            'onhold' => __('On Hold'),
-            'pairing' => __('Pairing')
-        ];
 
         $tradingAccountId = (!empty($data['trade_account_credential_id']))? $data['trade_account_credential_id'] : '';
 
@@ -100,7 +92,7 @@ class TradeReportForm extends Form
                 'wrapper' => ['class' => 'mb-5'],
                 'label' => __('Status (Required)'),
                 'rules' => ['required'],
-                'choices' => $statuses,
+                'choices' => TradeReportController::$statuses,
                 'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
                 'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
                 'empty_value' => __('-- Choose Status --'),
@@ -131,7 +123,7 @@ class TradeReportForm extends Form
                 'label' => __('Cancel'),
                 'attr' => [
                     'class' => 'px-3 py-2 text-sm font-medium text-center inline-flex items-center text-white bg-gray-700 rounded-md hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800',
-                    'onclick' => 'window.location.href="'. route('trade.report') .'";'
+                    'onclick' => 'window.location.href="'. route('trade.play') .'";'
                 ]
             ]);
         }

@@ -41,16 +41,16 @@
                 ];
 
                 $pair1FunderMetadata = [];
-                foreach($pair1['trade_credential']['funder']['metadata'] as $funderMeta1) {
+                foreach($pair1['trading_account_credential']['funder']['metadata'] as $funderMeta1) {
                     $pair1FunderMetadata[$funderMeta1['key']] = $funderMeta1['value'];
                 }
 
                 $pair2FunderMetadata = [];
-                foreach($pair2['trade_credential']['funder']['metadata'] as $funderMeta2) {
+                foreach($pair2['trading_account_credential']['funder']['metadata'] as $funderMeta2) {
                     $pair2FunderMetadata[$funderMeta2['key']] = $funderMeta2['value'];
                 }
 
-                if ($item['status'] === 'paired') {
+                if ($item['status'] === 'pairing') {
                     $waitingPairedItems[$item['id']] = [
                         'pair1' => $pair1,
                         'pair2' => $pair2,
@@ -78,7 +78,7 @@
                     <svg class="w-6 h-6 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                         <path fill-rule="evenodd" d="M7 2a2 2 0 0 0-2 2v1a1 1 0 0 0 0 2v1a1 1 0 0 0 0 2v1a1 1 0 1 0 0 2v1a1 1 0 1 0 0 2v1a1 1 0 1 0 0 2v1a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H7Zm3 8a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm-1 7a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3 1 1 0 0 1-1 1h-6a1 1 0 0 1-1-1Z" clip-rule="evenodd"/>
                     </svg>
-                    {{ __('Funder Accounts') }}
+                    {{ __('Trading Accounts') }}
                 </a>
             </li>
             <li class="me-2">
@@ -116,7 +116,7 @@
              role="tabpanel"
              aria-labelledby="funder-accounts-tab"
         >
-            Funders list here
+            @include('dashboard.trade.report.list')
         </div>
         <div class="hidden"
              id="traded-accounts-tab-content"

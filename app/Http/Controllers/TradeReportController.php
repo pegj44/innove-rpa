@@ -9,6 +9,15 @@ use Kris\LaravelFormBuilder\FormBuilder;
 
 class TradeReportController extends Controller
 {
+    public static $statuses = [
+        'idle' => 'Idle',
+        'trading' => 'Ongoing Trade',
+        'abstained' => 'Abstained',
+        'breached' => 'Breached',
+        'onhold' => 'On Hold',
+        'pairing' => 'Paired'
+    ];
+
     public function index()
     {
         $items = requestApi('get', 'trade/reports');
@@ -67,7 +76,7 @@ class TradeReportController extends Controller
             return redirect()->back()->withErrors($itemUpdate['errors'])->withInput();
         }
 
-        return redirect()->route('trade.report')->with('success', $itemUpdate['message']);
+        return redirect()->route('trade.play')->with('success', $itemUpdate['message']);
     }
 
     public function updateTradeSettings(Request $request)

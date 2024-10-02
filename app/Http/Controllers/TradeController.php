@@ -9,13 +9,34 @@ use Illuminate\Support\Facades\Session;
 
 class TradeController extends Controller
 {
+    public static $futuresTpPips = 49;
+    public static $futuresSlPips = 51;
+    public static $forexTpPips = 4.9;
+    public static $forexSlPips = 5.1;
+
     public function index()
     {
         $pairedItems = requestApi('get', 'trade/paired-items');
+        $tradingAccounts = requestApi('get', 'trade/reports');;
 
         return view('dashboard.trade.play.index')->with([
-            'pairedItems' => $pairedItems
+            'pairedItems' => $pairedItems,
+            'tradingAccounts' => $tradingAccounts
         ]);
+    }
+
+    public function removePair(Request $request, $id)
+    {
+        $removePair = requestApi('delete', 'trade/pair/'. $id .'/remove', $request->except('_token'));
+
+        return redirect()->route('trade.play');
+    }
+
+    public function pairManual(Request $request)
+    {
+        $pair = requestApi('post', 'trade/pair-manual', $request->except('_token'));
+
+        return redirect()->route('trade.play');
     }
 
     public function pairAccounts()

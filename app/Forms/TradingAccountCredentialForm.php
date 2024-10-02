@@ -135,8 +135,20 @@ class TradingAccountCredentialForm extends Form
                 'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                 'default_value' => (!empty($data['starting_balance']))? $data['starting_balance'] : ''
             ])
-
-
+            ->add('drawdown_type', 'select', [
+                'wrapper' => ['class' => 'mb-5'],
+                'label' => __('Drawdown Type (Required)'),
+                'choices' => [
+                    'static' => __('Static'),
+                    'trailing_intraday' => __('Trailing Intraday'),
+                    'trailing_endofday' => __('Trailing End of Day')
+                ],
+                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+                'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
+                'empty_value' => __('-- Choose Drawdown Type --'),
+                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+                'default_value' => (!empty($data['drawdown_type']))? $data['drawdown_type'] : ''
+            ])
             ->add('phase_1_wrapper', 'wrapper', [
                 'label' => 'Phase 1',
                 'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
