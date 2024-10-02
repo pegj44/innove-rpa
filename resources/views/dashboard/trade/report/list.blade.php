@@ -81,6 +81,7 @@
                         @endif
                     </td>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <span class="bg-blue-500 border-blue-400 px-2 py-1 rounded">{{ $item['trading_account_credential']['user_account']['id'] }}</span>
                         <span class="bg-gray-900 border border-gray-700 px-2 py-1 rounded"> {{ $item['trading_account_credential']['funder']['alias'] }}</span> {{ $item['trading_account_credential']['funder_account_id'] }}
                     </td>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
