@@ -110,3 +110,6 @@ tr.account-item:not([data-phase="phase-2"]) {
 tr.account-item:not([data-phase="phase-3"]) {
     display: none;
 }
+.filter-phase .item-not-pairable {
+    display: none !important;
+}

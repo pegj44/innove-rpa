@@ -4,15 +4,33 @@
 
         @foreach($waitingPairedItems as $index => $pairedItem)
             <h2 id="accordion-paired-collapse-heading-{{$index}}" class="flex">
-                <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-white border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 text-white hover:bg-gray-{{$index}}00 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-paired-collapse-body-{{$index}}" aria-expanded="false" aria-controls="accordion-paired-collapse-body-{{$index}}">
-                    <div class="flex items-center">
+                <button type="button" class="flex items-center justify-between w-full p-0 font-medium rtl:text-right text-white border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 text-white hover:bg-gray-{{$index}}00 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-paired-collapse-body-{{$index}}" aria-expanded="false" aria-controls="accordion-paired-collapse-body-{{$index}}">
+                    <div class="flex items-center w-full" style="padding-left: 17px;">
                         <svg data-accordion-icon class="mr-5 w-3 h-3 rotate-{{$index}}80 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
                         </svg>
-                        <span>
-                            <span class="px-2 py-1 text-white rounded">{{ $pairedItem['pair1']['trading_account_credential']['funder']['alias'] }} | {{ $pairedItem['pair1']['trading_account_credential']['funder_account_id'] }}</span>
-                            <span class="px-2 py-1 text-white rounded">{{ $pairedItem['pair1']['trading_account_credential']['funder']['alias'] }} | {{ $pairedItem['pair2']['trading_account_credential']['funder_account_id'] }}</span>
-                        </span>
+                        <div class="border-gray-700 border-l flex items-center justify-between w-full">
+                            <div class="w-1/2 p-5 bg-gray-900">
+                                <div class="dark:border-gray-600 flex justify-between">
+                                    <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
+                                        {{ $pairedItem['pair1']['trading_account_credential']['funder']['alias'] }} <span class="mb-3 font-normal text-gray-700 dark:text-gray-400">| {{ $pairedItem['pair1']['trading_account_credential']['funder_account_id'] }}</span>
+                                    </h5>
+                                    <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
+                                        {{ $pairedItem['pair1']['trading_account_credential']['user_account']['trading_unit']['name'] }}
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="w-1/2 p-5 bg-gray-800">
+                                <div class="dark:border-gray-600 flex justify-between">
+                                    <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
+                                        {{ $pairedItem['pair2']['trading_account_credential']['funder']['alias'] }} <span class="mb-3 font-normal text-gray-700 dark:text-gray-400">| {{ $pairedItem['pair2']['trading_account_credential']['funder_account_id'] }}</span>
+                                    </h5>
+                                    <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
+                                        {{ $pairedItem['pair2']['trading_account_credential']['user_account']['trading_unit']['name'] }}
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </button>
                 <div class="border border-gray-700 border-l-0 flex items-center p-3 remove-pair">
@@ -31,20 +49,12 @@
             </h2>
 
             <div id="accordion-paired-collapse-body-{{$index}}" class="hidden" aria-labelledby="accordion-paired-collapse-heading-{{$index}}">
-                <div class="p-5 border border-gray-200 dark:border-gray-700 dark:bg-gray-900">
-                    <div class="mb-5 flex bg-white border border-gray-200 shadow dark:bg-gray-800 dark:border-gray-700">
+                <div class="border border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+                    <div class="mb-5 flex bg-white border border-b-0 border-gray-200 shadow dark:bg-gray-800 dark:border-gray-700">
                         <div class="grid grid-cols-2 flex-1">
-                            <div class="p-6 dark:bg-gray-900 p-6">
-                                <div class="border-b dark:border-gray-600 flex justify-between">
-                                    <h5 class="dark:text-white font-bold mb-2 text-gray-900 text-lg tracking-tight">
-                                        {{ $pairedItem['pair1']['trading_account_credential']['user_account']['trading_unit']['name'] }} <span class="mb-3 font-normal text-gray-700 dark:text-gray-400">| {{ $pairedItem['pair1']['trading_account_credential']['funder_account_id'] }}</span>
-                                    </h5>
-                                    <h5 class="dark:text-white font-bold mb-2 text-gray-900 text-lg tracking-tight">
-                                        {{ $pairedItem['pair1']['trading_account_credential']['funder']['alias'] }}
-                                    </h5>
-                                </div>
+                            <div class="p-6 dark:bg-gray-900 p-6" style="padding-bottom: 0 !important;">
                                 <div class="relative overflow-x-auto shadow-md">
-                                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    <table data-item="{{ $pairedItem['pair1']['id'] }}" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                         <tbody>
                                             <tr class="border-b border-gray-200 dark:border-gray-700">
                                                 <th scope="row" class="bg-gray-50 dark:bg-gray-800 dark:text-white font-medium px-6 py-4 text-gray-900 whitespace-nowrap">
@@ -91,7 +101,7 @@
                                                     Order Amount
                                                 </th>
                                                 <td class="px-6 py-4 w-1/2 dark:bg-gray-900">
-                                                    <input type="number" name="order_amount" step="0.01" value="{{ getCalculatedOrderAmount($pairedItem['pair1'], $pairedItem['pair1']['trading_account_credential']['asset_type']) }}" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block w-full">
+                                                    <input type="number" id="order_amount-{{ $pairedItem['pair1']['id'] }}" name="order_amount" step="0.01" value="{{ getCalculatedOrderAmount($pairedItem['pair1'], $pairedItem['pair1']['trading_account_credential']['asset_type']) }}" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block w-full">
                                                 </td>
                                             </tr>
                                             <tr class="border-b border-gray-200 dark:border-gray-700">
@@ -99,7 +109,7 @@
                                                     {{ __('Take Profit (Ticks)') }}
                                                 </th>
                                                 <td class="px-6 py-4 w-1/2 dark:bg-gray-900">
-                                                    <input type="number" name="take_profit_ticks" value="{{ getTakeProfitTicks($pairedItem['pair1']) }}" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block w-full">
+                                                    <input type="number" id="take_profit_ticks-{{ $pairedItem['pair1']['id'] }}" name="take_profit_ticks" value="{{ getTakeProfitTicks($pairedItem['pair1']) }}" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block w-full">
                                                 </td>
                                             </tr>
                                             <tr class="border-b border-gray-200 dark:border-gray-700">
@@ -107,7 +117,7 @@
                                                     {{ __('Stop Loss (Ticks)') }}
                                                 </th>
                                                 <td class="px-6 py-4 w-1/2 dark:bg-gray-900">
-                                                    <input type="number" name="stop_loss_ticks" value="{{ getStopLossTicks($pairedItem['pair1']) }}" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block w-full">
+                                                    <input type="number" id="stop_loss_ticks-{{ $pairedItem['pair1']['id'] }}" name="stop_loss_ticks" value="{{ getStopLossTicks($pairedItem['pair1']) }}" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block w-full">
                                                 </td>
                                             </tr>
                                             <tr class="border-b border-gray-200 dark:border-gray-700">
@@ -125,19 +135,9 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="p-6">
-
-                                <div class="border-b dark:border-gray-600 flex justify-between">
-                                    <h5 class="dark:text-white font-bold mb-2 text-gray-900 text-lg tracking-tight">
-                                        {{ $pairedItem['pair2']['trading_account_credential']['user_account']['trading_unit']['name'] }} <span class="mb-3 font-normal text-gray-700 dark:text-gray-400">| {{ $pairedItem['pair2']['trading_account_credential']['funder_account_id'] }}</span>
-                                    </h5>
-                                    <h5 class="dark:text-white font-bold mb-2 text-gray-900 text-lg tracking-tight">
-                                        {{ $pairedItem['pair2']['trading_account_credential']['funder']['alias'] }}
-                                    </h5>
-                                </div>
-
+                            <div class="p-6" style="padding-bottom: 0 !important;">
                                 <div class="relative overflow-x-auto">
-                                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    <table data-item="{{ $pairedItem['pair2']['id'] }}" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                         <tbody>
                                             <tr class="border-b border-gray-200 dark:border-gray-700">
                                                 <th scope="row" class="bg-gray-50 dark:bg-gray-800 dark:text-white font-medium px-6 py-4 text-gray-900 whitespace-nowrap">
@@ -184,7 +184,7 @@
                                                     Order Amount
                                                 </th>
                                                 <td class="px-6 py-4 w-1/2 dark:bg-gray-900">
-                                                    <input type="number" name="order_amount" step="0.01" value="{{ getCalculatedOrderAmount($pairedItem['pair2'], $pairedItem['pair2']['trading_account_credential']['asset_type']) }}" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block w-full">
+                                                    <input type="number" id="order_amount-{{ $pairedItem['pair2']['id'] }}" name="order_amount" step="0.01" value="{{ getCalculatedOrderAmount($pairedItem['pair2'], $pairedItem['pair2']['trading_account_credential']['asset_type']) }}" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block w-full">
                                                 </td>
                                             </tr>
                                             <tr class="border-b border-gray-200 dark:border-gray-700">
@@ -192,7 +192,7 @@
                                                     {{ __('Take Profit (Ticks)') }}
                                                 </th>
                                                 <td class="px-6 py-4 w-1/2 dark:bg-gray-900">
-                                                    <input type="number" name="take_profit_ticks" value="{{ getTakeProfitTicks($pairedItem['pair2']) }}" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block w-full">
+                                                    <input type="number" id="take_profit_ticks-{{ $pairedItem['pair2']['id'] }}" name="take_profit_ticks" value="{{ getTakeProfitTicks($pairedItem['pair2']) }}" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block w-full">
                                                 </td>
                                             </tr>
                                             <tr class="border-b border-gray-200 dark:border-gray-700">
@@ -200,7 +200,7 @@
                                                     {{ __('Stop Loss (Ticks)') }}
                                                 </th>
                                                 <td class="px-6 py-4 w-1/2 dark:bg-gray-900">
-                                                    <input type="number" name="stop_loss_ticks" value="{{ getStopLossTicks($pairedItem['pair2']) }}" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block w-full">
+                                                    <input type="number" id="stop_loss_ticks-{{ $pairedItem['pair2']['id'] }}" name="stop_loss_ticks" value="{{ getStopLossTicks($pairedItem['pair2']) }}" class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm block w-full">
                                                 </td>
                                             </tr>
                                             <tr class="border-b border-gray-200 dark:border-gray-700">
@@ -221,30 +221,33 @@
                         </div>
                     </div>
                     <div class="h-12 text-center">
-                        <form method="POST" action="{{ route('trade.initiate') }}">
+                        <form method="POST" action="{{ route('trade.initiate') }}" class="form-trade">
                             @csrf
                             <input type="hidden" name="paired_id" value="{{ $index }}">
-                            <input type="hidden" name="unit1[ip]" value="{{ $pairedItem['pair1']['trading_account_credential']['user_account']['trading_unit']['unit_id'] }}">
+
+                            <input type="hidden" name="unit1[id]" value="{{ $pairedItem['pair1']['id'] }}">
+                            <input type="hidden" name="unit1[unit]" value="{{ $pairedItem['pair1']['trading_account_credential']['user_account']['trading_unit']['unit_id'] }}">
                             <input type="hidden" name="unit1[machine]" value="{{ $pairedItem['pair1']['trading_account_credential']['platform_type'] }}">
                             <input type="hidden" name="unit1[latest_equity]" value="{{ $pairedItem['pair1']['latest_equity'] }}">
-                            <input type="hidden" name="unit1[purchase_type]" value="{{ $pairedItem['pair1']['purchase_type'] }}">
-                            <input type="hidden" name="unit1[order_amount]" value="{{ $pairedItem['pair1']['order_amount'] }}">
-                            <input type="hidden" name="unit1[take_profit_ticks]" value="{{ $pairedItem['pair1']['take_profit_ticks'] }}">
-                            <input type="hidden" name="unit1[stop_loss_ticks]" value="{{ $pairedItem['pair1']['stop_loss_ticks'] }}">
-                            <input type="hidden" name="unit1[account_id]" value="{{ $pairedItem['pair1']['trading_account_credential']['account_id'] }}">
+                            <input type="hidden" name="unit1[purchase_type]" class="adaptval" data-key="purchase-type-{{ $pairedItem['pair1']['id'] }}" value="">
+                            <input type="hidden" name="unit1[order_amount]" class="adaptval" data-key="order_amount-{{ $pairedItem['pair1']['id'] }}" value="">
+                            <input type="hidden" name="unit1[take_profit_ticks]" class="adaptval" data-key="take_profit_ticks-{{ $pairedItem['pair1']['id'] }}" value="">
+                            <input type="hidden" name="unit1[stop_loss_ticks]" class="adaptval" data-key="stop_loss_ticks-{{ $pairedItem['pair1']['id'] }}" value="">
+                            <input type="hidden" name="unit1[account_id]" value="{{ $pairedItem['pair1']['trading_account_credential']['funder_account_id'] }}">
                             <input type="hidden" name="unit1[symbol]" value="{{ $pairedItem['pair1']['trading_account_credential']['symbol'] }}">
 
-                            <input type="hidden" name="unit2[ip]" value="{{ $pairedItem['pair2']['trading_account_credential']['user_account']['trading_unit']['unit_id'] }}">
+                            <input type="hidden" name="unit2[id]" value="{{ $pairedItem['pair2']['id'] }}">
+                            <input type="hidden" name="unit2[unit]" value="{{ $pairedItem['pair2']['trading_account_credential']['user_account']['trading_unit']['unit_id'] }}">
                             <input type="hidden" name="unit2[machine]" value="{{ $pairedItem['pair2']['trading_account_credential']['platform_type'] }}">
                             <input type="hidden" name="unit2[latest_equity]" value="{{ $pairedItem['pair2']['latest_equity'] }}">
-                            <input type="hidden" name="unit2[purchase_type]" value="{{ $pairedItem['pair2']['purchase_type'] }}">
-                            <input type="hidden" name="unit2[order_amount]" value="{{ $pairedItem['pair2']['order_amount'] }}">
-                            <input type="hidden" name="unit2[take_profit_ticks]" value="{{ $pairedItem['pair2']['take_profit_ticks'] }}">
-                            <input type="hidden" name="unit2[stop_loss_ticks]" value="{{ $pairedItem['pair2']['stop_loss_ticks'] }}">
-                            <input type="hidden" name="unit2[account_id]" value="{{ $pairedItem['pair2']['trading_account_credential']['account_id'] }}">
+                            <input type="hidden" name="unit2[purchase_type]" class="adaptval" data-key="purchase-type-{{ $pairedItem['pair2']['id'] }}" value="">
+                            <input type="hidden" name="unit2[order_amount]" class="adaptval" data-key="order_amount-{{ $pairedItem['pair2']['id'] }}" value="">
+                            <input type="hidden" name="unit2[take_profit_ticks]" class="adaptval" data-key="take_profit_ticks-{{ $pairedItem['pair2']['id'] }}" value="">
+                            <input type="hidden" name="unit2[stop_loss_ticks]" class="adaptval" data-key="stop_loss_ticks-{{ $pairedItem['pair2']['id'] }}" value="">
+                            <input type="hidden" name="unit2[account_id]" value="{{ $pairedItem['pair2']['trading_account_credential']['funder_account_id'] }}">
                             <input type="hidden" name="unit2[symbol]" value="{{ $pairedItem['pair2']['trading_account_credential']['symbol'] }}">
 
-                            <button type="submit" class="px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            <button type="submit" class="initiate-trade-btn hidden px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                 <svg class="w-[24px] h-[24px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 18V6l8 6-8 6Z"/>
                                 </svg>
@@ -260,6 +263,12 @@
     <script>
 
         document.addEventListener('DOMContentLoaded', function() {
+            const tradeBtn = document.querySelectorAll('.initiate-trade-btn');
+
+            tradeBtn.forEach(function(btn) {
+                btn.classList.remove('hidden');
+            });
+
 
             const selects = document.querySelectorAll('select.purchase-type');
 
@@ -272,16 +281,22 @@
                 });
             });
 
+            const tradeForms = document.querySelectorAll('.form-trade');
 
-            // const removePairBtn = document.querySelectorAll('.remove-pair');
-            //
-            // removePairBtn.forEach(function(btn) {
-            //     btn.addEventListener('click', function(e) {
-            //         e.preventDefault();
-            //         const pairId = this.getAttribute('data-id');
-            //         console.log(pairId);
-            //     });
-            // });
+            tradeForms.forEach(function(form) {
+               form.addEventListener('submit', function(e) {
+                   e.preventDefault();
+
+                   form.querySelectorAll('.adaptval').forEach(function(field) {
+                       const key = field.getAttribute('data-key');
+                       const handler = document.getElementById(key);
+
+                       field.value = handler.value;
+                   });
+
+                   form.submit();
+               });
+            });
         });
 
     </script>
