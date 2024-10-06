@@ -66,11 +66,17 @@ Route::post('/pusher/broadcasting/auth', function (Request $request)
     $channelName = $request->input('channel_name');
     $socketId = $request->input('socket_id');
 
+    info(print_r([
+        'requests' => $request->all(),
+        'userData' => Session::get('api_user_data'),
+        'innove_auth_api' => Session::get('innove_auth_api')
+    ], true));
+
     if (strpos($channelName, 'private-unit.') === 0) {
         $currentUserId = Session::get('api_user_data');
         $unitId = (int) str_replace('private-unit.', '', $channelName);
         if ($currentUserId['accountId'] !== $unitId) {
-            return response()->json(['message' => 'Forbidden'], 403);
+            return response()->json(['message' => 'Forbidden!'], 403);
         }
     }
 
@@ -86,10 +92,7 @@ Route::post('/pusher/broadcasting/auth', function (Request $request)
 
     // Authenticate the private channel
     $authResponse = $pusher->authorizeChannel($channelName, $socketId);
-    info(print_r([
-        '$channelName33' => $channelName,
-        '$authRespons3e33' => $authResponse,
-    ], true));
+
     return response($authResponse, 200);
 });
 
