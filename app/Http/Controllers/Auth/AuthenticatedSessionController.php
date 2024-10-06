@@ -40,7 +40,8 @@ class AuthenticatedSessionController extends Controller
             Session::put('api_user_data', [
                 'name' => $responseBody['name'],
                 'email' => $responseBody['email'],
-                'userId' => $responseBody['userId']
+                'userId' => $responseBody['userId'],
+                'accountId' => $responseBody['accountId']
             ]);
 
             return redirect()->route('dashboard');

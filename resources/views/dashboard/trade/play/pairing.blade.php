@@ -219,19 +219,12 @@
     });
 
 
-    // document.addEventListener('pusherNotificationEvent', function(event) {
-    //     console.log('event triggered: ', event.detail);
-    //
-    //     if(event.detail.action === 'no-pairable-accounts') {
-    //         form.querySelector('.pairing-error').textContent = 'No pairs found.';
-    //         submitButton.disabled = false;
-    //         submitButton.classList.remove('dark:bg-gray-700', 'bg-gray-700');
-    //     }
-    //
-    //     if(event.detail.action === 'pair_accounts-success') {
-    //         location.reload();
-    //     }
-    // });
+    document.addEventListener('pusherNotificationEvent', function(event) {
+        console.log('event triggered: ', event.detail);
+        if(event.detail.action === 'trade-closed') {
+            location.reload();
+        }
+    });
 
     //
     // document.addEventListener('DOMContentLoaded', function() {

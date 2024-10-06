@@ -15,7 +15,7 @@ import Pusher from 'pusher-js';
 window.Pusher = Pusher;
 
 let userToken = document.querySelector('meta[name="user-token"]').getAttribute('content');
-let userId = document.querySelector('meta[name="user-id"]').getAttribute('content');
+let accountId = document.querySelector('meta[name="account-id"]').getAttribute('content');
 let baseUrl = window.location.origin;
 
 window.Echo1 = new Echo({
@@ -43,8 +43,7 @@ window.Echo1.connector.pusher.connection.bind('error', (err) => {
     console.error('Error with Pusher connection:', err);
 });
 
-window.Echo1.private('unit.'+ userId).listen('UnitResponse', (data) => {
-    console.log('Received data:', data);
+window.Echo1.private('unit.'+ accountId).listen('UnitResponse', (data) => {
 
     const customEvent = new CustomEvent('pusherNotificationEvent', {
         'eventTest': true,

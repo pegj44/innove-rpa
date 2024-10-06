@@ -10,7 +10,7 @@
             $userData = \Illuminate\Support\Facades\Session::get('api_user_data');
         @endphp
         <meta name="user-token" content="{{ $sessionToken }}">
-        <meta name="user-id" content="{{ $userData['userId'] }}">
+        <meta name="account-id" content="{{ $userData['accountId'] }}">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 

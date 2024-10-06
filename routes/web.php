@@ -40,7 +40,7 @@ Route::post('/pusher/broadcasting/unit-presence-auth', function (Request $reques
         $channelNameArr = explode('.', $channelName);
         $unitId = (int) $channelNameArr[1];
 
-        if ($currentUserId['userId'] !== $unitId) {
+        if ($currentUserId['accountId'] !== $unitId) {
             return response()->json(['message' => 'Forbidden'], 403);
         }
     }
@@ -69,7 +69,7 @@ Route::post('/pusher/broadcasting/auth', function (Request $request)
     if (strpos($channelName, 'private-unit.') === 0) {
         $currentUserId = Session::get('api_user_data');
         $unitId = (int) str_replace('private-unit.', '', $channelName);
-        if ($currentUserId['userId'] !== $unitId) {
+        if ($currentUserId['accountId'] !== $unitId) {
             return response()->json(['message' => 'Forbidden'], 403);
         }
     }
