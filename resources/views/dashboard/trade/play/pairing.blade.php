@@ -71,7 +71,7 @@
         @endforeach
     @endif
 
-    <div class="mb-6 border-b border-gray-200 dark:border-gray-700">
+    <div class="mb-6">
         <ul id="pairing-tabs" role="tablist" class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
             <li class="me-2">
                 <a href="#" id="funder-accounts-tab" aria-controls="funder-accounts-tab-content" aria-selected="false" class="inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">

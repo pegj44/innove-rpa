@@ -14,6 +14,9 @@
                                 <div class="dark:border-gray-600 flex justify-between">
                                     <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
                                         {{ $tradedItem['pair1']['trading_account_credential']['funder']['alias'] }} <span class="mb-3 font-normal text-gray-700 dark:text-gray-400">| {{ $tradedItem['pair1']['trading_account_credential']['funder_account_id'] }}</span>
+                                        @if($tradedItem['pair1']['status'] !== 'trading')
+                                            <span class="bg-red-500 font-normal ml-2 px-2 py-1 rounded text-sm">Position Closed</span>
+                                        @endif
                                     </h5>
                                     <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
                                         {{ $tradedItem['pair1']['trading_account_credential']['user_account']['trading_unit']['name'] }}
@@ -24,6 +27,9 @@
                                 <div class="dark:border-gray-600 flex justify-between">
                                     <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
                                         {{ $tradedItem['pair2']['trading_account_credential']['funder']['alias'] }} <span class="mb-3 font-normal text-gray-700 dark:text-gray-400">| {{ $tradedItem['pair2']['trading_account_credential']['funder_account_id'] }}</span>
+                                        @if($tradedItem['pair2']['status'] !== 'trading')
+                                            <span class="bg-red-500 font-normal ml-2 px-2 py-1 rounded text-sm">Position Closed</span>
+                                        @endif
                                     </h5>
                                     <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
                                         {{ $tradedItem['pair2']['trading_account_credential']['user_account']['trading_unit']['name'] }}
