@@ -30,7 +30,8 @@ window.Echo1 = new Echo({
         }
     }
 });
-
+console.log(import.meta.env.VITE_PUSHER_APP_KEY);
+console.log(import.meta.env.VITE_PUSHER_APP_CLUSTER);
 window.Echo1.connector.pusher.connection.bind('connected', () => {
     console.log('Connected to Pusher successfully!');
 });
