@@ -10,12 +10,7 @@ class TradingAccountCredentialForm extends Form
     public function buildForm()
     {
         $data = $this->getData('data');
-        $symbols = [
-            'XAUUSD' => 'XAUUSD',
-            'MGCZ4.COMEX' => 'MGCZ4.COMEX',
-            'MGCZ5.COMEX' => 'MGCZ5.COMEX',
-            'BTCUSD' => 'BTCUSD'
-        ];
+        $symbols = getTradingSymbols();
 
         $tradingAccounts = requestApi('get', 'account/entities', [
             'userAccounts.tradingUnit',

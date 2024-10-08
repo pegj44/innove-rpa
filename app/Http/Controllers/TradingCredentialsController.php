@@ -9,6 +9,42 @@ use Kris\LaravelFormBuilder\FormBuilder;
 class TradingCredentialsController extends Controller
 {
 
+    public function getFunderAccountCredentials()
+    {
+//        $items = requestApi('get', 'credentials/funders/accounts');
+
+        $items = [];
+        return view('dashboard.trading-account-credentials.index')->with([
+            'items' => $items
+        ]);
+    }
+
+    public function createFunderAccountCredential(Request $request)
+    {
+
+    }
+
+    public function addFunderAccountCredential(FormBuilder $formBuilder)
+    {
+
+    }
+
+    public function editFunderAccountCredential(FormBuilder $formBuilder, string $id)
+    {
+
+    }
+
+    public function updateFunderAccountCredential(Request $request, string $id)
+    {
+
+    }
+
+    public function deleteFunderAccountCredential(string $id)
+    {
+
+    }
+
+
     public function getCredentials()
     {
         $items = requestApi('get', 'credentials');

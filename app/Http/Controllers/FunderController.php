@@ -11,13 +11,13 @@ class FunderController extends Controller
     public static $platforms = [
         'MT5_Web' => 'MT5-Web',
         'Rtrader_base' => 'Rithmic Trader',
-        'TradingView' => 'Trading View',
-        'NinjaTrader' => 'Ninja Trader'
+        'UProfitTradingView' => 'UProfit Trading View',
+        'NinjaTrader' => 'Ninja Trader',
     ];
 
     public static $webPlatforms = [
         'MT5_Web' => 'MT5-Web',
-        'TradingView' => 'Trading View'
+        'UProfitTradingView' => 'UProfit Trading View'
     ];
 
     public static $pipCalculationTypes = [

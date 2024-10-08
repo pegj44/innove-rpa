@@ -5,6 +5,19 @@ use Illuminate\Support\Facades\Session;
 
 //function outPutArrayVar($)
 
+function getTradingSymbols()
+{
+    $symbolsStr = env('TRADING_SYMBOLS');
+    $symbols = explode('|', $symbolsStr);
+    $symbolsArr = [];
+
+    foreach ($symbols as $val) {
+        $symbolsArr[$val] = $val;
+    }
+
+    return $symbolsArr;
+}
+
 function getTradeReportCalculations($data)
 {
     $currentPhase = $data['trading_account_credential']['current_phase'];

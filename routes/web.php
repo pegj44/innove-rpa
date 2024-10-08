@@ -162,9 +162,18 @@ Route::middleware(['auth_api'])->group(function () {
             Route::get('/credential/list', 'getCredentials')->name('credential.list');
             Route::get('/credential/add', 'create')->name('credential.create');
             Route::get('/credential/{id}', 'edit')->name('credential.edit');
+
             Route::post('/credential/{id}', 'update')->name('credential.update');
             Route::delete('/credential/{id}', 'destroy')->name('credential.delete');
             Route::post('/credential', 'store')->name('credential.store');
+
+            Route::get('/credential/funders/accounts', 'getFunderAccountCredentials')->name('credential.funders.accounts');
+            Route::get('/credential/funders/accounts/add', 'addFunderAccountCredential')->name('credential.funders.accounts.add');
+            Route::get('/credential/funders/accounts/{id}', 'editFunderAccountCredential')->name('credential.funders.accounts.edit');
+
+            Route::patch('/credential/funders/accounts/{id}', 'updateFunderAccountCredential')->name('credential.funders.accounts.update');
+            Route::delete('/credential/funders/accounts/{id}', 'deleteFunderAccountCredential')->name('credential.funders.accounts.delete');
+            Route::post('/credential/funders/accounts/', 'createFunderAccountCredential')->name('credential.funders.accounts.create');
         });
     });
 
