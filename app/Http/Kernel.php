@@ -2,7 +2,9 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\AuthApiMiddleware;
+use App\Http\Middleware\InvestorMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -69,6 +71,8 @@ class Kernel extends HttpKernel
 
     protected $routeMiddleware = [
         'auth_api' => \App\Http\Middleware\AuthApiMiddleware::class,
+        'investor' => InvestorMiddleware::class,
+        'admin' => AdminMiddleware::class,
 //        'custom.broadcast.auth' => \App\Http\Middleware\CustomBroadcastAuth::class,
     ];
 }

@@ -41,7 +41,9 @@ class AuthenticatedSessionController extends Controller
                 'name' => $responseBody['name'],
                 'email' => $responseBody['email'],
                 'userId' => $responseBody['userId'],
-                'accountId' => $responseBody['accountId']
+                'accountId' => $responseBody['accountId'],
+                'permissions' => $responseBody['permissions'],
+                'isOwner' => $responseBody['isOwner']
             ]);
 
             return redirect()->route('dashboard');

@@ -97,10 +97,24 @@ Route::post('/pusher/broadcasting/auth', function (Request $request)
 });
 
 Route::middleware(['auth_api'])->group(function () {
+    Route::controller(\App\Http\Controllers\DashboardController::class)->group(function()
+    {
+        Route::get('/dashboard', 'dashboard')->name('dashboard');
+    });
 
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+});
+
+Route::middleware(['auth_api', 'investor'])->group(function ()
+{
+    Route::controller(\App\Http\Controllers\InvestorController::class)->group(function()
+    {
+        Route::get('/trade-history', 'tradeHistory')->name('investor.trade-history');
+        Route::get('/profit-report', 'profitReport')->name('investor.profit-report');
+        Route::get('/funders', 'funders')->name('investor.funders');
+    });
+});
+
+Route::middleware(['auth_api', 'admin'])->group(function () {
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -168,12 +182,12 @@ Route::middleware(['auth_api'])->group(function () {
             Route::post('/credential', 'store')->name('credential.store');
 
             Route::get('/credential/funders/accounts', 'getFunderAccountCredentials')->name('credential.funders.accounts');
-            Route::get('/credential/funders/accounts/add', 'addFunderAccountCredential')->name('credential.funders.accounts.add');
+            Route::get('/credential/funders/accounts/add', 'createFunderAccountCredential')->name('credential.funders.accounts.add');
             Route::get('/credential/funders/accounts/{id}', 'editFunderAccountCredential')->name('credential.funders.accounts.edit');
 
             Route::patch('/credential/funders/accounts/{id}', 'updateFunderAccountCredential')->name('credential.funders.accounts.update');
             Route::delete('/credential/funders/accounts/{id}', 'deleteFunderAccountCredential')->name('credential.funders.accounts.delete');
-            Route::post('/credential/funders/accounts/', 'createFunderAccountCredential')->name('credential.funders.accounts.create');
+            Route::post('/credential/funders/accounts/', 'storeFunderAccountCredential')->name('credential.funders.accounts.create');
         });
     });
 

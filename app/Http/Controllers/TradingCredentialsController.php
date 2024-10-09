@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Forms\TradingAccountCredentialForm;
+use App\Forms\UserPlatformCredentialsForm;
 use Illuminate\Http\Request;
 use Kris\LaravelFormBuilder\FormBuilder;
 
@@ -19,14 +20,27 @@ class TradingCredentialsController extends Controller
         ]);
     }
 
-    public function createFunderAccountCredential(Request $request)
+    public function storeFunderAccountCredential(Request $request)
     {
+        $response = requestApi('post', 'credential/funder/account', $request->except('_token'));
 
+        if (!empty($response['errors'])) {
+            return redirect()->back()->withErrors($response['errors'])->withInput();
+        }
+
+        return redirect()->route('trading-account.credential.funders.accounts')->with('success', $response['message']);
     }
 
-    public function addFunderAccountCredential(FormBuilder $formBuilder)
+    public function createFunderAccountCredential(FormBuilder $formBuilder)
     {
+        $form = $formBuilder->create(UserPlatformCredentialsForm::class, [
+            'method' => 'POST',
+            'url' => route('trading-account.credential.funders.accounts.create')
+        ]);
 
+        return view('dashboard.trading-account-credentials.create')->with([
+            'form' => $form
+        ]);
     }
 
     public function editFunderAccountCredential(FormBuilder $formBuilder, string $id)
