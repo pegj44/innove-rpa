@@ -23,6 +23,24 @@ class InvestorController extends Controller
 
     }
 
+    public function funderAccounts()
+    {
+        $items = requestApi('get', 'credentials');
+
+        return view('dashboard.trading-credentials.investor.index')->with([
+            'items' => $items
+        ]);
+    }
+
+    public function userAccounts()
+    {
+        $items = requestApi('get', 'trading-individuals');
+
+        return view('dashboard.trading-individual.investor.index')->with([
+            'items' => $items
+        ]);
+    }
+
     public function funders()
     {
         $funders = requestApi('get', 'funders');

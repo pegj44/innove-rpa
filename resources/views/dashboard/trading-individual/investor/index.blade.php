@@ -7,14 +7,10 @@
 
                 @if(empty($items))
                     <div class="text-gray-900 dark:text-gray-100 mb-4">
-                        <h3 class="mb-5">No trading accounts added yet.</h3>
+                        <h3 class="mb-5">No user accounts added yet.</h3>
                     </div>
                 @else
-
-                    <h3 class="mb-3">{{ __('Funder Accounts') }}</h3>
-
-                    @include('dashboard.trading-credentials.investor.list', ['items' => $items])
-
+                    @include('dashboard.trading-individual.investor.list', ['items' => $items])
                 @endif
             </div>
         </div>

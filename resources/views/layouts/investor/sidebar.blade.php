@@ -29,8 +29,8 @@
 {{--                    <span class="ms-3">Profit Report</span>--}}
 {{--                </a>--}}
 {{--            </li>--}}
-            <li data-route="trading-account">
-                <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="trading-accounts-dropdown" data-collapse-toggle="trading-accounts-dropdown">
+            <li data-route="accounts">
+                <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="accounts-dropdown" data-collapse-toggle="accounts-dropdown">
                     <svg class="w-[22px] h-[22px] w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M4.5 17H4a1 1 0 0 1-1-1 3 3 0 0 1 3-3h1m0-3.05A2.5 2.5 0 1 1 9 5.5M19.5 17h.5a1 1 0 0 0 1-1 3 3 0 0 0-3-3h-1m0-3.05a2.5 2.5 0 1 0-2-4.45m.5 13.5h-7a1 1 0 0 1-1-1 3 3 0 0 1 3-3h3a3 3 0 0 1 3 3 1 1 0 0 1-1 1Zm-1-9.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"/>
                     </svg>
@@ -39,14 +39,14 @@
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                     </svg>
                 </button>
-                <ul id="trading-accounts-dropdown" class="hidden py-2 space-y-2">
-                    <li data-route="trading-account.credential.list|trading-account.credential.create|trading-account.credential.edit">
-                        <a href="{{ route('trading-account.credential.list') }}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                <ul id="accounts-dropdown" class="hidden py-2 space-y-2">
+                    <li data-route="accounts.funders">
+                        <a href="{{ route('accounts.funders') }}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                             {{ __('Funder Accounts') }}
                         </a>
                     </li>
-                    <li data-route="trading-account.individual.list|trading-account.individual.create|trading-account.individual.edit">
-                        <a href="{{ route('trading-account.individual.list') }}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                    <li data-route="accounts.users">
+                        <a href="{{ route('accounts.users') }}" class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                             {{ __('User Accounts') }}
                         </a>
                     </li>
