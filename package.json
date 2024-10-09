@@ -23,6 +23,8 @@
         "datatables.net-dt": "^2.0.2",
         "flowbite": "^2.1.1",
         "laravel-echo": "^1.16.1",
-        "php-unserialize": "^0.0.1"
+        "php-unserialize": "^0.0.1",
+        "sass": "^1.79.4",
+        "sass-loader": "^16.0.2"
     }
 }

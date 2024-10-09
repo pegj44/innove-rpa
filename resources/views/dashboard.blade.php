@@ -1,15 +1,16 @@
 <x-app-layout>
+
     <div class="mt-14 overflow-hidden">
         <div class="gap-5 dark:text-gray-100 grid grid-cols-1 lg:grid lg:grid-cols-3 md:grid-cols-2 p-6 text-gray-900 xl:grid-cols-4">
-            <div class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-                <img src="/images/daily-profit.png" class="mb-5 w-14">
+            <div class="text-center block max-w-sm p-6 border border-gray-200 rounded-lg shadow dark:border-gray-700">
+                <img src="/images/daily-profit.png" class="mb-5 w-14 inline-block">
                 @if($totalDailyProfit > 0)
                     <h2 class="font-bold text-3xl text-green-500 mb-3">+$<span class="number" data-end="{{ $totalDailyProfit }}" data-decimals="2">0</span></h2>
                 @else
                     <h2 class="font-bold text-3xl text-white mb-3">0.00</h2>
                 @endif
 
-                <h5 class="dark:text-white flex justify-between mb-2 text-gray-900">
+                <h5 class="dark:text-white mb-2 text-gray-900">
                     <span>Daily Profit</span>
 {{--                    <span class="text-green-500">--}}
 {{--                        4%--}}
@@ -19,14 +20,14 @@
 {{--                    </span>--}}
                 </h5>
             </div>
-            <div class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-                <img src="/images/weekly-profit.png" class="mb-5 w-14">
+            <div class="text-center block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700">
+                <img src="/images/weekly-profit.png" class="mb-5 w-14 inline-block">
                 @if($totalWeeklyProfit > 0)
                     <h2 class="font-bold text-3xl text-green-500 mb-3">+$<span class="number" data-end="{{ $totalWeeklyProfit }}" data-decimals="2">0</span></h2>
                 @else
                     <h2 class="font-bold text-3xl text-white mb-3">0.00</h2>
                 @endif
-                <h5 class="dark:text-white flex justify-between mb-2 text-gray-900">
+                <h5 class="dark:text-white mb-2 text-gray-900">
                     <span>Weekly Profit</span>
 {{--                    <span class="text-green-500">--}}
 {{--                        4%--}}
@@ -36,14 +37,14 @@
 {{--                    </span>--}}
                 </h5>
             </div>
-            <div class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-                <img src="/images/investment.png" class="mb-5 w-14">
+            <div class="text-center block max-w-sm p-6 shining-gold-bg border border-gray-200 rounded-lg shadow dark:border-gray-700">
+                <img src="/images/investment.png" class="mb-5 w-14 inline-block">
                 @if($finalTotalProfit > 0)
                     <h2 class="font-bold text-3xl text-green-500 mb-3">+$<span class="number" data-end="{{ $finalTotalProfit }}" data-decimals="2">0</span></h2>
                 @else
                     <h2 class="font-bold text-3xl text-white mb-3">0.00</h2>
                 @endif
-                <h5 class="dark:text-white flex justify-between mb-2 text-gray-900">
+                <h5 class="dark:text-white mb-2 text-gray-900">
                     <span>Total Profit</span>
 {{--                    <span class="text-green-500">--}}
 {{--                        4%--}}
@@ -53,14 +54,14 @@
 {{--                    </span>--}}
                 </h5>
             </div>
-            <div class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-                <img src="/images/trades.png" class="mb-5 w-14">
+            <div class="text-center block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <img src="/images/trades.png" class="mb-5 w-14 inline-block">
                 @if($tradeCount > 0)
                     <h2 class="font-bold text-3xl text-green-500 mb-3">{{ $tradeCount }}</h2>
                 @else
                     <h2 class="font-bold text-3xl text-white mb-3">0.00</h2>
                 @endif
-                <h5 class="dark:text-white flex justify-between mb-2 text-gray-900">
+                <h5 class="dark:text-white mb-2 text-gray-900">
                     <span>Weekly Number of Trades</span>
                 </h5>
             </div>
