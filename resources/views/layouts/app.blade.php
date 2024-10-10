@@ -33,7 +33,11 @@
 
             <!-- Page Content -->
             <main>
-                <canvas id="canvas-stars"></canvas>
+                <div class="galaxybg fixed">
+                    <canvas id="canvas-stars"></canvas>
+                    <img src="/images/galaxy5.jpg" style="opacity: 0.2">
+                </div>
+
                 <div class="p-4 sm:ml-64" style="position: relative; z-index: 2">
                     {{ $slot }}
                 </div>

@@ -69,9 +69,12 @@ table.dataTable thead>tr>th.dt-ordering-asc span.dt-column-order:before, table.d
     background: orange;
 }
 .dot.phase-3 {
-    background: green;
+    background: #13d813;
 }
-
+.account-item td {
+    position: relative;
+    z-index: 2;
+}
 .dt-orderable-none .dt-column-order {
     display: none;
 }
