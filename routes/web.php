@@ -24,6 +24,11 @@ use Pusher\Pusher;
 |
 */
 
+Route::get('/uitest', function()
+{
+    return view('blank');
+});
+
 Route::get('/', function () {
     return redirect('dashboard');
 });
