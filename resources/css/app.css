@@ -96,7 +96,7 @@ tr.pair-select a.cancel-pair-item-btn {
     background: linear-gradient(-45deg, #ee7752, #F7C701, #d96d0a, #fff000);
     background-size: 400% 400%;
     animation: gradientbg 5s ease infinite;
-    text-shadow: 1px 1px 1px #0000004d;
+    text-shadow: 1px 1px 1px #000000e8;
     position: relative;
     overflow: hidden;
 }
