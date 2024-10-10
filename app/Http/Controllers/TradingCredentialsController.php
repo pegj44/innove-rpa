@@ -12,9 +12,8 @@ class TradingCredentialsController extends Controller
 
     public function getFunderAccountCredentials()
     {
-//        $items = requestApi('get', 'credentials/funders/accounts');
+        $items = requestApi('get', 'credential/funder/accounts');
 
-        $items = [];
         return view('dashboard.trading-account-credentials.index')->with([
             'items' => $items
         ]);
@@ -24,9 +23,6 @@ class TradingCredentialsController extends Controller
     {
         $response = requestApi('post', 'credential/funder/account', $request->except('_token'));
 
-//        return getApiInputResponse($response, 'trading-account.credential.funders.accounts');
-
-
         if (!empty($response['validation_error'])) {
             return redirect()->back()->withErrors($response['validation_error'])->withInput();
         }
@@ -35,11 +31,7 @@ class TradingCredentialsController extends Controller
             return redirect()->back()->withErrors($response['error'])->withInput();
         }
 
-//        if ($redirect !== '') {
-            return redirect()->route('trading-account.credential.funders.accounts')->with('success', $response['message']);
-//        }
-
-//        return redirect()->back()->with('success', $response['message']);
+        return redirect()->route('trading-account.credential.funders.accounts')->with('success', $response['message']);
     }
 
     public function createFunderAccountCredential(FormBuilder $formBuilder)
@@ -56,19 +48,47 @@ class TradingCredentialsController extends Controller
 
     public function editFunderAccountCredential(FormBuilder $formBuilder, string $id)
     {
+        $item = requestApi('get', 'credential/funder/account/'. $id);
 
+        if (empty($item) || !empty($item['errors'])) {
+            return redirect('credential.funders.accounts');
+        }
+
+        $form = $formBuilder->create(UserPlatformCredentialsForm::class, [
+            'method' => 'patch',
+            'url' => route('trading-account.credential.funders.accounts.update', $id)
+        ], $item);
+
+        return view('dashboard.trading-account-credentials.edit')->with([
+            'form' => $form
+        ]);
     }
 
     public function updateFunderAccountCredential(Request $request, string $id)
     {
+        $response = requestApi('put', 'credential/funder/account/'. $id, $request->except('_token'));
 
+        if (!empty($response['validation_error'])) {
+            return redirect()->back()->withErrors($response['validation_error'])->withInput();
+        }
+
+        if (!empty($response['error'])) {
+            return redirect()->back()->withErrors($response['error'])->withInput();
+        }
+
+        return redirect()->route('trading-account.credential.funders.accounts')->with('success', $response['message']);
     }
 
     public function deleteFunderAccountCredential(string $id)
     {
+        $removeFunder = requestApi('delete', 'credential/funder/account/'. $id);
 
+        if (!empty($removeFunder['errors'])) {
+            return redirect()->back()->with('error', $removeFunder['errors']);
+        }
+
+        return redirect()->back()->with('success', $removeFunder['message']);
     }
-
 
     public function getCredentials()
     {

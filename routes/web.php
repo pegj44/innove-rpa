@@ -24,11 +24,6 @@ use Pusher\Pusher;
 |
 */
 
-Route::get('/uitest', function()
-{
-    return view('blank');
-});
-
 Route::get('/', function () {
     return redirect('dashboard');
 });
@@ -187,8 +182,8 @@ Route::middleware(['auth_api', 'admin'])->group(function () {
             Route::get('/credential/funders/accounts/add', 'createFunderAccountCredential')->name('credential.funders.accounts.add');
             Route::get('/credential/funders/accounts/{id}', 'editFunderAccountCredential')->name('credential.funders.accounts.edit');
 
-            Route::patch('/credential/funders/accounts/{id}', 'updateFunderAccountCredential')->name('credential.funders.accounts.update');
-            Route::delete('/credential/funders/accounts/{id}', 'deleteFunderAccountCredential')->name('credential.funders.accounts.delete');
+            Route::patch('/credential/funders/account/{id}', 'updateFunderAccountCredential')->name('credential.funders.accounts.update');
+            Route::delete('/credential/funders/account/{id}', 'deleteFunderAccountCredential')->name('credential.funders.accounts.delete');
             Route::post('/credential/funders/account/', 'storeFunderAccountCredential')->name('credential.funders.accounts.create');
         });
     });

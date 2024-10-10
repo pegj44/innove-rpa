@@ -11,8 +11,6 @@
                     </div>
                 @else
 
-                    <h3 class="mb-3">{{ __('Account Credentials') }}</h3>
-
                     @include('components.dashboard-notification')
 
                     <a href="{{ route('trading-account.credential.funders.accounts.add') }}" class="mb-1 mt-2 px-3 py-2 text-sm font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-md hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -24,7 +22,7 @@
                     </a>
 
 
-                    @include('dashboard.trading-credentials.list', ['items' => $items])
+                    @include('dashboard.trading-account-credentials.list', ['items' => $items])
 
                 @endif
             </div>

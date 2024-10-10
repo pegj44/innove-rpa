@@ -8,7 +8,7 @@ class UserPlatformCredentialsForm extends Form
 {
     public function buildForm()
     {
-        $data = $this->getData('data');
+        $data = $this->getData();
 
         $tradingAccounts = requestApi('get', 'account/entities', [
             'userAccounts.tradingUnit',
@@ -32,7 +32,7 @@ class UserPlatformCredentialsForm extends Form
         }
 
         $this
-            ->add('user_account_id', 'select', [
+            ->add('trading_individual_id', 'select', [
                 'wrapper' => ['class' => 'mb-5'],
                 'label' => __('User Account (Required)'),
                 'rules' => ['required'],
@@ -41,7 +41,7 @@ class UserPlatformCredentialsForm extends Form
                 'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
                 'empty_value' => __('-- Choose Account --'),
                 'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                'default_value' => (!empty($data['user_account_id']))? $data['user_account_id'] : ''
+                'default_value' => (!empty($data['trading_individual_id']))? $data['trading_individual_id'] : ''
             ])
             ->add('funder_id', 'select', [
                 'wrapper' => ['class' => 'mb-5'],
@@ -80,7 +80,7 @@ class UserPlatformCredentialsForm extends Form
                                 'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
                                 'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
                                 'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                                'default_value' => (!empty($data['platform_login_password']))? $data['platform_login_password'] : ''
+                                'default_value' => (!empty($data['platform_login_password']))? '************' : ''
                             ]),
                         ]
                     ])
@@ -102,7 +102,7 @@ class UserPlatformCredentialsForm extends Form
                 'label' => __('Cancel'),
                 'attr' => [
                     'class' => 'px-3 py-2 text-sm font-medium text-center inline-flex items-center text-white bg-gray-700 rounded-md hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800',
-                    'onclick' => 'window.location.href="'. route('funders') .'";'
+                    'onclick' => 'window.location.href="'. route('trading-account.credential.funders.accounts') .'";'
                 ]
             ]);
         }

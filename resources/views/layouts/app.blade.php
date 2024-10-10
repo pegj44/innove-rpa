@@ -38,8 +38,10 @@
                     <img src="/images/galaxy5.jpg" style="opacity: 0.2">
                 </div>
 
-                <div class="p-4 sm:ml-64" style="position: relative; z-index: 2">
-                    {{ $slot }}
+                <div class="p-4 sm:ml-64">
+                    <div style="position: relative;">
+                        {{ $slot }}
+                    </div>
                 </div>
             </main>
         </div>
