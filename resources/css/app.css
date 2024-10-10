@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+#canvas-stars {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 0;
+}
+
 input[type="time"]::-webkit-calendar-picker-indicator {
     filter: invert(50%);
 }
