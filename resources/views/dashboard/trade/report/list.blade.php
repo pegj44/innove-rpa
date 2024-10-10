@@ -101,7 +101,7 @@
                         <span class="bg-gray-900 border border-gray-700 px-2 py-1 rounded"> {{ $item['trading_account_credential']['funder']['alias'] }}</span> {{ $item['trading_account_credential']['funder_account_id'] }}
                     </td>
                     <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ getPhaseName($item['trading_account_credential']['current_phase']) }}
+                        <span class="dot {{$item['trading_account_credential']['current_phase']}}"></span> {{ getPhaseName($item['trading_account_credential']['current_phase']) }}
                     </td>
                     <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         <span class="{{ $trHtmlClass }} px-2 py-1 rounded">{{ \App\Http\Controllers\TradeReportController::$statuses[$item['status']] }}</span>

@@ -233,7 +233,7 @@ function getPhaseName($phase)
     $phases = [
         'phase-1' => __('Phase 1'),
         'phase-2' => __('Phase 2'),
-        'phase-3' => __('Phase 3')
+        'phase-3' => __('Live')
     ];
 
     if (!isset($phases[$phase])) {

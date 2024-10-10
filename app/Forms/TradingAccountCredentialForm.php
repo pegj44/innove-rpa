@@ -113,7 +113,7 @@ class TradingAccountCredentialForm extends Form
                 'choices' => [
                     'phase-1' => __('Phase 1'),
                     'phase-2' => __('Phase 2'),
-                    'phase-3' => __('Phase 3')
+                    'phase-3' => __('Live')
                 ],
                 'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
                 'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
@@ -251,7 +251,7 @@ class TradingAccountCredentialForm extends Form
             ])
 
             ->add('phase_3_wrapper', 'wrapper', [
-                'label' => 'Phase 3',
+                'label' => 'Live',
                 'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
                 'wrapper_class' => 'phase-3-wrapper border-b border-gray-600 border-t form-group mb-4 pt-4',
                 'field_col_class' => 'mb-5',

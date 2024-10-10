@@ -46,6 +46,23 @@ table.dataTable thead>tr>th.dt-orderable-asc span.dt-column-order:before, table.
 table.dataTable thead>tr>th.dt-ordering-asc span.dt-column-order:before, table.dataTable thead>tr>th.dt-ordering-desc span.dt-column-order:after, table.dataTable thead>tr>td.dt-ordering-asc span.dt-column-order:before, table.dataTable thead>tr>td.dt-ordering-desc span.dt-column-order:after {
     opacity: .6;
 }
+.dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 100px;
+    margin-right: 3px;
+}
+.dot.phase-1 {
+    background: yellow;
+}
+.dot.phase-2 {
+    background: orange;
+}
+.dot.phase-3 {
+    background: green;
+}
+
 .dt-orderable-none .dt-column-order {
     display: none;
 }
