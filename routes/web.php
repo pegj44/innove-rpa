@@ -66,12 +66,6 @@ Route::post('/pusher/broadcasting/auth', function (Request $request)
     $channelName = $request->input('channel_name');
     $socketId = $request->input('socket_id');
 
-    info(print_r([
-        'requests' => $request->all(),
-        'userData' => Session::get('api_user_data'),
-        'innove_auth_api' => Session::get('innove_auth_api')
-    ], true));
-
     if (strpos($channelName, 'private-unit.') === 0) {
         $currentUserId = Session::get('api_user_data');
         $unitId = (int) str_replace('private-unit.', '', $channelName);
@@ -190,7 +184,7 @@ Route::middleware(['auth_api', 'admin'])->group(function () {
 
             Route::patch('/credential/funders/accounts/{id}', 'updateFunderAccountCredential')->name('credential.funders.accounts.update');
             Route::delete('/credential/funders/accounts/{id}', 'deleteFunderAccountCredential')->name('credential.funders.accounts.delete');
-            Route::post('/credential/funders/accounts/', 'storeFunderAccountCredential')->name('credential.funders.accounts.create');
+            Route::post('/credential/funders/account/', 'storeFunderAccountCredential')->name('credential.funders.accounts.create');
         });
     });
 

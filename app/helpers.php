@@ -270,6 +270,23 @@ function firstRouteSegment()
     return \Illuminate\Support\Arr::first($urlSegments);
 }
 
+function getApiInputResponse($response, $redirect = '')
+{
+    if (!empty($response['validation_error'])) {
+        return redirect()->back()->withErrors($response['validation_error'])->withInput();
+    }
+
+    if (!empty($response['error'])) {
+        return redirect()->back()->withErrors($response['error'])->withInput();
+    }
+
+    if ($redirect !== '') {
+        return redirect()->route('trading-account.credential.funders.accounts')->with('success', $response['message']);
+    }
+
+    return redirect()->back()->with('success', $response['message']);
+}
+
 function requestApi($method, $endpoint, $args = [], $token = false)
 {
     try {

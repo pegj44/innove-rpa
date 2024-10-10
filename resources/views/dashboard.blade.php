@@ -1,5 +1,16 @@
 <x-app-layout>
 
+{{--    <div>--}}
+{{--        <div class="shining-gold-bg1" style="width: 500px; height: 100px; margin-top: 100px;">--}}
+{{--            <div class="shining-bg-text">--}}
+{{--                $25,000.00--}}
+{{--            </div>--}}
+{{--            @include('layouts.smoke')--}}
+{{--            @include('layouts.smoke')--}}
+{{--            @include('layouts.smoke')--}}
+{{--        </div>--}}
+{{--    </div>--}}
+
     <div class="mt-14 overflow-hidden">
         <div class="gap-5 dark:text-gray-100 grid grid-cols-1 lg:grid lg:grid-cols-3 md:grid-cols-2 p-6 text-gray-900 xl:grid-cols-4">
             <div class="text-center block max-w-sm p-6 border border-gray-200 rounded-lg shadow dark:border-gray-700">

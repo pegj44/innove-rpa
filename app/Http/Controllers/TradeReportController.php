@@ -15,7 +15,8 @@ class TradeReportController extends Controller
         'abstained' => 'Abstained',
         'breached' => 'Breached',
         'onhold' => 'On Hold',
-        'pairing' => 'Paired'
+        'pairing' => 'Paired',
+        'payout' => 'FOR PAYOUT'
     ];
 
     public function index()

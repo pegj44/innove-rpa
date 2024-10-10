@@ -22,7 +22,7 @@ class AdminMiddleware
             return redirect('login');
         }
 
-        if (!$userData['isOwner']) {
+        if (empty($userData['isOwner'])) {
             return redirect('login');
         }
 

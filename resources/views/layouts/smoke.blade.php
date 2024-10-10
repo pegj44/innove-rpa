@@ -1,0 +1,27 @@
+<div class='smoke-bg'>
+    <div class='smoke'></div>
+    <div class='smoke'></div>
+    <div class='smoke'></div>
+    <div class='smoke'></div>
+    <div class='smoke'></div>
+    <div class='smoke'></div>
+    <div class='smoke'></div>
+    <div class='smoke'></div>
+    <div class='smoke'></div>
+    <div class='smoke'></div>
+    <div class='smoke'></div>
+    <div class='smoke'></div>
+    <div class='smoke'></div>
+    <div class='smoke'></div>
+    <div class='smoke'></div>
+    <div class='smoke'></div>
+    <div class='smoke'></div>
+    <div class='smoke'></div>
+    <div class='smoke'></div>
+    <div class='smoke'></div>
+    <div class='smoke'></div>
+    <div class='smoke'></div>
+    <div class='smoke'></div>
+    <div class='smoke'></div>
+    <div class='smoke'></div>
+</div>
