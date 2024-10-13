@@ -44,8 +44,6 @@
             <tbody>
             @foreach($tradingAccounts as $item)
                 @php
-                    //$reportInfo = getTradeReportCalculations($item);
-
                     switch ($item['status']) {
                         case 'pairing':
                             $trHtmlClass = 'bg-purple-700';
@@ -54,7 +52,7 @@
                             $trHtmlClass = 'bg-blue-500';
                             break;
                         case 'abstained':
-                            $trHtmlClass = 'bg-gray-700';
+                            $trHtmlClass = 'bg-yellow-500';
                             break;
                         case 'breached':
                             $trHtmlClass = 'bg-red-500';
@@ -72,36 +70,47 @@
 
                 <tr class="account-item border-b border-gray-700 bg-gray-800 hover:bg-gray-600 {{ $isShining }} {{ ($item['status'] === 'idle')? 'item-pairable' : 'item-not-pairable' }}" data-phase="{{ $item['trading_account_credential']['current_phase'] }}" data-user="{{ $item['trading_account_credential']['funder']['alias'] }}{{ $item['trading_account_credential']['user_account']['id'] }}" data-unit="{{ $item['trading_account_credential']['funder']['alias'] }}{{ $item['trading_account_credential']['user_account']['trading_unit']['id'] }}">
 
-                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" style="z-index: 10">
 
                         @if($item['status'] === 'payout')
                             <div style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; overflow: hidden;">
                             </div>
                         @endif
 
-                        @if($item['status'] === 'idle')
-                            <a href="#" x-on:click="requestPair({{$item['id']}}, event, $event.target)" class="pair-item-btn font-medium text-blue-600 dark:text-blue-50">
-                                <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16 10 3-3m0 0-3-3m3 3H5v3m3 4-3 3m0 0 3 3m-3-3h14v-3"/>
+                        @if(!hasFunderAccountCredential($item['trading_account_credential']['user_account']['funder_account_credential'], $item['trading_account_credential']['funder_id']))
+                                <svg class="w-6 h-6 text-orange-400" data-tooltip-target="tooltip-right-{{ $item['id'] }}" data-tooltip-placement="right" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13V8m0 8h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                 </svg>
-                            </a>
-                            <a href="#" x-on:click="requestCancelPair({{$item['id']}}, event, $event.target)" class="cancel-pair-item-btn font-medium text-blue-600 dark:text-blue-50">
-                                <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/>
-                                </svg>
-                            </a>
+
+                                <div id="tooltip-right-{{ $item['id'] }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                                    No platform credentials detected.
+                                    <div class="tooltip-arrow" data-popper-arrow></div>
+                                </div>
+                        @else
+                            @if($item['status'] === 'idle')
+                                <a href="#" x-on:click="requestPair({{$item['id']}}, event, $event.target)" class="pair-item-btn font-medium text-blue-600 dark:text-blue-50">
+                                    <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16 10 3-3m0 0-3-3m3 3H5v3m3 4-3 3m0 0 3 3m-3-3h14v-3"/>
+                                    </svg>
+                                </a>
+                                <a href="#" x-on:click="requestCancelPair({{$item['id']}}, event, $event.target)" class="cancel-pair-item-btn font-medium text-blue-600 dark:text-blue-50">
+                                    <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/>
+                                    </svg>
+                                </a>
+                            @endif
                         @endif
 
                     </td>
                     <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        <span class="bg-gray-500 border-blue-400 px-2 py-1 rounded">{{ $item['trading_account_credential']['user_account']['id'] }}</span>
-                        <span class="bg-gray-900 border border-gray-700 px-2 py-1 rounded"> {{ $item['trading_account_credential']['funder']['alias'] }}</span> {{ $item['trading_account_credential']['funder_account_id'] }}
+                        <span class="px-2 py-1 hidden user-acc-id" style="text-shadow: 1px 1px 1px #000;">{{ $item['trading_account_credential']['user_account']['id'] }}</span>
+                        <span class="bg-gray-900 px-2 py-1 rounded font-black funder-alias" {!! renderFunderAliasAttr($item['trading_account_credential']['funder']) !!}> {{ $item['trading_account_credential']['funder']['alias'] }}</span> {{ $item['trading_account_credential']['funder_account_id'] }}
                     </td>
                     <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         <span class="dot {{$item['trading_account_credential']['current_phase']}}"></span> {{ getPhaseName($item['trading_account_credential']['current_phase']) }}
                     </td>
                     <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        <span class="{{ $trHtmlClass }} px-2 py-1 rounded">{{ \App\Http\Controllers\TradeReportController::$statuses[$item['status']] }}</span>
+                        <span class="{{ $trHtmlClass }} dot"></span> {{ \App\Http\Controllers\TradeReportController::$statuses[$item['status']] }}
                     </td>
                     <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ number_format($item['latest_equity'], 2) }}
@@ -202,6 +211,7 @@
             pairedIdsField.value = '';
 
             userAccountsTable.classList.remove('filter-phase');
+            userAccountsTable.classList.remove('table-pairing');
             userAccountsTable.removeAttribute('data-phase');
             userAccountsTable.removeAttribute('data-user');
             userAccountsTable.removeAttribute('data-unit');
@@ -253,6 +263,7 @@
         }
 
         userAccountsTable.classList.add('filter-phase');
+        userAccountsTable.classList.add('table-pairing');
         userAccountsTable.setAttribute('data-phase', closestTr.getAttribute('data-phase'));
 
         if (pairedItemsCount >= 2) {
@@ -312,6 +323,7 @@
 
         if (pairedItemsCount < 1) {
             userAccountsTable.classList.remove('filter-phase');
+            userAccountsTable.classList.remove('table-pairing');
             userAccountsTable.removeAttribute('data-phase');
             userAccountsTable.removeAttribute('data-user');
             userAccountsTable.removeAttribute('data-unit');

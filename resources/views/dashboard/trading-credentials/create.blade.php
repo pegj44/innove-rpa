@@ -20,21 +20,21 @@
         </div>
     </div>
 
-    <script>
-        const webAutomations = '{{ json_encode(array_keys(\App\Http\Controllers\FunderController::$webPlatforms)) }}';
+{{--    <script>--}}
+{{--        const webAutomations = '{{ json_encode(array_keys(\App\Http\Controllers\FunderController::$webPlatforms)) }}';--}}
 
-        function togglePlatformUrl() {
-            const selectedValue = document.getElementById('platform_type').value;
-            const platformUrlElement = document.querySelector('.platform-url');
+{{--        function togglePlatformUrl() {--}}
+{{--            const selectedValue = document.getElementById('platform_type').value;--}}
+{{--            const platformUrlElement = document.querySelector('.platform-url');--}}
 
-            if (webAutomations.includes(selectedValue)) {
-                platformUrlElement.style.display = 'block';
-            } else {
-                platformUrlElement.style.display = 'none';
-            }
-        }
+{{--            if (webAutomations.includes(selectedValue)) {--}}
+{{--                platformUrlElement.style.display = 'block';--}}
+{{--            } else {--}}
+{{--                platformUrlElement.style.display = 'none';--}}
+{{--            }--}}
+{{--        }--}}
 
-        document.getElementById('platform_type').addEventListener('change', togglePlatformUrl);
-        window.addEventListener('DOMContentLoaded', togglePlatformUrl);
-    </script>
+{{--        document.getElementById('platform_type').addEventListener('change', togglePlatformUrl);--}}
+{{--        window.addEventListener('DOMContentLoaded', togglePlatformUrl);--}}
+{{--    </script>--}}
 </x-app-layout>

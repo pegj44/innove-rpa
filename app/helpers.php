@@ -3,7 +3,37 @@
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 
-//function outPutArrayVar($)
+function renderFunderAliasAttr($funder)
+{
+    $theme = [
+        'background_color' => '',
+        'text_color' => ''
+    ];
+
+    if (!empty($funder['theme'])) {
+        $theme = explode('|', $funder['theme']);
+        $theme = [
+            'background_color' => $theme[0],
+            'text_color' => $theme[1]
+        ];
+    }
+
+    return 'style="background-color: '. $theme['background_color'] .' !important; color: '. $theme['text_color'] .' !important;"';
+}
+
+function hasFunderAccountCredential($credentials, $funderId)
+{
+    $funderIds = [];
+    foreach ($credentials as $item) {
+        $funderIds[] = $item['funder_id'];
+    }
+
+    if (in_array($funderId, $funderIds)) {
+        return true;
+    }
+
+    return false;
+}
 
 function getTradingSymbols()
 {

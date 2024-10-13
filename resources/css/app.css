@@ -491,8 +491,12 @@ tr.account-item:not([data-phase="phase-3"]) {
 .filter-phase .item-not-pairable {
     display: none !important;
 }
-
-
-
-
-
+.table-pairing .user-acc-id {
+    display: inline-block !important;
+}
+.funder-alias {
+    min-width: 60px;
+    display: inline-block;
+    text-align: center;
+    margin-right: 8px;
+}
