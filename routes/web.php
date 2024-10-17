@@ -28,7 +28,7 @@ Route::get('/', function () {
     return redirect('dashboard');
 });
 
-Route::get('remove-all-pairs', [TradeController::class, 'removeAllPairs']);
+Route::get('/remove-all-pairs', [TradeController::class, 'removeAllPairs']);
 
 Route::post('/pusher/broadcasting/unit-presence-auth', function (Request $request)
 {
