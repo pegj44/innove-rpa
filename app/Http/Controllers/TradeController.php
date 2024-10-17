@@ -14,6 +14,12 @@ class TradeController extends Controller
     public static $forexTpPips = 4.9;
     public static $forexSlPips = 5.1;
 
+    public function removeAllPairs()
+    {
+        $remove = requestApi('get', 'remove-all-pairs');
+        return response()->json($remove);
+    }
+    
     public function index()
     {
         $pairedItems = requestApi('get', 'trade/paired-items');
