@@ -326,8 +326,7 @@ function requestApi($method, $endpoint, $args = [], $token = false)
             'Accept' => 'application/json',
             'Authorization' => 'Bearer '. $sessionToken,
         ];
-!d($sessionToken);
-die();
+
         switch (strtoupper($method)) {
             case 'GET':
                 $response = Http::withHeaders($headers)->get(env('RPA_API_URL'). $endpoint, $args);

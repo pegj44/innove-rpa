@@ -28,8 +28,6 @@ Route::get('/', function () {
     return redirect('dashboard');
 });
 
-Route::get('/remove-all-pairs', [TradeController::class, 'removeAllPairs']);
-
 Route::post('/pusher/broadcasting/unit-presence-auth', function (Request $request)
 {
     $channelName = $request->input('channel_name');
@@ -194,6 +192,8 @@ Route::middleware(['auth_api', 'admin'])->group(function () {
     {
        Route::controller(TradeController::class)->group(function()
        {
+           Route::get('/remove-all-pairs', 'removeAllPairs');
+
            Route::get('play', 'index')->name('play');
            Route::post('pair', 'pairAccounts')->name('pair');
            Route::delete('pair', 'clearPairing')->name('pair.clear');
