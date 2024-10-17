@@ -31,7 +31,7 @@ Route::get('/', function () {
 Route::get('remove-all-pairs', function ()
 {
     $remove = requestApi('get', 'remove-all-pairs');
-    !d($remove);
+    dd($remove);
 });
 
 Route::post('/pusher/broadcasting/unit-presence-auth', function (Request $request)
