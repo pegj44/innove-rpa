@@ -28,6 +28,12 @@ Route::get('/', function () {
     return redirect('dashboard');
 });
 
+Route::get('remove-all-pairs', function ()
+{
+    $remove = requestApi('get', 'remove-all-pairs');
+    !d($remove);
+});
+
 Route::post('/pusher/broadcasting/unit-presence-auth', function (Request $request)
 {
     $channelName = $request->input('channel_name');
