@@ -49,6 +49,10 @@
                 </div>
             </h2>
 
+            @php
+                $symbols = getTradingSymbols();
+            @endphp
+
             <div id="accordion-paired-collapse-body-{{$index}}" class="hidden" aria-labelledby="accordion-paired-collapse-heading-{{$index}}">
                 <div class="border border-gray-200 dark:border-gray-700 dark:bg-gray-900">
                     <div class="mb-5 flex bg-white border border-b-0 border-gray-200 shadow dark:bg-gray-800 dark:border-gray-700">
@@ -99,6 +103,18 @@
                                             </tr>
                                             <tr class="border-b border-gray-200 dark:border-gray-700">
                                                 <th scope="row" class="bg-gray-50 dark:bg-gray-800 dark:text-white font-medium px-6 py-4 text-gray-900 whitespace-nowrap">
+                                                    Symbol
+                                                </th>
+                                                <td class="px-6 py-4 w-1/2 dark:bg-gray-900">
+                                                    <select id="symbol-{{ $pairedItem['pair1']['id'] }}" name="symbol" class="purchase-type bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                        @foreach($symbols as $symbol)
+                                                            <option value="{{ $symbol }}" {{ ($symbol === $pairedItem['pair1']['trading_account_credential']['symbol'])? 'selected' : '' }}>{{ $symbol }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr class="border-b border-gray-200 dark:border-gray-700">
+                                                <th scope="row" class="bg-gray-50 dark:bg-gray-800 dark:text-white font-medium px-6 py-4 text-gray-900 whitespace-nowrap">
                                                     Order Amount
                                                 </th>
                                                 <td class="px-6 py-4 w-1/2 dark:bg-gray-900">
@@ -129,6 +145,8 @@
                                                     <select name="purchase_type" id="purchase-type-{{ $pairedItem['pair1']['id'] }}" data-pair="purchase-type-{{ $pairedItem['pair2']['id'] }}" class="purchase-type bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                                         <option value="buy" class="buy" selected>Buy</option>
                                                         <option value="sell" class="sell">Sell</option>
+                                                        <option value="buy-cross-phase" class="buy-cross-phase">Buy (Cross-phase)</option>
+                                                        <option value="sell-cross-phase" class="sell-cross-phase">Sell (Cross-phase)</option>
                                                     </select>
                                                 </td>
                                             </tr>
@@ -182,6 +200,18 @@
                                             </tr>
                                             <tr class="border-b border-gray-200 dark:border-gray-700">
                                                 <th scope="row" class="bg-gray-50 dark:bg-gray-800 dark:text-white font-medium px-6 py-4 text-gray-900 whitespace-nowrap">
+                                                    Symbol
+                                                </th>
+                                                <td class="px-6 py-4 w-1/2 dark:bg-gray-900">
+                                                    <select id="symbol-{{ $pairedItem['pair2']['id'] }}" name="symbol" class="purchase-type bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                        @foreach($symbols as $symbol)
+                                                            <option value="{{ $symbol }}" {{ ($symbol === $pairedItem['pair2']['trading_account_credential']['symbol'])? 'selected' : '' }}>{{ $symbol }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr class="border-b border-gray-200 dark:border-gray-700">
+                                                <th scope="row" class="bg-gray-50 dark:bg-gray-800 dark:text-white font-medium px-6 py-4 text-gray-900 whitespace-nowrap">
                                                     Order Amount
                                                 </th>
                                                 <td class="px-6 py-4 w-1/2 dark:bg-gray-900">
@@ -212,6 +242,8 @@
                                                     <select name="purchase_type" id="purchase-type-{{ $pairedItem['pair2']['id'] }}" data-pair="purchase-type-{{ $pairedItem['pair1']['id'] }}" class="purchase-type bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                                         <option value="buy" class="buy">Buy</option>
                                                         <option value="sell" class="sell" selected>Sell</option>
+                                                        <option value="buy-cross-phase" class="buy-cross-phase">Buy (Cross-phase)</option>
+                                                        <option value="sell-cross-phase" class="sell-cross-phase">Sell (Cross-phase)</option>
                                                     </select>
                                                 </td>
                                             </tr>
@@ -246,7 +278,7 @@
                             <input type="hidden" name="unit2[take_profit_ticks]" class="adaptval" data-key="take_profit_ticks-{{ $pairedItem['pair2']['id'] }}" value="">
                             <input type="hidden" name="unit2[stop_loss_ticks]" class="adaptval" data-key="stop_loss_ticks-{{ $pairedItem['pair2']['id'] }}" value="">
                             <input type="hidden" name="unit2[account_id]" value="{{ $pairedItem['pair2']['trading_account_credential']['funder_account_id'] }}">
-                            <input type="hidden" name="unit2[symbol]" value="{{ $pairedItem['pair2']['trading_account_credential']['symbol'] }}">
+                            <input type="hidden" name="unit2[symbol]" class="adaptval" data-key="symbol" value="{{ $pairedItem['pair2']['trading_account_credential']['symbol'] }}">
 
                             <button type="submit" class="initiate-trade-btn hidden px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                 <svg class="w-[24px] h-[24px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -278,7 +310,12 @@
                     const pairId = this.getAttribute('data-pair');
                     const pair = document.getElementById(pairId);
 
-                    pair.value = (this.value === 'sell')? 'buy' : 'sell';
+                    if(this.value === 'sell') {
+                        pair.value = 'buy';
+                    }
+                    if(this.value === 'buy') {
+                        pair.value = 'sell';
+                    }
                 });
             });
 
