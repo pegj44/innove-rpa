@@ -131,7 +131,18 @@
                                                 {{ __('Purchase Type') }}
                                             </th>
                                             <td class="px-6 py-4 w-1/2 dark:bg-gray-900">
-                                                {{ ucfirst($tradedItem['pair1']['purchase_type']) }}
+                                                @php
+                                                    $purchaseType = $tradedItem['pair1']['purchase_type'];
+
+                                                    if ($tradedItem['pair1']['purchase_type'] === 'buy-cross-phase') {
+                                                        $purchaseType = 'Buy Cross-phase';
+                                                    }
+                                                    if ($tradedItem['pair1']['purchase_type'] === 'sell-cross-phase') {
+                                                        $purchaseType = 'Sell Cross-phase';
+                                                    }
+                                                @endphp
+
+                                                {{ ucfirst($purchaseType) }}
                                             </td>
                                         </tr>
                                         </tbody>
@@ -211,7 +222,18 @@
                                                 {{ __('Purchase Type') }}
                                             </th>
                                             <td class="px-6 py-4 w-1/2 dark:bg-gray-900">
-                                                {{ ucfirst($tradedItem['pair2']['purchase_type']) }}
+                                                @php
+                                                    $purchaseType = $tradedItem['pair2']['purchase_type'];
+
+                                                    if ($tradedItem['pair2']['purchase_type'] === 'buy-cross-phase') {
+                                                        $purchaseType = 'Buy Cross-phase';
+                                                    }
+                                                    if ($tradedItem['pair2']['purchase_type'] === 'sell-cross-phase') {
+                                                        $purchaseType = 'Sell Cross-phase';
+                                                    }
+                                                @endphp
+
+                                                {{ ucfirst($purchaseType) }}
                                             </td>
                                         </tr>
                                         </tbody>

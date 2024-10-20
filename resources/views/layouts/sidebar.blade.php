@@ -36,11 +36,11 @@
                    childElRoutes = childElRoutes.split('|');
 
                    if(childElRoutes.indexOf('{{ $currentRouteName }}') !== -1) {
-                       childEl.querySelector('a').classList.add('dark:bg-gray-900');
+                       childEl.querySelector('a').classList.add('active');
                    }
                });
            } else {
-               el.querySelector('a').classList.add('dark:bg-gray-900');
+               el.querySelector('a').classList.add('active');
            }
        }
 

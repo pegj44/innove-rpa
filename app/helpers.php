@@ -63,17 +63,17 @@ function getTradeReportCalculations($data)
     $funderPhaseTwoTargetProfitType = 'fixed';
 
     if ($currentPhase === 'phase-1') {
-        $funderDailyThreshold = $data['trading_account_credential']['phase_1_daily_drawdown'];
-        $funderMaxDrawdown = $data['trading_account_credential']['phase_1_max_drawdown'];
-        $targetProfit = $data['trading_account_credential']['phase_1_daily_target_profit'];
+        $funderDailyThreshold = (float) $data['trading_account_credential']['phase_1_daily_drawdown'];
+        $funderMaxDrawdown = (float) $data['trading_account_credential']['phase_1_max_drawdown'];
+        $targetProfit = (float) $data['trading_account_credential']['phase_1_daily_target_profit'];
     } elseif ($currentPhase === 'phase-2') {
-        $funderDailyThreshold = $data['trading_account_credential']['phase_2_daily_drawdown'];
-        $funderMaxDrawdown = $data['trading_account_credential']['phase_2_max_drawdown'];
-        $targetProfit = $data['trading_account_credential']['phase_2_daily_target_profit'];
+        $funderDailyThreshold = (float) $data['trading_account_credential']['phase_2_daily_drawdown'];
+        $funderMaxDrawdown = (float) $data['trading_account_credential']['phase_2_max_drawdown'];
+        $targetProfit = (float) $data['trading_account_credential']['phase_2_daily_target_profit'];
     } elseif ($currentPhase === 'phase-3') {
-        $funderDailyThreshold = $data['trading_account_credential']['phase_3_daily_drawdown'];
-        $funderMaxDrawdown = $data['trading_account_credential']['phase_3_max_drawdown'];
-        $targetProfit = $data['trading_account_credential']['phase_3_daily_target_profit'];
+        $funderDailyThreshold = (float) $data['trading_account_credential']['phase_3_daily_drawdown'];
+        $funderMaxDrawdown = (float) $data['trading_account_credential']['phase_3_max_drawdown'];
+        $targetProfit = (float) $data['trading_account_credential']['phase_3_daily_target_profit'];
     }
 
     $targetProfitStr = $targetProfit;

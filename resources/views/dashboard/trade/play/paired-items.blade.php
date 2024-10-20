@@ -267,7 +267,7 @@
                             <input type="hidden" name="unit1[take_profit_ticks]" class="adaptval" data-key="take_profit_ticks-{{ $pairedItem['pair1']['id'] }}" value="">
                             <input type="hidden" name="unit1[stop_loss_ticks]" class="adaptval" data-key="stop_loss_ticks-{{ $pairedItem['pair1']['id'] }}" value="">
                             <input type="hidden" name="unit1[account_id]" value="{{ $pairedItem['pair1']['trading_account_credential']['funder_account_id'] }}">
-                            <input type="hidden" name="unit1[symbol]" value="{{ $pairedItem['pair1']['trading_account_credential']['symbol'] }}">
+                            <input type="hidden" name="unit1[symbol]" class="adaptval" data-key="symbol-{{ $pairedItem['pair1']['id'] }}" value="{{ $pairedItem['pair1']['trading_account_credential']['symbol'] }}">
 
                             <input type="hidden" name="unit2[id]" value="{{ $pairedItem['pair2']['id'] }}">
                             <input type="hidden" name="unit2[unit]" value="{{ $pairedItem['pair2']['trading_account_credential']['user_account']['trading_unit']['unit_id'] }}">
@@ -278,7 +278,7 @@
                             <input type="hidden" name="unit2[take_profit_ticks]" class="adaptval" data-key="take_profit_ticks-{{ $pairedItem['pair2']['id'] }}" value="">
                             <input type="hidden" name="unit2[stop_loss_ticks]" class="adaptval" data-key="stop_loss_ticks-{{ $pairedItem['pair2']['id'] }}" value="">
                             <input type="hidden" name="unit2[account_id]" value="{{ $pairedItem['pair2']['trading_account_credential']['funder_account_id'] }}">
-                            <input type="hidden" name="unit2[symbol]" class="adaptval" data-key="symbol" value="{{ $pairedItem['pair2']['trading_account_credential']['symbol'] }}">
+                            <input type="hidden" name="unit2[symbol]" class="adaptval" data-key="symbol-{{ $pairedItem['pair2']['id'] }}" value="{{ $pairedItem['pair2']['trading_account_credential']['symbol'] }}">
 
                             <button type="submit" class="initiate-trade-btn hidden px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                 <svg class="w-[24px] h-[24px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
