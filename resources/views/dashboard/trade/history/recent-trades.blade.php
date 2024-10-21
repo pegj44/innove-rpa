@@ -1,5 +1,5 @@
 <div class="relative">
-    <table id="ongoing-trades-table" x-data="" class="overflow-hidden sm:rounded-lg w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <table id="recent-trades-table" x-data="" class="overflow-hidden sm:rounded-lg w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr>
             <th scope="col" class="px-6 py-3">
@@ -17,19 +17,25 @@
             <th scope="col" class="px-6 py-3">
                 {{ __('Total Profit') }}
             </th>
+            <th scope="col" class="px-6 py-3">
+                {{ __('Date') }}
+            </th>
         </tr>
         </thead>
         <tbody>
-        @if(empty($ongoingTrades))
+        @if(empty($recentTrades))
             <tr class="border-b border-gray-700 bg-gray-800 hover:bg-gray-600">
-                <td colspan="5" class="text-center px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">No ongoing trades</td>
+                <td colspan="5" class="text-center px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">No trades yet</td>
             </tr>
         @else
-            @foreach($ongoingTrades as $item)
+            @foreach($recentTrades as $item)
                 @php
                     $dailyPnL1 = (float) $item['latest_equity'] - (float) $item['starting_daily_equity'];
                     $totalProfit1 = (float) $item['latest_equity'] - (float) $item['trading_account_credential']['starting_balance'];
                     $totalProfit1 = ($totalProfit1 > 0)? $totalProfit1 : 0;
+
+                    $date = \Carbon\Carbon::parse($item['created_at']);
+                    $formattedDate = $date->format('M j, Y');
                 @endphp
                 <tr class="border-b border-gray-700 bg-gray-800 hover:bg-gray-600">
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -55,6 +61,9 @@
                             {{ number_format($totalProfit1, 2) }}
                         @endif
                     </td>
+                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {{ $formattedDate }}
+                    </td>
                 </tr>
             @endforeach
         @endif
@@ -62,9 +71,15 @@
     </table>
 </div>
 
-@if(!empty($ongoingTrades))
+@if(!empty($recentTrades))
     <script>
-        jQuery('#ongoing-trades-table').DataTable( {
+
+        jQuery.fn.dataTable.ext.type.order['custom-date-pre'] = function(d) {
+            const date = new Date(d);
+            return date.getTime();
+        };
+
+        jQuery('#recent-trades-table').DataTable( {
             paging: true,
             lengthChange: false,
             pageLength: 20,
@@ -73,8 +88,14 @@
                 {
                     orderable: false,
                     targets: [0]
+                },
+                {
+                    targets: 5,
+                    type: "custom-date"
                 }
-            ]
+            ],
+            order: [[5, 'desc']]
         });
+
     </script>
 @endif

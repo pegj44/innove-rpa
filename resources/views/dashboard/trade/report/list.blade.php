@@ -168,7 +168,7 @@
         columnDefs: [
             {
                 orderable: false,
-                targets: [0, 1, 2, 3, 6, 7]
+                targets: [0, 1, 2, 6, 7]
             }
         ]
     });

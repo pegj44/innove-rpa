@@ -78,7 +78,7 @@
                         <h2 class="font-bold text-3xl text-white">0.00</h2>
                     @endif
                     <h5 class="dark:text-white mb-2 text-gray-900 text-left text-sm">
-                        <span>Total Profit</span>
+                        <span>Monthly Profit</span>
     {{--                    <span class="text-green-500">--}}
     {{--                        4%--}}
     {{--                        <svg class="w-5 h-5 text-green-500 inline-block" style="margin-top: -4px;margin-left: -5px;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">--}}
@@ -97,7 +97,7 @@
                         <h2 class="font-bold text-3xl text-white">0.00</h2>
                     @endif
                     <h5 class="dark:text-white mb-2 text-gray-900 text-left text-sm"">
-                        <span>Weekly Number of Trades</span>
+                        <span>Monthly Number of Trades</span>
                     </h5>
                 </div>
             </div>
@@ -154,7 +154,11 @@
                  role="tabpanel"
                  aria-labelledby="recent-trades-tab"
             >
-                Recent Trades
+                <div class="overflow-hidden">
+                    <div class="dark:text-gray-100 p-6 pt-0 text-gray-900">
+                        @include('dashboard.trade.history.recent-trades')
+                    </div>
+                </div>
             </div>
 
             <div class="hidden"
@@ -162,7 +166,11 @@
                  role="tabpanel"
                  aria-labelledby="recent-payout-tab"
              >
-                Recent Payout
+                <div class="overflow-hidden">
+                    <div class="dark:text-gray-100 p-6 pt-0 text-gray-900">
+                        @include('dashboard.trade.history.recent-payout-requests')
+                    </div>
+                </div>
             </div>
         </div>
 

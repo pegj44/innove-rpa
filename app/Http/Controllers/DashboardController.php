@@ -21,7 +21,9 @@ class DashboardController extends Controller
             'totalDailyProfit'  => $tradingReport['totalDailyProfit'],
             'totalWeeklyProfit' => $tradingReport['totalWeeklyProfit'],
             'finalTotalProfit'  => $tradingReport['finalTotalProfit'],
-            'tradeCount'        => $tradingReport['tradeCount']
+            'tradeCount'        => $tradingReport['tradeCount'],
+            'recentTrades'      => $tradingReport['recentTrades'],
+            'forPayouts'        => $tradingReport['forPayouts']
         ]);
     }
 
@@ -35,9 +37,12 @@ class DashboardController extends Controller
             'current_phase' => $phase
         ]);
 
+        $forPayouts = requestApi('get', 'trade/payouts');
+
         $totalWeeklyProfit = [];
         $totalDailyProfit = [];
         $finalTotalProfit = [];
+        $recentTrades = [];
 
         if (!empty($tradeHistory)) {
             foreach ($tradeHistory as $item) {
@@ -55,6 +60,8 @@ class DashboardController extends Controller
                 if ($dailyProfit > 0 && $date->isCurrentWeek()) {
                     $totalWeeklyProfit[] = $dailyProfit;
                 }
+
+                $recentTrades[] = $item;
             }
         }
 
@@ -63,7 +70,9 @@ class DashboardController extends Controller
             'totalDailyProfit' => array_sum($totalDailyProfit),
             'totalWeeklyProfit' => array_sum($totalWeeklyProfit),
             'finalTotalProfit' => array_sum($finalTotalProfit),
-            'tradeCount' => count($tradeHistory)
+            'tradeCount' => count($tradeHistory),
+            'recentTrades' => $recentTrades,
+            'forPayouts' => $forPayouts
         ];
     }
 }
