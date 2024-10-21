@@ -46,7 +46,7 @@ class AuthenticatedSessionController extends Controller
                 'isOwner' => $responseBody['isOwner']
             ]);
 
-            return redirect()->route('dashboard');
+            return redirect()->route('dashboard.live-accounts');
         }
 
         return redirect()->route('login')
@@ -63,6 +63,6 @@ class AuthenticatedSessionController extends Controller
         Session::flush();
         Session::invalidate();
 
-        return redirect()->route('dashboard');
+        return redirect()->route('dashboard.live-accounts');
     }
 }

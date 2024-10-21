@@ -7,15 +7,37 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
+    public function auditionDashboard()
+    {
+
+    }
+
     public function dashboard()
     {
-        $ongoingTrades = requestApi('get', 'investor/ongoing-trades');
-        $tradeHistory = requestApi('get', 'trade/history');
+        $tradingReport = $this->getTradingReport('phase-3');
+
+        return view('dashboard', [
+            'ongoingTrades'     => $tradingReport['ongoingTrades'],
+            'totalDailyProfit'  => $tradingReport['totalDailyProfit'],
+            'totalWeeklyProfit' => $tradingReport['totalWeeklyProfit'],
+            'finalTotalProfit'  => $tradingReport['finalTotalProfit'],
+            'tradeCount'        => $tradingReport['tradeCount']
+        ]);
+    }
+
+    private function getTradingReport($phase = null)
+    {
+        $ongoingTrades = requestApi('get', 'investor/ongoing-trades', [
+            'current_phase' => $phase
+        ]);
+
+        $tradeHistory = requestApi('get', 'trade/history', [
+            'current_phase' => $phase
+        ]);
 
         $totalWeeklyProfit = [];
         $totalDailyProfit = [];
         $finalTotalProfit = [];
-
 
         if (!empty($tradeHistory)) {
             foreach ($tradeHistory as $item) {
@@ -36,12 +58,12 @@ class DashboardController extends Controller
             }
         }
 
-        return view('dashboard', [
+        return [
             'ongoingTrades' => $ongoingTrades,
             'totalDailyProfit' => array_sum($totalDailyProfit),
             'totalWeeklyProfit' => array_sum($totalWeeklyProfit),
             'finalTotalProfit' => array_sum($finalTotalProfit),
             'tradeCount' => count($tradeHistory)
-        ]);
+        ];
     }
 }

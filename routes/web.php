@@ -25,7 +25,7 @@ use Pusher\Pusher;
 */
 
 Route::get('/', function () {
-    return redirect('dashboard');
+    return redirect('dashboard/live-accounts');
 });
 
 Route::post('/pusher/broadcasting/unit-presence-auth', function (Request $request)
@@ -91,9 +91,10 @@ Route::post('/pusher/broadcasting/auth', function (Request $request)
 });
 
 Route::middleware(['auth_api'])->group(function () {
-    Route::controller(\App\Http\Controllers\DashboardController::class)->group(function()
+    Route::controller(\App\Http\Controllers\DashboardController::class)->prefix('dashboard/')->name('dashboard.')->group(function()
     {
-        Route::get('/dashboard', 'dashboard')->name('dashboard');
+        Route::get('live-accounts', 'dashboard')->name('live-accounts');
+        Route::get('audition-accounts', 'auditionDashboard')->name('audition-accounts');
     });
 
 });
@@ -124,24 +125,24 @@ Route::middleware(['auth_api', 'admin'])->group(function () {
 
         Route::post('/register-unit', 'store')->name('trading-unit.create');
         Route::get('/register-unit', function() {
-            return redirect('dashboard');
+            return redirect('dashboard/live-accounts');
         });
 
         Route::post('/trading-unit/{id}', 'update')->name('trading-unit.update');
         Route::get('/trading-unit/{id}', function() {
-            return redirect('dashboard');
+            return redirect('dashboard/live-accounts');
         });
 
         Route::delete('/trading-unit/{id}', 'destroy')->name('trading-unit.delete');
 
         Route::post('/trading-unit/settings/set-password', 'setUnitPassword')->name('trading-unit.settings.set-password');
         Route::get('/trading-unit/settings/set-password', function() {
-            return redirect('dashboard');
+            return redirect('dashboard/live-accounts');
         });
 
         Route::post('/trading-unit/settings/update-password', 'updateUnitPassword')->name('trading-unit.settings.update-password');
         Route::get('/trading-unit/settings/update-password', function() {
-            return redirect('dashboard');
+            return redirect('dashboard/live-accounts');
         });
     });
 

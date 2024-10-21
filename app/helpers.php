@@ -188,7 +188,10 @@ function getDailyPnLCalculation($data, $formatted = true)
     return $pnl;
 }
 
-
+function getCurrentRoutName()
+{
+    return  \Illuminate\Support\Facades\Route::currentRouteName();
+}
 
 function getCalculatedOrderAmount($data, $orderType = 'futures', $outputType = 'pips')
 {

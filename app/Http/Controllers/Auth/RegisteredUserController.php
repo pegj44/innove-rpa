@@ -43,7 +43,7 @@ class RegisteredUserController extends Controller
         ]);
 
         if ($response->successful()) {
-            return redirect()->route('dashboard');
+            return redirect()->route('dashboard.live-accounts');
         }
 
         $errors = json_decode($response->body(), true);

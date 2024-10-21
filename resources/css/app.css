@@ -526,3 +526,51 @@ tr.account-item:not([data-phase="phase-3"]) {
 #logo-sidebar li a:hover {
     background-color: rgb(55 65 81 / 60%);
 }
+.dt-container .dt-layout-row.dt-layout-table + .dt-layout-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+.dt-info {
+    font-size: 14px;
+}
+div.dt-container .dt-paging .dt-paging-button {
+    box-sizing: border-box;
+    display: inline-block;
+    min-width: 1.2em;
+    padding: 0 .6em;
+    margin-left: 2px;
+    text-align: center;
+    text-decoration: none !important;
+    cursor: pointer;
+    color: inherit !important;
+    border: 1px solid rgba(0,0,0,0);
+    border-radius: 2px;
+    background: rgba(0,0,0,0);
+    font-size: 16px;
+}
+html.dark .dt-container .dt-paging .dt-paging-button.current, html.dark .dt-container .dt-paging .dt-paging-button.current:hover {
+    border: 1px solid #595b5e;
+    background: rgba(255,255,255,.15);
+}
+div.dt-container .dt-paging .dt-paging-button.current, div.dt-container .dt-paging .dt-paging-button.current:hover {
+    color: inherit !important;
+    border: 1px solid rgba(0,0,0,.3);
+    background-color: rgba(0,0,0,.05);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(230, 230, 230, 0.05)), color-stop(100%, rgba(0, 0, 0, 0.05)));
+    background: -webkit-linear-gradient(top, rgba(230, 230, 230, 0.05) 0%, rgba(0, 0, 0, 0.05) 100%);
+    background: -moz-linear-gradient(top, rgba(230, 230, 230, 0.05) 0%, rgba(0, 0, 0, 0.05) 100%);
+    background: -ms-linear-gradient(top, rgba(230, 230, 230, 0.05) 0%, rgba(0, 0, 0, 0.05) 100%);
+    background: -o-linear-gradient(top, rgba(230, 230, 230, 0.05) 0%, rgba(0, 0, 0, 0.05) 100%);
+    background: linear-gradient(to bottom, rgba(230, 230, 230, 0.05) 0%, rgba(0, 0, 0, 0.05) 100%);
+}
+html.dark .dt-container .dt-paging .dt-paging-button.disabled, html.dark .dt-container .dt-paging .dt-paging-button.disabled:hover, html.dark .dt-container .dt-paging .dt-paging-button.disabled:active {
+    color: #666 !important;
+}
+div.dt-container .dt-paging .dt-paging-button.disabled, div.dt-container .dt-paging .dt-paging-button.disabled:hover, div.dt-container .dt-paging .dt-paging-button.disabled:active {
+    cursor: default;
+    color: rgba(0,0,0,.5) !important;
+    border: 1px solid rgba(0,0,0,0);
+    background: rgba(0,0,0,0);
+    box-shadow: none;
+}
