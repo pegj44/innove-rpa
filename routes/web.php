@@ -28,6 +28,11 @@ Route::get('/', function () {
     return redirect('dashboard/live-accounts');
 });
 
+Route::get('/dashboard', function () {
+    return redirect('dashboard/live-accounts');
+});
+
+
 Route::post('/pusher/broadcasting/unit-presence-auth', function (Request $request)
 {
     $channelName = $request->input('channel_name');
