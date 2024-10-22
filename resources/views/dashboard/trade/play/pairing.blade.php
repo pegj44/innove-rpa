@@ -96,21 +96,21 @@
              role="tabpanel"
              aria-labelledby="funder-accounts-tab"
         >
-            @include('dashboard.trade.report.list')
+            @include('dashboard.trade.report.list', ['controls' => true])
         </div>
         <div class="hidden"
              id="traded-accounts-tab-content"
              role="tabpanel"
              aria-labelledby="traded-accounts-tab"
         >
-            @include('dashboard.trade.play.trading-items')
+            @include('dashboard.trade.play.trading-items', ['controls' => true])
         </div>
 
         <div class="hidden"
              id="pairing-accounts-tab-content"
              role="tabpanel"
              aria-labelledby="pairing-accounts-tab"
-
+        >
             @include('dashboard.trade.play.paired-items')
         </div>
     </div>

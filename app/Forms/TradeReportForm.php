@@ -14,7 +14,7 @@ class TradeReportForm extends Form
 
         $accountCreds = [];
         foreach ($tradingAccounts as $accCred) {
-            $accountCreds[$accCred['id']] = $accCred['funder']['alias'] .' | '. $accCred['funder_account_id'] .' ['. $accCred['user_account']['trading_unit']['name'] .']'; // FTT - 111111111111 [PC-7]
+            $accountCreds[$accCred['id']] = $accCred['funder']['alias'] .' | '. $accCred['funder_account_id'] .' ['. $accCred['user_account']['trading_unit']['name'] .']';
         }
 
         $tradingAccountId = (!empty($data['trade_account_credential_id']))? $data['trade_account_credential_id'] : '';

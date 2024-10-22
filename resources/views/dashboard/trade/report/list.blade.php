@@ -1,11 +1,13 @@
 @if(!empty($tradingAccounts))
 
 
-    <label class="inline-flex items-center cursor-pointer" x-data="">
-        <input id="toggle-pairables" type="checkbox" value="" class="sr-only peer">
-        <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-        <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Show only pairable items</span>
-    </label>
+    @if(!empty($controls))
+        <label class="inline-flex items-center cursor-pointer" x-data="">
+            <input id="toggle-pairables" type="checkbox" value="" class="sr-only peer">
+            <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+            <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Show only pairable items</span>
+        </label>
+    @endif
 
     <div>
 
@@ -13,7 +15,9 @@
             <table id="trading-accounts" x-data="" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-                <th scope="col" class="px-6 py-3"></th>
+                @if(!empty($controls))
+                    <th scope="col" class="px-6 py-3"></th>
+                @endif
                 <th scope="col" class="px-6 py-3">
                     {{ __('Account') }}
                 </th>
@@ -38,7 +42,9 @@
                 <th scope="col" class="px-6 py-3">
                     {{ __('Unit') }}
                 </th>
-                <th scope="col" class="px-6 py-3"></th>
+                @if(!empty($controls))
+                    <th scope="col" class="px-6 py-3"></th>
+                @endif
             </tr>
             </thead>
             <tbody>
@@ -69,39 +75,40 @@
                 @endphp
 
                 <tr class="account-item border-b border-gray-700 bg-gray-800 hover:bg-gray-600 {{ $isShining }} {{ ($item['status'] === 'idle')? 'item-pairable' : 'item-not-pairable' }}" data-phase="{{ $item['trading_account_credential']['current_phase'] }}" data-user="{{ $item['trading_account_credential']['funder']['alias'] }}{{ $item['trading_account_credential']['user_account']['id'] }}" data-unit="{{ $item['trading_account_credential']['funder']['alias'] }}{{ $item['trading_account_credential']['user_account']['trading_unit']['id'] }}">
+                    @if(!empty($controls))
+                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" style="z-index: 10">
 
-                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" style="z-index: 10">
 
-                        @if($item['status'] === 'payout')
-                            <div style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; overflow: hidden;">
-                            </div>
-                        @endif
-
-                        @if(!hasFunderAccountCredential($item['trading_account_credential']['user_account']['funder_account_credential'], $item['trading_account_credential']['funder_id']))
-                                <svg class="w-6 h-6 text-orange-400" data-tooltip-target="tooltip-right-{{ $item['id'] }}" data-tooltip-placement="right" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13V8m0 8h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                </svg>
-
-                                <div id="tooltip-right-{{ $item['id'] }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                                    No platform credentials detected.
-                                    <div class="tooltip-arrow" data-popper-arrow></div>
+                            @if($item['status'] === 'payout')
+                                <div style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; overflow: hidden;">
                                 </div>
-                        @else
-                            @if($item['status'] === 'idle')
-                                <a href="#" x-on:click="requestPair({{$item['id']}}, event, $event.target)" class="pair-item-btn font-medium text-blue-600 dark:text-blue-50">
-                                    <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16 10 3-3m0 0-3-3m3 3H5v3m3 4-3 3m0 0 3 3m-3-3h14v-3"/>
-                                    </svg>
-                                </a>
-                                <a href="#" x-on:click="requestCancelPair({{$item['id']}}, event, $event.target)" class="cancel-pair-item-btn font-medium text-blue-600 dark:text-blue-50">
-                                    <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/>
-                                    </svg>
-                                </a>
                             @endif
-                        @endif
 
-                    </td>
+                            @if(!hasFunderAccountCredential($item['trading_account_credential']['user_account']['funder_account_credential'], $item['trading_account_credential']['funder_id']))
+                                    <svg class="w-6 h-6 text-orange-400" data-tooltip-target="tooltip-right-{{ $item['id'] }}" data-tooltip-placement="right" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13V8m0 8h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                    </svg>
+
+                                    <div id="tooltip-right-{{ $item['id'] }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                                        No platform credentials detected.
+                                        <div class="tooltip-arrow" data-popper-arrow></div>
+                                    </div>
+                            @else
+                                @if($item['status'] === 'idle')
+                                    <a href="#" x-on:click="requestPair({{$item['id']}}, event, $event.target)" class="pair-item-btn font-medium text-blue-600 dark:text-blue-50">
+                                        <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16 10 3-3m0 0-3-3m3 3H5v3m3 4-3 3m0 0 3 3m-3-3h14v-3"/>
+                                        </svg>
+                                    </a>
+                                    <a href="#" x-on:click="requestCancelPair({{$item['id']}}, event, $event.target)" class="cancel-pair-item-btn font-medium text-blue-600 dark:text-blue-50">
+                                        <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/>
+                                        </svg>
+                                    </a>
+                                @endif
+                            @endif
+                        </td>
+                    @endif
                     <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         <span class="px-2 py-1 hidden user-acc-id" style="text-shadow: 1px 1px 1px #000;">{{ $item['trading_account_credential']['user_account']['id'] }}</span>
                         <span class="bg-gray-900 px-2 py-1 rounded font-black funder-alias" {!! renderFunderAliasAttr($item['trading_account_credential']['funder']) !!}> {{ $item['trading_account_credential']['funder']['alias'] }}</span> {{ $item['trading_account_credential']['funder_account_id'] }}
@@ -127,13 +134,15 @@
                     <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ $item['trading_account_credential']['user_account']['trading_unit']['name'] }}
                     </td>
-                    <td class="px-6 py-4 text-right border-r border-gray-600">
-                        <a href="{{ route('trade.report.edit', $item['id']) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                            <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
-                            </svg>
-                        </a>
-                    </td>
+                    @if(!empty($controls))
+                        <td class="px-6 py-4 text-right border-r border-gray-600">
+                            <a href="{{ route('trade.report.edit', $item['id']) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
+                                </svg>
+                            </a>
+                        </td>
+                    @endif
                 </tr>
             @endforeach
             </tbody>
@@ -161,175 +170,201 @@
 
 <script>
 
-    jQuery('#trading-accounts').DataTable( {
-        paging: false,
-        info: false,
-        searching: false,
-        columnDefs: [
-            {
-                orderable: false,
-                targets: [0, 1, 2, 6, 7]
-            }
-        ]
-    });
-
-    let pairedItemsCount = 0;
-    let pairedItemsId = [];
-    let pairedUsersId = [];
-    let pairedUnitId = [];
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const pairablesCheckbox = document.getElementById('toggle-pairables');
-        const userAccountsTable = document.getElementById('trading-accounts');
-        const cancelPairingBtn = document.getElementById('cancel-pair-accounts-btn');
-        const pairAccountsBtn = document.getElementById('pair-accounts-btn-wrapper');
-
-        pairablesCheckbox.addEventListener('change', function() {
-            if (pairablesCheckbox.checked) {
-                userAccountsTable.classList.add('show-pairables-only');
-            } else {
-                userAccountsTable.classList.remove('show-pairables-only');
-            }
+    @if(!empty($controls))
+        jQuery('#trading-accounts').DataTable( {
+            paging: false,
+            info: false,
+            searching: false,
+            columnDefs: [
+                {
+                    orderable: false,
+                    targets: [0, 1, 2, 6, 7]
+                }
+            ]
+        });
+    @else
+        jQuery('#trading-accounts').DataTable( {
+            paging: false,
+            info: false,
+            searching: false,
+            columnDefs: [
+                {
+                    orderable: false,
+                    targets: [0, 5]
+                },
+                {
+                    targets: 2,
+                    orderDataType: "custom-payout-sort"
+                }
+            ],
+            order: []
         });
 
-        cancelPairingBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            const pairedItems = document.querySelectorAll('.pair-select');
-            const pairedIdsField = document.getElementById('paired-ids');
+        $.fn.dataTable.ext.order['custom-payout-sort'] = function(settings, colIdx) {
+            return this.api().column(colIdx, { order: 'index' }).nodes().map(function(td, i) {
+                return $(td).text().trim() === 'PAYOUT' ? -1 : i;
+            });
+        };
+    @endif
 
-            pairedItemsCount = 0;
+    @if(!empty($controls))
+        let pairedItemsCount = 0;
+        let pairedItemsId = [];
+        let pairedUsersId = [];
+        let pairedUnitId = [];
 
-            pairedItems.forEach(function(item) {
-                item.classList.remove('pair-select');
+        document.addEventListener('DOMContentLoaded', function() {
+            const pairablesCheckbox = document.getElementById('toggle-pairables');
+            const userAccountsTable = document.getElementById('trading-accounts');
+            const cancelPairingBtn = document.getElementById('cancel-pair-accounts-btn');
+            const pairAccountsBtn = document.getElementById('pair-accounts-btn-wrapper');
+
+            pairablesCheckbox.addEventListener('change', function() {
+                if (pairablesCheckbox.checked) {
+                    userAccountsTable.classList.add('show-pairables-only');
+                } else {
+                    userAccountsTable.classList.remove('show-pairables-only');
+                }
             });
 
-            userAccountsTable.classList.remove('pair-full');
-            pairAccountsBtn.classList.add('hidden');
-            pairedItemsId = [];
-            pairedUsersId = [];
-            pairedUnitId = [];
-            pairedIdsField.value = '';
+            cancelPairingBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const pairedItems = document.querySelectorAll('.pair-select');
+                const pairedIdsField = document.getElementById('paired-ids');
 
-            userAccountsTable.classList.remove('filter-phase');
-            userAccountsTable.classList.remove('table-pairing');
-            userAccountsTable.removeAttribute('data-phase');
-            userAccountsTable.removeAttribute('data-user');
-            userAccountsTable.removeAttribute('data-unit');
-            hideSameUserId();
+                pairedItemsCount = 0;
+
+                pairedItems.forEach(function(item) {
+                    item.classList.remove('pair-select');
+                });
+
+                userAccountsTable.classList.remove('pair-full');
+                pairAccountsBtn.classList.add('hidden');
+                pairedItemsId = [];
+                pairedUsersId = [];
+                pairedUnitId = [];
+                pairedIdsField.value = '';
+
+                userAccountsTable.classList.remove('filter-phase');
+                userAccountsTable.classList.remove('table-pairing');
+                userAccountsTable.removeAttribute('data-phase');
+                userAccountsTable.removeAttribute('data-user');
+                userAccountsTable.removeAttribute('data-unit');
+                hideSameUserId();
+            });
         });
-    });
 
-    function reducePairedItemsId(id) {
-        const index = pairedItemsId.indexOf(id);
-        const pairedIdsField = document.getElementById('paired-ids');
+        function reducePairedItemsId(id) {
+            const index = pairedItemsId.indexOf(id);
+            const pairedIdsField = document.getElementById('paired-ids');
 
-        if (index !== -1) {
-            pairedItemsId.splice(index, 1);
-        }
-
-        pairedIdsField.value = pairedItemsId.join(',');
-    }
-
-    function reducePairedUserId(id) {
-        const index = pairedUsersId.indexOf(id);
-        if (index !== -1) {
-            pairedUsersId.splice(index, 1);
-        }
-    }
-
-    function reducePairedUnitId(id) {
-        const index = pairedUnitId.indexOf(id);
-        if (index !== -1) {
-            pairedUnitId.splice(index, 1);
-        }
-    }
-
-    function requestPair(itemId, event, el) {
-        event.preventDefault();
-        const closestTr = el.closest('tr');
-        const userAccountsTable = document.getElementById('trading-accounts');
-        const pairAccountsBtn = document.getElementById('pair-accounts-btn-wrapper');
-        const pairedIdsField = document.getElementById('paired-ids');
-        const userId = closestTr.getAttribute('data-user');
-        const unitId = closestTr.getAttribute('data-unit');
-
-        closestTr.classList.add('pair-select');
-        pairedItemsCount += 1;
-
-        if (!userAccountsTable.classList.contains('filter-phase')) {
-            userAccountsTable.setAttribute('data-user', userId);
-            userAccountsTable.setAttribute('data-unit', unitId);
-            hideSameUserId();
-        }
-
-        userAccountsTable.classList.add('filter-phase');
-        userAccountsTable.classList.add('table-pairing');
-        userAccountsTable.setAttribute('data-phase', closestTr.getAttribute('data-phase'));
-
-        if (pairedItemsCount >= 2) {
-            userAccountsTable.classList.add('pair-full');
-            pairAccountsBtn.classList.remove('hidden');
-        } else {
-            userAccountsTable.classList.remove('pair-full');
-            pairAccountsBtn.classList.add('hidden');
-        }
-
-        pairedItemsId.push(itemId);
-        pairedUsersId.push(userId);
-        pairedUnitId.push(unitId);
-        pairedIdsField.value = pairedItemsId.join(',');
-    }
-
-    function hideSameUserId()
-    {
-        const userAccountsTable = document.getElementById('trading-accounts');
-        const userId = userAccountsTable.getAttribute('data-user');
-        const unitId = userAccountsTable.getAttribute('data-unit');
-
-        userAccountsTable.querySelectorAll('tr.account-item').forEach(function(row) {
-            if (!row.classList.contains('pair-select')) {
-                const rowUserId = row.getAttribute('data-user');
-                const rowUnitId = row.getAttribute('data-unit');
-                if (rowUserId === userId || rowUnitId === unitId) {
-                    row.style.display = 'none';
-                } else {
-                    row.style.display = '';
-                }
+            if (index !== -1) {
+                pairedItemsId.splice(index, 1);
             }
-        });
-    }
 
-    function requestCancelPair(itemId, event, el) {
-        event.preventDefault();
-        const closestTr = el.closest('tr');
-        const userAccountsTable = document.getElementById('trading-accounts');
-        const pairAccountsBtn = document.getElementById('pair-accounts-btn-wrapper');
-        const userId = closestTr.getAttribute('data-user');
-        const unitId = closestTr.getAttribute('data-unit');
-
-        closestTr.classList.remove('pair-select');
-
-        pairedItemsCount -= 1;
-        reducePairedItemsId(itemId);
-        reducePairedUserId(userId);
-        reducePairedUnitId(unitId);
-
-        userAccountsTable.setAttribute('data-user', pairedUsersId[0]);
-        userAccountsTable.setAttribute('data-unit', pairedUnitId[0]);
-        userAccountsTable.classList.remove('pair-full');
-        pairAccountsBtn.classList.add('hidden');
-
-        hideSameUserId();
-
-        if (pairedItemsCount < 1) {
-            userAccountsTable.classList.remove('filter-phase');
-            userAccountsTable.classList.remove('table-pairing');
-            userAccountsTable.removeAttribute('data-phase');
-            userAccountsTable.removeAttribute('data-user');
-            userAccountsTable.removeAttribute('data-unit');
+            pairedIdsField.value = pairedItemsId.join(',');
         }
-    }
 
+        function reducePairedUserId(id) {
+            const index = pairedUsersId.indexOf(id);
+            if (index !== -1) {
+                pairedUsersId.splice(index, 1);
+            }
+        }
+
+        function reducePairedUnitId(id) {
+            const index = pairedUnitId.indexOf(id);
+            if (index !== -1) {
+                pairedUnitId.splice(index, 1);
+            }
+        }
+
+        function requestPair(itemId, event, el) {
+            event.preventDefault();
+            const closestTr = el.closest('tr');
+            const userAccountsTable = document.getElementById('trading-accounts');
+            const pairAccountsBtn = document.getElementById('pair-accounts-btn-wrapper');
+            const pairedIdsField = document.getElementById('paired-ids');
+            const userId = closestTr.getAttribute('data-user');
+            const unitId = closestTr.getAttribute('data-unit');
+
+            closestTr.classList.add('pair-select');
+            pairedItemsCount += 1;
+
+            if (!userAccountsTable.classList.contains('filter-phase')) {
+                userAccountsTable.setAttribute('data-user', userId);
+                userAccountsTable.setAttribute('data-unit', unitId);
+                hideSameUserId();
+            }
+
+            userAccountsTable.classList.add('filter-phase');
+            userAccountsTable.classList.add('table-pairing');
+            userAccountsTable.setAttribute('data-phase', closestTr.getAttribute('data-phase'));
+
+            if (pairedItemsCount >= 2) {
+                userAccountsTable.classList.add('pair-full');
+                pairAccountsBtn.classList.remove('hidden');
+            } else {
+                userAccountsTable.classList.remove('pair-full');
+                pairAccountsBtn.classList.add('hidden');
+            }
+
+            pairedItemsId.push(itemId);
+            pairedUsersId.push(userId);
+            pairedUnitId.push(unitId);
+            pairedIdsField.value = pairedItemsId.join(',');
+        }
+
+        function hideSameUserId()
+        {
+            const userAccountsTable = document.getElementById('trading-accounts');
+            const userId = userAccountsTable.getAttribute('data-user');
+            const unitId = userAccountsTable.getAttribute('data-unit');
+
+            userAccountsTable.querySelectorAll('tr.account-item').forEach(function(row) {
+                if (!row.classList.contains('pair-select')) {
+                    const rowUserId = row.getAttribute('data-user');
+                    const rowUnitId = row.getAttribute('data-unit');
+                    if (rowUserId === userId || rowUnitId === unitId) {
+                        row.style.display = 'none';
+                    } else {
+                        row.style.display = '';
+                    }
+                }
+            });
+        }
+
+        function requestCancelPair(itemId, event, el) {
+            event.preventDefault();
+            const closestTr = el.closest('tr');
+            const userAccountsTable = document.getElementById('trading-accounts');
+            const pairAccountsBtn = document.getElementById('pair-accounts-btn-wrapper');
+            const userId = closestTr.getAttribute('data-user');
+            const unitId = closestTr.getAttribute('data-unit');
+
+            closestTr.classList.remove('pair-select');
+
+            pairedItemsCount -= 1;
+            reducePairedItemsId(itemId);
+            reducePairedUserId(userId);
+            reducePairedUnitId(unitId);
+
+            userAccountsTable.setAttribute('data-user', pairedUsersId[0]);
+            userAccountsTable.setAttribute('data-unit', pairedUnitId[0]);
+            userAccountsTable.classList.remove('pair-full');
+            pairAccountsBtn.classList.add('hidden');
+
+            hideSameUserId();
+
+            if (pairedItemsCount < 1) {
+                userAccountsTable.classList.remove('filter-phase');
+                userAccountsTable.classList.remove('table-pairing');
+                userAccountsTable.removeAttribute('data-phase');
+                userAccountsTable.removeAttribute('data-user');
+                userAccountsTable.removeAttribute('data-unit');
+            }
+        }
+    @endif
 </script>
 @else
     No trading accounts available.

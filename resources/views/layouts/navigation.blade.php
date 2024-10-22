@@ -13,6 +13,20 @@
                 </a>
             </div>
             <div class="flex items-center">
+                @php
+                    $userData = Session::get('api_user_data');
+                @endphp
+                @if($userData['userId'] === 12)
+                    <div class="flex items-center">
+                        <div class="pr-5 text-right text-white text-xs hidden sm:flex">
+                            <span style=" line-height: 22px; font-size: 16px;" class="font-black mr-1">Susan Calimpusan</span>
+                            <span class="bg-gray-900 border px-2 py-1 rounded text-gray-300" style="font-size: 14px;border-color: #101010;"> Calimpusan LCC</span>
+                        </div>
+                        <div class="flag mr-1" style="width: 38px;">
+                            <img src="/images/us.png">
+                        </div>
+                    </div>
+                @endif
                 <div class="flex items-center ms-3">
                     @php
                         $userData = session('api_user_data');

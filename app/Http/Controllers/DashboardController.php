@@ -9,12 +9,7 @@ class DashboardController extends Controller
 {
     public function auditionDashboard()
     {
-
-    }
-
-    public function dashboard()
-    {
-        $tradingReport = $this->getTradingReport('phase-3');
+        $tradingReport = $this->getTradingReport('phase-2');
 
         return view('dashboard', [
             'ongoingTrades'     => $tradingReport['ongoingTrades'],
@@ -23,7 +18,22 @@ class DashboardController extends Controller
             'finalTotalProfit'  => $tradingReport['finalTotalProfit'],
             'tradeCount'        => $tradingReport['tradeCount'],
             'recentTrades'      => $tradingReport['recentTrades'],
-            'forPayouts'        => $tradingReport['forPayouts']
+        ]);
+    }
+
+    public function dashboard()
+    {
+        $tradingReport = $this->getTradingReport('phase-3');
+        $forPayouts = requestApi('get', 'trade/payouts');
+
+        return view('dashboard', [
+            'ongoingTrades'     => $tradingReport['ongoingTrades'],
+            'totalDailyProfit'  => $tradingReport['totalDailyProfit'],
+            'totalWeeklyProfit' => $tradingReport['totalWeeklyProfit'],
+            'finalTotalProfit'  => $tradingReport['finalTotalProfit'],
+            'tradeCount'        => $tradingReport['tradeCount'],
+            'recentTrades'      => $tradingReport['recentTrades'],
+            'forPayouts'        => $forPayouts
         ]);
     }
 

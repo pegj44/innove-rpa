@@ -6,6 +6,17 @@ use Illuminate\Http\Request;
 
 class InvestorController extends Controller
 {
+    public function tradeAccounts()
+    {
+        $pairedItems = requestApi('get', 'trade/paired-items');
+        $tradingAccounts = requestApi('get', 'trade/reports');;
+
+        return view('dashboard.trade.investor.trade-accounts')->with([
+            'pairedItems' => $pairedItems,
+            'tradingAccounts' => $tradingAccounts
+        ]);
+    }
+
     public function tradeHistory()
     {
         $ongoingTrades = requestApi('get', 'investor/ongoing-trades');

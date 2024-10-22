@@ -108,6 +108,7 @@ Route::middleware(['auth_api', 'investor'])->group(function ()
 {
     Route::controller(\App\Http\Controllers\InvestorController::class)->group(function()
     {
+        Route::get('/trade-accounts', 'tradeAccounts')->name('investor.trade-accounts');
         Route::get('/trade-history', 'tradeHistory')->name('investor.trade-history');
         Route::get('/profit-report', 'profitReport')->name('investor.profit-report');
         Route::get('/funders', 'funders')->name('investor.funders');
@@ -122,6 +123,17 @@ Route::middleware(['auth_api', 'admin'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::controller(\App\Http\Controllers\PayoutController::class)->group(function()
+    {
+        Route::get('trade/payouts', 'index')->name('trade.payouts');
+        Route::get('trade/payouts/add', 'create')->name('trade.payouts.create');
+        Route::get('trade/payout/{id}', 'edit')->name('trade.payout.edit');
+
+        Route::post('trade/payout', 'store')->name('trade.payouts.store');
+        Route::put('trade/payout/{id}', 'update')->name('trade.payout.update');
+        Route::delete('trade/payout/{id}', 'destroy')->name('trade.payout.destroy');
+    });
 
     Route::controller(TradingUnitController::class)->group(function()
     {

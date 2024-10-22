@@ -23,6 +23,9 @@
         <script src="//code.jquery.com/jquery-3.7.1.min.js"></script>
         <script src="//cdn.datatables.net/2.1.7/js/dataTables.min.js"></script>
 
+        <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css" rel="stylesheet" />
+        <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
+
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">

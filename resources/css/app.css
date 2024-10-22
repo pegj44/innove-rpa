@@ -574,3 +574,28 @@ div.dt-container .dt-paging .dt-paging-button.disabled, div.dt-container .dt-pag
     background: rgba(0,0,0,0);
     box-shadow: none;
 }
+.select2-container--default .select2-selection--single {
+    background-color: #111827;
+    border-color: #374151;
+    height: auto;
+}
+.select2-container .select2-selection--single .select2-selection__rendered {
+    padding: 7px 14px;
+    color: #fff;
+    font-size: 14px;
+}
+.select2-dropdown {
+    background: #111827;
+    border-color: #374151;
+    color: #fff;
+    font-size: 14px;
+}
+.select2-results {
+    padding-left: 7px;
+}
+.select2-container--default .select2-results__option--selected {
+    background: #1f2937;
+}
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    color: #000 !important;
+}

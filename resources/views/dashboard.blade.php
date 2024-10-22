@@ -123,7 +123,7 @@
                         {{ __('Recent Trade History') }}
                     </a>
                 </li>
-                <li class="me-2">
+                <li class="me-2 {{ (getCurrentRoutName() !== 'dashboard.live-accounts')? 'hidden' : '' }}">
                     <a href="#" id="recent-payout-tab" aria-controls="recent-payout-tab-content" aria-selected="false" class="inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
                         <svg class="w-w-6 h-6 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.5 12A2.5 2.5 0 0 1 21 9.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v2.5a2.5 2.5 0 0 1 0 5V17a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-2.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
@@ -160,17 +160,18 @@
                     </div>
                 </div>
             </div>
-
             <div class="hidden"
                  id="recent-payout-tab-content"
                  role="tabpanel"
                  aria-labelledby="recent-payout-tab"
              >
-                <div class="overflow-hidden">
-                    <div class="dark:text-gray-100 p-6 pt-0 text-gray-900">
-                        @include('dashboard.trade.history.recent-payout-requests')
+                @if(getCurrentRoutName() === 'dashboard.live-accounts')
+                    <div class="overflow-hidden">
+                        <div class="dark:text-gray-100 p-6 pt-0 text-gray-900">
+                            @include('dashboard.trade.history.recent-payout-requests', ['items' => $forPayouts])
+                        </div>
                     </div>
-                </div>
+                @endif
             </div>
         </div>
 
