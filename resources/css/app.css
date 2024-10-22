@@ -501,7 +501,7 @@ tr.account-item:not([data-phase="phase-3"]) {
     margin-right: 8px;
 }
 #logo-sidebar {
-    background-image: url(http://innove-rpa.local/images/disruptor-bg.jpg);
+    background-image: url("images/disruptor-bg.jpg");
     background-size: cover;
 }
 #logo-sidebar:before {
