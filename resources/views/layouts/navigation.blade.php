@@ -27,6 +27,17 @@
                         </div>
                     </div>
                 @endif
+                @if($userData['userId'] === 13)
+                    <div class="flex items-center">
+                        <div class="pr-5 text-right text-white text-xs hidden sm:flex">
+                            <span style=" line-height: 26px; font-size: 16px;" class="font-black mr-1">Don Ypil</span>
+                            <span class="bg-gray-900 border px-2 py-1 rounded text-gray-300" style="font-size: 14px;border-color: #101010;"> Agarwood Supplier</span>
+                        </div>
+                        <div class="flag mr-1" style="width: 38px;">
+                            <img src="/images/ph.jpg">
+                        </div>
+                    </div>
+                @endif
                 <div class="flex items-center ms-3">
                     @php
                         $userData = session('api_user_data');
@@ -36,7 +47,9 @@
                             <span class="sr-only">Open user menu</span>
 
                             @if($userData['userId'] === 12)
-                                <img class="border border-2 border-white nav-profile-image rounded-full w-10" src="/users/12.jpg">
+                                <img class="border border-2 border-white nav-profile-image rounded-full" style="width: 38px; height:38px;" src="/users/12.jpg">
+                            @elseif($userData['userId'] === 13)
+                                <img class="border border-2 border-white nav-profile-image rounded-full" style="width: 38px; height:38px;" src="/users/13.jpg">
                             @else
                                 <svg class="w-[28px] h-[28px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                     <path fill-rule="evenodd" d="M12 20a7.966 7.966 0 0 1-5.002-1.756l.002.001v-.683c0-1.794 1.492-3.25 3.333-3.25h3.334c1.84 0 3.333 1.456 3.333 3.25v.683A7.966 7.966 0 0 1 12 20ZM2 12C2 6.477 6.477 2 12 2s10 4.477 10 10c0 5.5-4.44 9.963-9.932 10h-.138C6.438 21.962 2 17.5 2 12Zm10-5c-1.84 0-3.333 1.455-3.333 3.25S10.159 13.5 12 13.5c1.84 0 3.333-1.455 3.333-3.25S13.841 7 12 7Z" clip-rule="evenodd"/>
