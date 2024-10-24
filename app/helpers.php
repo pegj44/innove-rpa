@@ -213,7 +213,7 @@ function getCalculatedOrderAmount($data, $orderType = 'futures', $outputType = '
     if ($outputType === 'pips') {
 
         if ($orderType === 'futures') {
-            return floor($takeProfit / 49);
+            return floor(300 / 49);
         }
 
         if ($orderType === 'forex') {
