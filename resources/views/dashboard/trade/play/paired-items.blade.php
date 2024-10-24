@@ -1,7 +1,6 @@
 @if(!empty($waitingPairedItems))
 
     <div id="accordion-traded-items" data-accordion="collapse">
-
         @foreach($waitingPairedItems as $index => $pairedItem)
             <h2 id="accordion-paired-collapse-heading-{{$index}}" class="flex">
                 <button type="button" class="flex items-center justify-between w-full p-0 font-medium rtl:text-right text-white border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 text-white hover:bg-gray-{{$index}}00 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-paired-collapse-body-{{$index}}" aria-expanded="false" aria-controls="accordion-paired-collapse-body-{{$index}}">
@@ -280,12 +279,21 @@
                             <input type="hidden" name="unit2[account_id]" value="{{ $pairedItem['pair2']['trading_account_credential']['funder_account_id'] }}">
                             <input type="hidden" name="unit2[symbol]" class="adaptval" data-key="symbol-{{ $pairedItem['pair2']['id'] }}" value="{{ $pairedItem['pair2']['trading_account_credential']['symbol'] }}">
 
-                            <button type="submit" class="initiate-trade-btn hidden px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                <svg class="w-[24px] h-[24px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 18V6l8 6-8 6Z"/>
-                                </svg>
-                                {{ __('Initiate Trade') }}
-                            </button>
+                            @php
+                                $pair1InstanceKey = $pairedItem['pair1']['trading_account_credential']['funder']['alias'] .'_'. $pairedItem['pair1']['trading_account_credential']['user_account']['trading_unit']['unit_id'];
+                                $pair2InstanceKey = $pairedItem['pair2']['trading_account_credential']['funder']['alias'] .'_'. $pairedItem['pair2']['trading_account_credential']['user_account']['trading_unit']['unit_id'];
+                            @endphp
+
+                            @if(in_array($pair1InstanceKey, $tradesHandler) || in_array($pair2InstanceKey, $tradesHandler))
+                                <p class="text-red-500">Unable to initiate trade.</p>
+                            @else
+                                <button type="submit" class="initiate-trade-btn hidden px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    <svg class="w-[24px] h-[24px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 18V6l8 6-8 6Z"/>
+                                    </svg>
+                                    {{ __('Initiate Trade') }}
+                                </button>
+                            @endif
                         </form>
                     </div>
                 </div>

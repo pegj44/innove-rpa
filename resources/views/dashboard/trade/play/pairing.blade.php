@@ -5,9 +5,11 @@
         @php
             $waitingPairedItems = [];
             $tradedItems = [];
+            $tradesHandler = [];
         @endphp
         @foreach($pairedItems as $index => $item)
             @php
+
                 if (empty($item['trade_report_pair1']) || empty($item['trade_report_pair2'])) {
                     continue;
                 }
@@ -46,6 +48,9 @@
                         'pair1FunderMetadata' => $pair1FunderMetadata,
                         'pair2FunderMetadata' => $pair2FunderMetadata
                     ];
+
+                $tradesHandler[] = $pair1['trading_account_credential']['funder']['alias'] .'_'. $pair1['trading_account_credential']['user_account']['trading_unit']['unit_id'];
+                $tradesHandler[] = $pair2['trading_account_credential']['funder']['alias'] .'_'. $pair2['trading_account_credential']['user_account']['trading_unit']['unit_id'];
                 }
             @endphp
         @endforeach

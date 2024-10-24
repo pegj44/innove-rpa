@@ -106,7 +106,7 @@ class TradeController extends Controller
     public function index()
     {
         $pairedItems = requestApi('get', 'trade/paired-items');
-        $tradingAccounts = requestApi('get', 'trade/reports');;
+        $tradingAccounts = requestApi('get', 'trade/reports');
 
         return view('dashboard.trade.play.index')->with([
             'pairedItems' => $pairedItems,
