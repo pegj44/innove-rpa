@@ -210,6 +210,14 @@ Route::middleware(['auth_api', 'admin'])->group(function () {
     {
        Route::controller(TradeController::class)->group(function()
        {
+           Route::get('history', 'getTradeHistoryView')->name('history');
+           Route::get('history/add', 'createHistory')->name('history.create');
+           Route::get('history/{id}', 'editHistory')->name('history.edit');
+           Route::post('history', 'storeHistory')->name('history.store');
+           Route::put('history/{id}', 'updateHistory')->name('history.update');
+           Route::delete('history/{id}', 'destroyHistory')->name('history.destroy');
+
+
            Route::get('/remove-all-pairs', 'removeAllPairs');
 
            Route::get('play', 'index')->name('play');

@@ -67,14 +67,15 @@ class DashboardController extends Controller
         foreach ($recentTrades as $historyItem) {
 
             $date = Carbon::parse($historyItem['created_at']);
-            $dailyProfit = (float) $historyItem['trading_account_credential']['trade_reports']['latest_equity'] - (float) $historyItem['trading_account_credential']['starting_balance'];
+            $dailyProfit = (float) $historyItem['latest_equity'] - (float) $historyItem['starting_daily_equity'];
+            $totalProfit = (float) $historyItem['trading_account_credential']['trade_reports']['latest_equity'] - (float) $historyItem['trading_account_credential']['starting_balance'];
 
             if ($dailyProfit > 0 && $date->isToday() && !isset($totalDailyProfit[$historyItem['trade_account_credential_id']])) {
                 $totalDailyProfit[$historyItem['trade_account_credential_id']] = $dailyProfit;
             }
 
-            if ($dailyProfit > 0 && $date->isCurrentWeek() && !isset($totalWeeklyProfit[$historyItem['trade_account_credential_id']])) {
-                $totalWeeklyProfit[$historyItem['trade_account_credential_id']] = $dailyProfit;
+            if ($totalProfit > 0 && $date->isCurrentWeek() && !isset($totalWeeklyProfit[$historyItem['trade_account_credential_id']])) {
+                $totalWeeklyProfit[$historyItem['trade_account_credential_id']] = $totalProfit;
             }
 
             $tradeAccountIds[] = $historyItem['trade_account_credential_id'];

@@ -145,6 +145,17 @@
                 Space.init();
             };
 
+            const numberInputs = document.querySelectorAll('input[type="number"]');
+
+            // Check if there are any number inputs
+            if (numberInputs.length > 0) {
+                // Disable mouse wheel for each number input
+                numberInputs.forEach(input => {
+                    input.addEventListener('wheel', function(event) {
+                        event.preventDefault();  // Prevent default mousewheel behavior
+                    });
+                });
+            }
         </script>
     </body>
 </html>
