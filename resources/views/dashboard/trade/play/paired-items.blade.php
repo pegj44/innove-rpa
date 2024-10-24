@@ -1,6 +1,6 @@
 @if(!empty($waitingPairedItems))
 
-    <div id="accordion-traded-items" data-accordion="collapse">
+    <div id="accordion-pairing-items" data-accordion="collapse">
         @foreach($waitingPairedItems as $index => $pairedItem)
             <h2 id="accordion-paired-collapse-heading-{{$index}}" class="flex">
                 <button type="button" class="flex items-center justify-between w-full p-0 font-medium rtl:text-right text-white border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 text-white hover:bg-gray-{{$index}}00 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-paired-collapse-body-{{$index}}" aria-expanded="false" aria-controls="accordion-paired-collapse-body-{{$index}}">
