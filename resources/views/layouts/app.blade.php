@@ -159,7 +159,7 @@
 
             document.addEventListener('pusherNotificationEvent', function(event) {
                 if(event.detail.action === 'trade-started') {
-                    const audio = new Audio("{{ asset('media/trade-started.wav') }}");
+                    const audio = new Audio("{{ asset('media/trade-started2.mp3') }}");
                     audio.play().catch(error => {
                         console.error("Playback failed:", error);
                     });
@@ -170,7 +170,7 @@
 
             document.addEventListener('pusherNotificationEvent', function(event) {
                 if(event.detail.action === 'trade-closed') {
-                    const audio = new Audio("{{ asset('media/trade-closed.wav') }}");
+                    const audio = new Audio("{{ asset('media/trade-closed2.mp3') }}");
                     audio.play().catch(error => {
                         console.error("Playback failed:", error);
                     });
