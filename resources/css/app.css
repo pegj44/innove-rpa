@@ -599,3 +599,23 @@ div.dt-container .dt-paging .dt-paging-button.disabled, div.dt-container .dt-pag
 .select2-container--default .select2-search--dropdown .select2-search__field {
     color: #000 !important;
 }
+
+.dark\:bg-orange-400,
+.bg-orange-400 {
+    background: #f96c1a;
+}
+
+.dark\:text-orange-400,
+.text-orange-400 {
+    color: #f96c1a;
+}
+
+.dark\:text-yellow,
+.text-yellow {
+    color: yellow;
+}
+
+.dark\:bg-yellow,
+.bg-yellow {
+    background: yellow;
+}

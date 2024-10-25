@@ -52,22 +52,22 @@
                 @php
                     switch ($item['status']) {
                         case 'pairing':
-                            $trHtmlClass = 'bg-purple-700';
+                            $trHtmlClass = '-purple-500';
                             break;
                         case 'trading':
-                            $trHtmlClass = 'bg-blue-500';
+                            $trHtmlClass = '-blue-500';
                             break;
                         case 'abstained':
-                            $trHtmlClass = 'bg-yellow-500';
+                            $trHtmlClass = '-yellow';
                             break;
                         case 'breached':
-                            $trHtmlClass = 'bg-red-500';
+                            $trHtmlClass = '-red-500';
                         break;
                         case 'onhold':
-                            $trHtmlClass = 'bg-orange-400';
+                            $trHtmlClass = '-orange-400';
                         break;
                         default:
-                            $trHtmlClass = '';
+                            $trHtmlClass = '-white';
                             break;
                     }
 
@@ -116,8 +116,11 @@
                     <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         <span class="dot {{$item['trading_account_credential']['current_phase']}}"></span> {{ getPhaseName($item['trading_account_credential']['current_phase']) }}
                     </td>
-                    <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        <span class="{{ $trHtmlClass }} dot"></span> {{ \App\Http\Controllers\TradeReportController::$statuses[$item['status']] }}
+                    <td class="relative px-6 py-4 font-medium dark:text{{ $trHtmlClass }} whitespace-nowrap">
+                            @if($item['status'] !== 'payout')
+                                <span class="bg{{ $trHtmlClass }} dot"></span>
+                            @endif
+                        {{ \App\Http\Controllers\TradeReportController::$statuses[$item['status']] }}
                     </td>
                     <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ number_format($item['latest_equity'], 2) }}
