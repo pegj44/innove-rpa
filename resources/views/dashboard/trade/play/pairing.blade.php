@@ -204,12 +204,12 @@
     });
 
 
-    document.addEventListener('pusherNotificationEvent', function(event) {
-        console.log('event triggered: ', event.detail);
-        if(event.detail.action === 'trade-closed') {
-            location.reload();
-        }
-    });
+    // document.addEventListener('pusherNotificationEvent', function(event) {
+    //     console.log('event triggered: ', event.detail);
+    //     if(event.detail.action === 'trade-closed') {
+    //         location.reload();
+    //     }
+    // });
 
     //
     // document.addEventListener('DOMContentLoaded', function() {

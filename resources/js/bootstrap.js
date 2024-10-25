@@ -56,7 +56,7 @@ window.Echo1.private('unit.'+ accountId).listen('UnitResponse', (data) => {
     }
 
     if (data.action === 'trade-closed') {
-        console.log('trade closed test');
+
     }
 
     if (data.action === 'no-pairable-accounts') {
