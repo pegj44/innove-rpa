@@ -175,7 +175,9 @@
                         console.error("Playback failed:", error);
                     });
 
-                    location.reload();
+                    setTimeout(function() {
+                        location.reload();
+                    }, 4000);
                 }
             });
 
