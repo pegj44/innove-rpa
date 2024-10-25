@@ -157,50 +157,25 @@
                 });
             }
 
-            // Notification test.
-
-            function playNotification() {
-                const audio = new Audio("{{ asset('media/trade-started.wav') }}");
-                audio.play().catch(error => {
-                    console.error("Playback failed:", error);
-                });
-            }
-
-            {{--const notificationSound = new Audio("{{ asset('media/trade-started.wav') }}");--}}
-
-            {{--function showNotification() {--}}
-            {{--    console.log('do notify');--}}
-            {{--    if (Notification.permission === "granted") {--}}
-
-            {{--        const notification = new Notification("New Notification", {--}}
-            {{--            body: "You have a new message!"--}}
-            {{--        });--}}
-
-            {{--        notificationSound.play().catch(error => console.error("Audio playback failed:", error));--}}
-            {{--        notification.onclick = () => window.focus();--}}
-            {{--    } else {--}}
-            {{--        Notification.requestPermission().then(permission => {--}}
-            {{--            if (permission === "granted") {--}}
-            {{--                showNotification();--}}
-            {{--            } else {--}}
-            {{--                console.log("Notification permission denied.");--}}
-            {{--            }--}}
-            {{--        });--}}
-            {{--    }--}}
-            {{--}--}}
-
-            {{--document.addEventListener("DOMContentLoaded", () => {--}}
-            {{--    if (Notification.permission !== "granted") {--}}
-            {{--        Notification.requestPermission();--}}
-            {{--    }--}}
-            {{--});--}}
-
             document.addEventListener('pusherNotificationEvent', function(event) {
                 if(event.detail.action === 'trade-started') {
+                    const audio = new Audio("{{ asset('media/trade-started.wav') }}");
+                    audio.play().catch(error => {
+                        console.error("Playback failed:", error);
+                    });
 
-                    playNotification();
+                    console.log('trade-started');
+                }
+            });
 
-                    console.log('trade closed test');
+            document.addEventListener('pusherNotificationEvent', function(event) {
+                if(event.detail.action === 'trade-closed') {
+                    const audio = new Audio("{{ asset('media/trade-closed.wav') }}");
+                    audio.play().catch(error => {
+                        console.error("Playback failed:", error);
+                    });
+
+                    console.log('trade-closed');
                 }
             });
 
