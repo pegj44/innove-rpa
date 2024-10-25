@@ -175,7 +175,7 @@
                         console.error("Playback failed:", error);
                     });
 
-                    console.log('trade-closed');
+                    location.reload();
                 }
             });
 
