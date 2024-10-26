@@ -11,7 +11,7 @@ class TradeReportController extends Controller
 {
     public static $statuses = [
         'idle' => 'Idle',
-        'trading' => 'Ongoing Trade',
+        'trading' => 'Trading',
         'pairing' => 'Paired',
         'abstained' => 'Abstained',
         'breached' => 'Breached',
