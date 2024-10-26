@@ -53,7 +53,8 @@ table.dataTable thead>tr>th.dt-orderable-asc span.dt-column-order:before, table.
     content: "▲" / "";
 }
 table.dataTable thead>tr>th.dt-ordering-asc span.dt-column-order:before, table.dataTable thead>tr>th.dt-ordering-desc span.dt-column-order:after, table.dataTable thead>tr>td.dt-ordering-asc span.dt-column-order:before, table.dataTable thead>tr>td.dt-ordering-desc span.dt-column-order:after {
-    opacity: .6;
+    opacity: 1;
+    color: #00d9ff;
 }
 .dot {
     display: inline-block;
@@ -590,9 +591,9 @@ div.dt-container .dt-paging .dt-paging-button.disabled, div.dt-container .dt-pag
     color: #fff;
     font-size: 14px;
 }
-.select2-results {
-    padding-left: 7px;
-}
+/*.select2-results {*/
+/*    padding-left: 7px;*/
+/*}*/
 .select2-container--default .select2-results__option--selected {
     background: #1f2937;
 }
@@ -619,3 +620,87 @@ div.dt-container .dt-paging .dt-paging-button.disabled, div.dt-container .dt-pag
 .bg-yellow {
     background: yellow;
 }
+.select2-container--default .select2-selection--multiple {
+    background: #374151;
+    border: #1f2937;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background: #1f2937;
+    font-size: 14px;
+    border-color: #232932;
+}
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+    border: 0;
+}
+.peer.border::after {
+    margin-top: -1px;
+}
+/*.peer::before {*/
+/*    content: "✓";*/
+/*    visibility: hidden;*/
+/*    font-size: 12px;*/
+/*    position: absolute;*/
+/*    top: 2px;*/
+/*    right: 5px;*/
+/*    color: #374151;*/
+/*    z-index: 1;*/
+/*    font-weight: bold;*/
+/*}*/
+/*.peer:checked ~ .peer-checked\:after\:border-white::before {*/
+/*    visibility: visible;*/
+/*    transition: 1s ease;*/
+/*}*/
+.status-idle {
+    color: #fff !important;
+}
+.status-idle .dot {
+    background: #fff;
+}
+.status-trading {
+    color: #3b82f6 !important;
+}
+.status-trading .dot {
+    background: #3b82f6
+}
+.status-pairing {
+    color: #9061f9 !important;
+}
+.status-pairing .dot {
+    background: #9061f9
+}
+.status-abstained {
+    color: yellow !important;
+}
+.status-abstained .dot {
+    background: yellow
+}
+.status-breached {
+    color: #f05252 !important;
+}
+.status-breached .dot {
+    background: #f05252
+}
+.status-onhold {
+    color: orange !important;
+}
+.status-onhold .dot {
+    background: orange
+}
+.status-payout {
+    color: #46dd2c !important;
+}
+.status-payout .dot {
+    background: #46dd2c
+}
+.status-kyc,
+.dark\:text-status-kyc {
+    color: #00d1ff !important;
+}
+.status-kyc .dot,
+.bg-status-kyc {
+    background: #00d1ff
+}
+
+
+
+

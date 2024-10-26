@@ -1,6 +1,6 @@
 <x-app-layout>
 
-    <div class="p-6 mt-14">
+    <div class="p-6 mt-8">
 
         <div class="shadow-sm">
             <div class="text-gray-900 dark:text-gray-100 mb-4">
