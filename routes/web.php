@@ -116,6 +116,14 @@ Route::middleware(['auth_api', 'investor'])->group(function ()
         Route::get('accounts/users', 'userAccounts')->name('accounts.users');
         Route::get('accounts/funders', 'funderAccounts')->name('accounts.funders');
     });
+
+    Route::controller(\App\Http\Controllers\UserSettingsController::class)->prefix('user/settings')->group(function()
+    {
+        Route::get('', 'getSettings')->name('user.settings');
+        Route::post('', 'store')->name('user.settings.add');
+        Route::put('update', 'update')->name('user.settings.update');
+        Route::delete('{id}', 'destroy')->name('user.settings.delete');
+    });
 });
 
 Route::middleware(['auth_api', 'admin'])->group(function () {

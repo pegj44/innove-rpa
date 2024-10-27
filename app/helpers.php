@@ -3,6 +3,35 @@
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 
+function getFunderAccountShortName($name)
+{
+    $aliases = [
+        'FTT-RALLY-',
+        'UPT-S-'
+    ];
+
+    $pattern = '/' . implode('|', array_map('preg_quote', $aliases)) . '/i';
+
+    return preg_replace($pattern, '', $name);
+}
+
+function isChecked($value, $collection, $default = '', $echo = true)
+{
+    $checked = '';
+
+    if (empty($collection)) {
+        $checked = (!empty($default))? 'checked="checked"' : '';
+    } elseif(in_array($value, $collection)) {
+        $checked = 'checked="checked"';
+    }
+
+    if ($echo) {
+        echo $checked;
+    } else {
+        return $checked;
+    }
+}
+
 function renderFunderAliasAttr($funder)
 {
     $theme = [

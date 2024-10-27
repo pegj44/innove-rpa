@@ -501,6 +501,11 @@ tr.account-item:not([data-phase="phase-3"]) {
     text-align: center;
     margin-right: 8px;
 }
+table .funder-alias {
+    min-width: 45px;
+    line-height: 21px;
+    font-size: 12px;
+}
 #logo-sidebar {
     background-image: url("images/disruptor-bg.jpg");
     background-size: cover;
@@ -700,7 +705,6 @@ div.dt-container .dt-paging .dt-paging-button.disabled, div.dt-container .dt-pag
 .bg-status-kyc {
     background: #00d1ff
 }
-
-
-
-
+table tr:hover .table-row-edit {
+    visibility: visible;
+}

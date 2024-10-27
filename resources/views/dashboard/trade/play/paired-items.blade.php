@@ -12,7 +12,8 @@
                             <div class="w-1/2 p-5 bg-gray-900">
                                 <div class="dark:border-gray-600 flex justify-between">
                                     <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
-                                        {{ $pairedItem['pair1']['trading_account_credential']['funder']['alias'] }} <span class="mb-3 font-normal text-gray-700 dark:text-gray-400">| {{ $pairedItem['pair1']['trading_account_credential']['funder_account_id'] }}</span>
+                                        <span class="bg-gray-900 rounded font-black funder-alias font-normal text-md" {!! renderFunderAliasAttr($pairedItem['pair1']['trading_account_credential']['funder']) !!}> {{ $pairedItem['pair1']['trading_account_credential']['funder']['alias'] }}</span>
+                                        <span class="mb-3 font-normal text-gray-700 dark:text-white"> {{ getFunderAccountShortName($pairedItem['pair1']['trading_account_credential']['funder_account_id']) }}</span>
                                     </h5>
                                     <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
                                         {{ $pairedItem['pair1']['trading_account_credential']['user_account']['trading_unit']['name'] }}
@@ -22,7 +23,8 @@
                             <div class="w-1/2 p-5 bg-gray-800">
                                 <div class="dark:border-gray-600 flex justify-between">
                                     <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
-                                        {{ $pairedItem['pair2']['trading_account_credential']['funder']['alias'] }} <span class="mb-3 font-normal text-gray-700 dark:text-gray-400">| {{ $pairedItem['pair2']['trading_account_credential']['funder_account_id'] }}</span>
+                                        <span class="bg-gray-900 rounded font-black funder-alias font-normal text-md" {!! renderFunderAliasAttr($pairedItem['pair2']['trading_account_credential']['funder']) !!}> {{ $pairedItem['pair2']['trading_account_credential']['funder']['alias'] }}</span>
+                                        <span class="mb-3 font-normal text-gray-700 dark:text-white"> {{ getFunderAccountShortName($pairedItem['pair2']['trading_account_credential']['funder_account_id']) }}</span>
                                     </h5>
                                     <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
                                         {{ $pairedItem['pair2']['trading_account_credential']['user_account']['trading_unit']['name'] }}

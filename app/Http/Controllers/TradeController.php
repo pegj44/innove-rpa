@@ -108,11 +108,15 @@ class TradeController extends Controller
         $pairedItems = requestApi('get', 'trade/paired-items');
         $tradingAccounts = requestApi('get', 'trade/reports');
         $funders = requestApi('get', 'funders');
+        $filterSettings = requestApi('get', 'user/settings', [
+            'key' => 'trading_filters'
+        ]);
 
         return view('dashboard.trade.play.index')->with([
             'pairedItems' => $pairedItems,
             'tradingAccounts' => $tradingAccounts,
-            'funders' => $funders
+            'funders' => $funders,
+            'filterSettings' => (!empty($filterSettings))? $filterSettings['value'] : []
         ]);
     }
 

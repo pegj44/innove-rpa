@@ -1,5 +1,6 @@
 @if(!empty($tradingAccounts))
 
+
     <div class="flex filters">
         @if(!empty($controls))
             <div class="flex flex-col pr-5">
@@ -17,7 +18,7 @@
                         @foreach($funders as $funder)
                             <div class="mb-1">
                                 <label class="inline-flex items-center cursor-pointer" x-data="">
-                                    <input id="filter-funder-{{ $funder['id'] }}" type="checkbox" checked="checked" value="{{ $funder['id'] }}" class="filter-toggle sr-only peer">
+                                    <input id="filter-funder-{{ $funder['id'] }}" type="checkbox" {!! isChecked('filter-funder-'. $funder['id'], $filterSettings, 1) !!} value="{{ $funder['id'] }}" class="filter-toggle sr-only peer">
                                     <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-900 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all border dark:border-gray-600 peer-checked:bg-gray-700"></div>
                                     <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 funder-alias rounded-sm" {!! renderFunderAliasAttr($funder) !!}>{{ $funder['alias'] }}</span>
                                 </label>
@@ -42,7 +43,7 @@
                         @foreach($phases as $phaseKey => $phase)
                             <div class="mb-1">
                                 <label class="inline-flex items-center cursor-pointer" x-data="">
-                                    <input id="filter-phase-{{ $phaseKey }}" type="checkbox" checked="checked" value="{{ $phaseKey }}" class="filter-toggle sr-only peer">
+                                    <input id="filter-phase-{{ $phaseKey }}" type="checkbox" value="{{ $phaseKey }}" {!! isChecked('filter-phase-'. $phaseKey, $filterSettings, 1) !!} class="filter-toggle sr-only peer">
                                     <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-900 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all border dark:border-gray-600 peer-checked:bg-gray-700"></div>
                                     <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">
                                         <span class="dot {{ $phaseKey }}"></span>
@@ -63,7 +64,7 @@
                         @foreach(\App\Http\Controllers\TradeReportController::$statuses as $statusKey => $status)
                             <div class="mb-1">
                                 <label class="inline-flex items-center cursor-pointer" x-data="">
-                                    <input id="filter-status-{{ $statusKey }}" type="checkbox" checked="checked" value="{{ $statusKey }}" class="filter-toggle sr-only peer">
+                                    <input id="filter-status-{{ $statusKey }}" type="checkbox" {!! isChecked('filter-status-'. $statusKey, $filterSettings, 1) !!} value="{{ $statusKey }}" class="filter-toggle sr-only peer">
                                     <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-900 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all border dark:border-gray-600 peer-checked:bg-gray-700"></div>
                                     <span class="ms-3 status-{{ $statusKey }} text-sm font-medium text-gray-900 dark:text-gray-300">
                                         <span class="dot"></span>
@@ -82,6 +83,45 @@
             </div>
 
             <script>
+
+
+                let controller = null;
+
+                function updateFilterSettings(data)
+                {
+                    if (controller) {
+                        controller.abort();
+                    }
+
+                    controller = new AbortController();
+                    const signal = controller.signal;
+
+                    fetch(apiUrl, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": csrfToken,
+                        },
+                        body: JSON.stringify({
+                            key: "trading_filters",
+                            value: data
+                        }),
+                        signal: signal
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error("Network response was not ok " + response.statusText);
+                            }
+                            return response.json();
+                        })
+                        .then(responseData => {
+                            console.log(responseData);
+                        })
+                        .catch(error => {
+                            console.error("There was a problem with the fetch operation:", error);
+                        });
+                }
+
                 document.addEventListener('DOMContentLoaded', function() {
 
                     const filterToggles = document.querySelectorAll('.filter-toggle');
@@ -109,23 +149,20 @@
                                 }
                             }
 
-                            console.log(enabledFilters);
+                            updateFilterSettings(enabledFilters);
                         });
                     });
-
-                    console.log(enabledFilters);
                 });
             </script>
         @endif
 
-        <div>
-
+        <div class="">
             <div class="relative overflow-x-auto sm:rounded-lg">
                 <table id="trading-accounts" x-data="" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     @if(!empty($controls))
-                        <th scope="col" class="px-6 py-3"></th>
+                        <th scope="col" class="py-3"></th>
                     @endif
                     <th scope="col" class="px-6 py-3">
                         {{ __('Account') }}
@@ -137,14 +174,14 @@
                         {{ __('Status') }}
                     </th>
                     <th scope="col" class="px-6 py-3 whitespace-nowrap">
-                        {{ __('Latest Equity') }}
+                        {{ __('Latest EQTY') }}
                     </th>
-    {{--                <th scope="col" class="px-6 py-3">--}}
-    {{--                    {{ __('RDD') }}--}}
-    {{--                </th>--}}
-    {{--                <th scope="col" class="px-6 py-3">--}}
-    {{--                    {{ __('Consistency') }}--}}
-    {{--                </th>--}}
+                    <th scope="col" class="px-6 py-3">
+                        {{ __('RDD') }}
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        {{ __('Consis') }}
+                    </th>
                     <th scope="col" class="px-6 py-3 whitespace-nowrap">
                         {{ __('Daily P&L') }}
                     </th>
@@ -152,7 +189,7 @@
                         {{ __('Unit') }}
                     </th>
                     @if(!empty($controls))
-                        <th scope="col" class="px-6 py-3"></th>
+                        <th scope="col" class="py-3"></th>
                     @endif
                 </tr>
                 </thead>
@@ -194,7 +231,7 @@
                         data-status="{{ $item['status'] }}"
                     >
                         @if(!empty($controls))
-                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" style="z-index: 10">
+                            <td class="pl-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" style="z-index: 10">
 
 
                                 @if($item['status'] === 'payout')
@@ -228,8 +265,8 @@
                             </td>
                         @endif
                         <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            <span class="px-2 py-1 hidden user-acc-id" style="text-shadow: 1px 1px 1px #000;">{{ $item['trading_account_credential']['user_account']['id'] }}</span>
-                            <span class="bg-gray-900 px-2 py-1 rounded font-black funder-alias" {!! renderFunderAliasAttr($item['trading_account_credential']['funder']) !!}> {{ $item['trading_account_credential']['funder']['alias'] }}</span> {{ $item['trading_account_credential']['funder_account_id'] }}
+                            <span class="px-2 hidden user-acc-id" style="text-shadow: 1px 1px 1px #000;">{{ $item['trading_account_credential']['user_account']['id'] }}</span>
+                            <span class="bg-gray-900 rounded font-black funder-alias" {!! renderFunderAliasAttr($item['trading_account_credential']['funder']) !!}> {{ $item['trading_account_credential']['funder']['alias'] }}</span> {{ getFunderAccountShortName($item['trading_account_credential']['funder_account_id']) }}
                         </td>
                         <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             <span class="dot {{$item['trading_account_credential']['current_phase']}}"></span> {{ getPhaseName($item['trading_account_credential']['current_phase']) }}
@@ -243,12 +280,12 @@
                         <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ number_format($item['latest_equity'], 2) }}
                         </td>
-    {{--                    <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">--}}
+                        <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
 
-    {{--                    </td>--}}
-    {{--                    <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">--}}
+                        </td>
+                        <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
 
-    {{--                    </td>--}}
+                        </td>
                         <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {!! getPnLHtml($item) !!}
                         </td>
@@ -256,8 +293,8 @@
                             {{ $item['trading_account_credential']['user_account']['trading_unit']['name'] }}
                         </td>
                         @if(!empty($controls))
-                            <td class="px-6 py-4 text-right border-gray-600">
-                                <a href="{{ route('trade.report.edit', $item['id']) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                            <td class="pr-3 py-4 text-right border-gray-600">
+                                <a href="{{ route('trade.report.edit', $item['id']) }}" class="invisible table-row-edit font-medium text-blue-600 dark:text-blue-500 hover:underline">
                                     <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
                                     </svg>
@@ -299,7 +336,7 @@
                     columnDefs: [
                         {
                             orderable: false,
-                            targets: [0, 1, 2, 6, 7]
+                            targets: [0, 9]
                         }
                     ]
                 });
@@ -312,7 +349,7 @@
                     columnDefs: [
                         {
                             orderable: false,
-                            targets: [0, 5]
+                            targets: [0, 7]
                         },
                         {
                             targets: 2,
