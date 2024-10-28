@@ -327,15 +327,15 @@ class TradingAccountCredentialForm extends Form
                 'empty_value' => __('-- Choose Platform Type --'),
                 'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                 'default_value' => (!empty($data['platform_type']))? $data['platform_type'] : 0
+            ])
+            ->add('platform_url', 'text', [
+                'wrapper' => ['class' => 'mb-5 platform-url'],
+                'label' => __('Platform URL'),
+                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+                'default_value' => (!empty($data['platform_url']))? $data['platform_url'] : ''
             ]);
-//            ->add('platform_url', 'text', [
-//                'wrapper' => ['class' => 'mb-5 platform-url'],
-//                'label' => __('Platform URL'),
-//                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
-//                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-//                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-//                'default_value' => (!empty($data['platform_url']))? $data['platform_url'] : ''
-//            ]);
 
 //            ->add('platform_login_wrapper', 'wrapper', [
 //                'label' => 'Platform Login',

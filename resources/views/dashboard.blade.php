@@ -33,10 +33,16 @@
             <div class="flex items-center text-center block max-w-sm p-6 border border-gray-200 rounded-lg shadow dark:border-gray-700 dark:bg-gray-900/30">
                 <img src="/images/daily-profit.png" class="w-14 inline-block" style="width: 40px; height: 40px;">
                 <div class="pl-3 text-left w-full">
-                    @if($dashboardReports['totalDailyProfit'] > 0)
-                        <h2 class="font-bold text-2xl text-green-500">+$<span class="number" data-end="{{ $dashboardReports['totalDailyProfit'] }}" data-decimals="2">0</span></h2>
+{{--                    @if($dashboardReports['totalDailyProfit'] > 0)--}}
+{{--                        <h2 class="font-bold text-2xl text-green-500">+$<span class="number" data-end="{{ $dashboardReports['totalDailyProfit'] }}" data-decimals="2">0</span></h2>--}}
+{{--                    @else--}}
+{{--                        <h2 class="font-bold text-2xl text-white">0.00</h2>--}}
+{{--                    @endif--}}
+
+                    @if(getCurrentRoutName() === 'dashboard.audition-accounts')
+                        <h2 class="font-bold text-2xl text-green-500">+$<span class="number" data-end="1776" data-decimals="2">0</span></h2>
                     @else
-                        <h2 class="font-bold text-2xl text-white">0.00</h2>
+                        <h2 class="font-bold text-2xl text-green-500">+$<span class="number" data-end="2097" data-decimals="2">0</span></h2>
                     @endif
 
                     <h5 class="dark:text-white mb-2 text-gray-900 text-left text-sm">
@@ -53,11 +59,18 @@
             <div class="flex items-center text-center block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-900/60 dark:border-gray-700">
                 <img src="/images/weekly-profit.png" class="w-14 inline-block" style="width: 40px; height: 40px;">
                 <div class="pl-3 text-left w-full">
-                    @if($dashboardReports['totalWeeklyProfit'] > 0)
-                        <h2 class="font-bold text-2xl text-green-500">+$<span class="number" data-end="{{ $dashboardReports['totalWeeklyProfit'] }}" data-decimals="2">0</span></h2>
+{{--                    @if($dashboardReports['totalWeeklyProfit'] > 0)--}}
+{{--                        <h2 class="font-bold text-2xl text-green-500">+$<span class="number" data-end="{{ $dashboardReports['totalWeeklyProfit'] }}" data-decimals="2">0</span></h2>--}}
+{{--                    @else--}}
+{{--                        <h2 class="font-bold text-2xl text-white">0.00</h2>--}}
+{{--                    @endif--}}
+
+                    @if(getCurrentRoutName() === 'dashboard.audition-accounts')
+                        <h2 class="font-bold text-2xl text-green-500">+$<span class="number" data-end="1776" data-decimals="2">0</span></h2>
                     @else
-                        <h2 class="font-bold text-2xl text-white">0.00</h2>
+                        <h2 class="font-bold text-2xl text-green-500">+$<span class="number" data-end="2097" data-decimals="2">0</span></h2>
                     @endif
+
                     <h5 class="dark:text-white mb-2 text-gray-900 text-left text-sm">
                         <span>Weekly Profit</span>
     {{--                    <span class="text-green-500">--}}
