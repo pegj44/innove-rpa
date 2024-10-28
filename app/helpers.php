@@ -3,6 +3,35 @@
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 
+function getCalculatedRdd($data)
+{
+    $currentPhase = str_replace('phase-', '', $data['trading_account_credential']['current_phase']);
+
+    if ($data['trading_account_credential']['drawdown_type'] === 'trailing_endofday') {
+        $highestBal = [$data['trading_account_credential']['starting_balance']];
+
+        if (!empty($data['trading_account_credential']['history_v2'])) {
+            foreach ($data['trading_account_credential']['history_v2'] as $tradeItem) {
+                $highestBal[] = (float) $tradeItem['latest_equity'];
+            }
+        }
+
+        $highestBal = max($highestBal);
+        $maxTreshold = (float) $highestBal - (float) $data['trading_account_credential']['phase_'. $currentPhase .'_max_drawdown'];
+
+        return ($highestBal >= $data['latest_equity'])? (float) $data['latest_equity'] - $maxTreshold : $data['trading_account_credential']['phase_'. $currentPhase .'_max_drawdown'];
+    }
+
+    if ($data['trading_account_credential']['drawdown_type'] === 'static') {
+        $latestEquity = (float) $data['latest_equity'];
+        $maxTreshold = (float) $data['trading_account_credential']['starting_balance'] - (float) $data['trading_account_credential']['phase_'. $currentPhase .'_max_drawdown'];
+
+        return $latestEquity - $maxTreshold;
+    }
+
+    return 'N/A';
+}
+
 function getFunderAccountShortName($name)
 {
     $aliases = [

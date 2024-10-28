@@ -281,7 +281,14 @@
                             {{ number_format($item['latest_equity'], 2) }}
                         </td>
                         <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-
+                            @php
+                                $rdd = getCalculatedRdd($item);
+                            @endphp
+                            @if($rdd < 100)
+                                <span class="text-red-500">{{ $rdd }}</span>
+                            @else
+                                {{ $rdd }}
+                            @endif
                         </td>
                         <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
 
