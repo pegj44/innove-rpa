@@ -12,6 +12,7 @@ class FunderController extends Controller
         'MT5_Web' => 'MT5-Web',
         'Rtrader_base' => 'Rithmic Trader',
         'UProfitTradingView' => 'UProfit Trading View',
+        'Tradoverse_1' => 'Tradoverse',
         'NinjaTrader' => 'Ninja Trader',
     ];
 
