@@ -182,6 +182,9 @@
                     <th scope="col" class="px-6 py-3">
                         {{ __('Consis') }}
                     </th>
+                    <th scope="col" class="px-6 py-3">
+                        {{ __('Elig') }}
+                    </th>
                     <th scope="col" class="px-6 py-3 whitespace-nowrap">
                         {{ __('Daily P&L') }}
                     </th>
@@ -289,6 +292,9 @@
                             @else
                                 {{ $rdd }}
                             @endif
+                        </td>
+                        <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ getCalculatedConsistency($item) }}
                         </td>
                         <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
 

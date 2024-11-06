@@ -3,7 +3,65 @@
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 
+function getCalculatedConsistency($data)
+{
+    if (!empty($data['trading_account_credential']['history_v3'])) {
+        $PnLs = [];
+        foreach ($data['trading_account_credential']['history_v3'] as $tradeItem) {
+            $PnLs[] = (float) $tradeItem['latest_equity'] - (float) $tradeItem['starting_daily_equity'];
+        }
+
+        $highestPnL = max($PnLs);
+        $totalPn = array_sum($PnLs);
+        $consis = ($highestPnL/$totalPn) * 100;
+
+        return round($consis, 2);
+    }
+
+    return 0;
+}
+
 function getCalculatedRdd($data)
+{
+    $currentPhase = str_replace('phase-', '', $data['trading_account_credential']['current_phase']);
+    $highestBalArr = [];
+
+    $startingBal = (float) $data['trading_account_credential']['starting_balance'];
+    $latestEqty = (float) $data['latest_equity'];
+    $maxDrawdown = (float) $data['trading_account_credential']['phase_'. $currentPhase .'_max_drawdown'];
+
+    if ($data['trading_account_credential']['drawdown_type'] === 'trailing_endofday') {
+        if (!empty($data['trading_account_credential']['history_v3'])) {
+            foreach ($data['trading_account_credential']['history_v3'] as $tradeItem) {
+                $highestBalArr[] = (float) $tradeItem['highest_balance'];
+            }
+        }
+
+        $highestBal = (!empty($highestBalArr))? max($highestBalArr) : $latestEqty;
+        $bufferZone = $startingBal + $maxDrawdown;
+
+        if ($highestBal >= $bufferZone) {
+            return $latestEqty - $startingBal;
+        }
+
+        if ($highestBal <= $startingBal) {
+            $maxThreshold = $startingBal - $maxDrawdown;
+        } else {
+            $maxThreshold = $highestBal - $maxDrawdown;
+        }
+
+        return $latestEqty - $maxThreshold;
+    }
+
+    if ($data['trading_account_credential']['drawdown_type'] === 'static') {
+        $maxTreshold = $startingBal - $maxDrawdown;
+        return $latestEqty - $maxTreshold;
+    }
+
+    return 'N/A';
+}
+
+function getCalculatedRdd_old($data)
 {
     $currentPhase = str_replace('phase-', '', $data['trading_account_credential']['current_phase']);
 
@@ -32,16 +90,21 @@ function getCalculatedRdd($data)
     return 'N/A';
 }
 
-function getFunderAccountShortName($name)
+function getFunderAccountShortName($accountId)
 {
-    $aliases = [
+    $toRemove = [
         'FTT-RALLY-',
-        'UPT-S-'
+        'Zero\d+k-s',
+        'LV-Zero\d+k-s',
+        'LV-\d+k-s'
     ];
 
-    $pattern = '/' . implode('|', array_map('preg_quote', $aliases)) . '/i';
+    foreach ($toRemove as $pattern) {
+        $regexPattern = '/^' . $pattern . '/';
+        $accountId = preg_replace($regexPattern, '', $accountId);
+    }
 
-    return preg_replace($pattern, '', $name);
+    return $accountId;
 }
 
 function isChecked($value, $collection, $default = '', $echo = true)
