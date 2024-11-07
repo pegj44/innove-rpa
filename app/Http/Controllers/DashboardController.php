@@ -39,7 +39,8 @@ class DashboardController extends Controller
             'order' => 'desc',
             'range' => 'currentMonth'
         ]));
-
+!d($recentTrades);
+die();
         $dashboardReports = $this->getDashboardGeneralReports($recentTrades, $phase);
 
         return [

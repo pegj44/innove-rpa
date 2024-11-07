@@ -111,7 +111,8 @@ class TradeController extends Controller
         $filterSettings = requestApi('get', 'user/settings', [
             'key' => 'trading_filters'
         ]);
-
+//!d($tradingAccounts);
+//die();
         return view('dashboard.trade.play.index')->with([
             'pairedItems' => $pairedItems,
             'tradingAccounts' => $tradingAccounts,

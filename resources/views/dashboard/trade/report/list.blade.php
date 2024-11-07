@@ -167,9 +167,9 @@
                     <th scope="col" class="px-6 py-3">
                         {{ __('Account') }}
                     </th>
-                    <th scope="col" class="px-6 py-3">
-                        {{ __('Phase') }}
-                    </th>
+{{--                    <th scope="col" class="px-6 py-3">--}}
+{{--                        {{ __('Phase') }}--}}
+{{--                    </th>--}}
                     <th scope="col" class="px-6 py-3">
                         {{ __('Status') }}
                     </th>
@@ -182,8 +182,8 @@
                     <th scope="col" class="px-6 py-3">
                         {{ __('Consis') }}
                     </th>
-                    <th scope="col" class="px-6 py-3">
-                        {{ __('Elig') }}
+                    <th scope="col" class="px-6 py-3 whitespace-nowrap">
+                        {{ __('T-days') }}
                     </th>
                     <th scope="col" class="px-6 py-3 whitespace-nowrap">
                         {{ __('Daily P&L') }}
@@ -269,11 +269,13 @@
                         @endif
                         <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             <span class="px-2 hidden user-acc-id" style="text-shadow: 1px 1px 1px #000;">{{ $item['trading_account_credential']['user_account']['id'] }}</span>
-                            <span class="bg-gray-900 rounded font-black funder-alias" {!! renderFunderAliasAttr($item['trading_account_credential']['funder']) !!}> {{ $item['trading_account_credential']['funder']['alias'] }}</span> {{ getFunderAccountShortName($item['trading_account_credential']['funder_account_id']) }}
+                            <span class="bg-gray-900 rounded font-black funder-alias" {!! renderFunderAliasAttr($item['trading_account_credential']['funder']) !!}> {{ $item['trading_account_credential']['funder']['alias'] }}</span>
+                            <span class="dot {{$item['trading_account_credential']['current_phase']}}"></span>
+                            <span>{{ getFunderAccountShortName($item['trading_account_credential']['funder_account_id']) }}</span>
                         </td>
-                        <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            <span class="dot {{$item['trading_account_credential']['current_phase']}}"></span> {{ getPhaseName($item['trading_account_credential']['current_phase']) }}
-                        </td>
+{{--                        <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">--}}
+{{--                            <span class="dot {{$item['trading_account_credential']['current_phase']}}"></span> {{ getPhaseName($item['trading_account_credential']['current_phase']) }}--}}
+{{--                        </td>--}}
                         <td class="relative px-6 py-4 font-medium dark:text{{ $trHtmlClass }} whitespace-nowrap">
                                 @if($item['status'] !== 'payout')
                                     <span class="bg{{ $trHtmlClass }} dot"></span>
@@ -288,22 +290,22 @@
                                 $rdd = getCalculatedRdd($item);
                             @endphp
                             @if($rdd < 100)
-                                <span class="text-red-500">{{ $rdd }}</span>
+                                <span class="text-red-500">{{ round($rdd, 2) }}</span>
                             @else
-                                {{ $rdd }}
+                                {{ round($rdd, 2) }}
                             @endif
                         </td>
                         <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ getCalculatedConsistency($item) }}
                         </td>
                         <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-
+                            {{ count($item['trading_account_credential']['history_v3']) }}
                         </td>
                         <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {!! getPnLHtml($item) !!}
                         </td>
                         <td class="relative px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ $item['trading_account_credential']['user_account']['trading_unit']['name'] }}
+                            {{ str_replace('UNIT ', '', $item['trading_account_credential']['user_account']['trading_unit']['name']) }}
                         </td>
                         @if(!empty($controls))
                             <td class="pr-3 py-4 text-right border-gray-600">
@@ -345,7 +347,6 @@
                     paging: false,
                     info: false,
                     searching: false,
-                    fixedHeader: true,
                     columnDefs: [
                         {
                             orderable: false,

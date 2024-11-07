@@ -48,7 +48,7 @@
         <tbody>
             @if(empty($tradeHistory))
                 <tr class="border-b border-gray-700 bg-gray-800 hover:bg-gray-600">
-                    <td colspan="5" class="text-center px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">There are no trades yet.</td>
+                    <td colspan="7" class="text-center px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">There are no trades yet.</td>
                 </tr>
             @else
 
@@ -177,18 +177,20 @@
             ]
         });
     @else
-        jQuery('#trading-history').DataTable( {
-            paging: true,
-            lengthChange: false,
-            pageLength: 20,
-            searching: false,
-            columnDefs: [
-                {
-                    orderable: false,
-                    targets: [0]
-                }
-            ]
-        });
+        @if(!empty($tradeHistory))
+            jQuery('#trading-history').DataTable( {
+                paging: true,
+                lengthChange: false,
+                pageLength: 20,
+                searching: false,
+                columnDefs: [
+                    {
+                        orderable: false,
+                        targets: [0]
+                    }
+                ]
+            });
+        @endif
     @endif
 
     @if (!empty($controls))
