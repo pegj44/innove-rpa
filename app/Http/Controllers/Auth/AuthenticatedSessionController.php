@@ -43,7 +43,8 @@ class AuthenticatedSessionController extends Controller
                 'userId' => $responseBody['userId'],
                 'accountId' => $responseBody['accountId'],
                 'permissions' => $responseBody['permissions'],
-                'isOwner' => $responseBody['isOwner']
+                'isOwner' => $responseBody['isOwner'],
+                'profile' => $responseBody['profile']
             ]);
 
             return redirect()->route('dashboard.live-accounts');

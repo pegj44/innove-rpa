@@ -522,6 +522,31 @@ function getTimeZoneOffset($timezone)
     return $timezones[$timezone];
 }
 
+function getProfileIcon($fileName)
+{
+    $url = rtrim(env('RPA_API_URL'), '/');
+    $url = str_replace('api', '', $url);
+    return $url .'/storage/images/'. $fileName;
+}
+
+function getCountryImage($country)
+{
+    $country = strtolower($country);
+
+    switch ($country) {
+        case 'philippines':
+        case 'ph':
+            return 'ph.jpg';
+        case 'america':
+        case 'united states':
+        case 'us':
+        case 'usa':
+            return 'us.png';
+    }
+
+    return '';
+}
+
 function getTimezonesWithOffsets($hasAbbreviation = true)
 {
     $timezoneMapping = [

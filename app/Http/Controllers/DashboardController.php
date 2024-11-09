@@ -36,11 +36,9 @@ class DashboardController extends Controller
         $recentTrades = $this->getTradeHistory(new Request([
             'current_phase' => $phase,
             'orderBy' => 'created_at',
-            'order' => 'desc',
-            'range' => 'currentMonth'
+            'order' => 'desc'
         ]));
-//!d($recentTrades);
-//die();
+
         $dashboardReports = $this->getDashboardGeneralReports($recentTrades, $phase);
 
         return [
@@ -55,13 +53,63 @@ class DashboardController extends Controller
     {
         $totalDailyProfit = [];
         $totalWeeklyProfit = [];
+        $totalMonthlyProfit = [];
+        $totalEquity = [];
+
+        if (empty($recentTrades)) {
+            $recentTrades = $this->getTradeHistory(new Request([
+                'current_phase' => $phase,
+                'orderBy' => 'created_at',
+                'order' => 'desc'
+            ]));
+        }
+
+        foreach ($recentTrades as $tradeHistory) {
+            if ($tradeHistory['trading_account_credential']['funder']['name'] === 'LiteFinance') {
+                continue; // Exclude lite finance
+            }
+
+            $totalEquity[] = (float) $tradeHistory['latest_equity'];
+
+            foreach ($tradeHistory['trading_account_credential']['history_v3'] as $tradeHistoryItem) {
+                $date = Carbon::parse($tradeHistoryItem['created_at'])->setTimezone('Asia/Manila');
+                $profit = (float) $tradeHistoryItem['latest_equity'] - (float) $tradeHistoryItem['starting_daily_equity'];
+
+                if ($profit > 0 && $date->isToday()) {
+                    !d($tradeHistoryItem['created_at'], $date->isToday());
+                    $totalDailyProfit[] = $profit;
+                }
+
+                if ($profit > 0 && $date->isCurrentWeek()) {
+                    $totalWeeklyProfit[] = $profit;
+                }
+
+                if ($profit > 0 && $date->isCurrentMonth() ) {
+                    $totalMonthlyProfit[] = $profit;
+                }
+
+            }
+        }
+
+        return [
+            'totalDailyProfit'     => array_sum($totalDailyProfit),
+            'totalWeeklyProfit'    => array_sum($totalWeeklyProfit),
+            'totalMonthlyProfit'   => array_sum($totalMonthlyProfit),
+            'totalEquity'          => array_sum($totalEquity)
+        ];
+    }
+
+    public function getDashboardGeneralReports_old($recentTrades = [], $phase = null)
+    {
+        $totalDailyProfit = [];
+        $totalWeeklyProfit = [];
 
         if (empty($recentTrades)) {
             $recentTrades = $this->getTradeHistory(new Request([
                 'current_phase' => $phase,
                 'orderBy' => 'created_at',
                 'order' => 'desc',
-                'range' => 'currentMonth'
+//                'range' => 'currentMonth'
             ]));
         }
 
@@ -156,7 +204,7 @@ class DashboardController extends Controller
 
     public function getTradeHistory(Request $request)
     {
-        return requestApi('get', 'trade/history', $request->all());
+        return requestApi('get', 'trade/history-new', $request->all());
     }
 
     public function getPayouts(Request $request)
