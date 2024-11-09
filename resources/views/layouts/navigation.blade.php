@@ -18,18 +18,24 @@
                 @endphp
                 <div class="flex items-center">
                     <div class="pr-5 text-right text-white text-xs hidden sm:flex">
-                        <span style=" line-height: 26px; font-size: 16px;" class="font-black mr-1">
-                            {{ $userData['profile']['first_name'] }}
-                            @if(!empty($userData['profile']['middle_name']))
-                                {{ ucfirst($userData['profile']['middle_name'][0]) }}.
-                            @endif
-                            {{ $userData['profile']['last_name'] }}
-                        </span>
-                        <span class="bg-gray-900 border px-2 py-1 rounded text-gray-300" style="font-size: 14px;border-color: #101010;"> {{ $userData['profile']['company'] }}</span>
+                        @if(!empty($userData['profile']['first_name']))
+                            <span style=" line-height: 26px; font-size: 16px;" class="font-black mr-1">
+                                {{ $userData['profile']['first_name'] }}
+                                @if(!empty($userData['profile']['middle_name']))
+                                    {{ ucfirst($userData['profile']['middle_name'][0]) }}.
+                                @endif
+                                {{ $userData['profile']['last_name'] }}
+                            </span>
+                        @endif
+                        @if(!empty($userData['profile']['company']))
+                            <span class="bg-gray-900 border px-2 py-1 rounded text-gray-300" style="font-size: 14px;border-color: #101010;"> {{ $userData['profile']['company'] }}</span>
+                        @endif
                     </div>
-                    <div class="flag mr-1" style="width: 38px;">
-                        <img src="/images/{{ getCountryImage($userData['profile']['country']) }}">
-                    </div>
+                    @if(!empty($userData['profile']['country']))
+                        <div class="flag mr-1" style="width: 38px;">
+                            <img src="/images/{{ getCountryImage($userData['profile']['country']) }}">
+                        </div>
+                    @endif
                 </div>
                 <div class="flex items-center ms-3">
                     @php
