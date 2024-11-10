@@ -1,6 +1,8 @@
 @if(!empty($tradingAccounts))
 
-
+@php
+    $symbols = getTradingSymbols();
+@endphp
     <div class="flex filters">
         @if(!empty($controls))
             <div class="flex flex-col pr-5">
@@ -157,7 +159,12 @@
         @endif
 
         <div class="">
-            <div class="relative overflow-x-auto sm:rounded-lg">
+            <div class="relative overflow-x-auto sm:rounded-lg
+  [&::-webkit-scrollbar]:w-2
+  [&::-webkit-scrollbar-track]:bg-gray-100
+  [&::-webkit-scrollbar-thumb]:bg-gray-300
+  dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+  dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500" style="overflow-x: scroll; width: 65vw;">
                 <table id="trading-accounts" x-data="" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -322,18 +329,185 @@
             </table>
             </div>
 
+            <div id="pair-unit-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                <div class="relative p-4 w-full max-w-2xl max-h-full">
+                    <!-- Modal content -->
+                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700 overflow-hidden">
+
+                        <form id="update-unit-form" action="" method="POST">
+                        @csrf
+                            <!-- Modal body -->
+
+                            <div class="relative">
+                                <div class="flex flex-row">
+                                    <div id="item-pair-1-header" class="buy-wrap flex flex-row justify-between p-3 w-1/2">
+                                        <div>
+                                            <span class="bg-gray-900 rounded font-black funder-alias font-normal text-md" data-pair_val="funder"></span>
+                                            <span class="mb-3 font-normal text-gray-700 dark:text-white" data-pair_val="funder_account_id_short"></span>
+                                        </div>
+                                        <h5 class="dark:text-white font-bold text-gray-900 text-md tracking-tight" data-pair_val="unit_name"></h5>
+                                    </div>
+                                    <div id="item-pair-2-header" class="sell-wrap bg-red-700 flex flex-row justify-between p-3 w-1/2">
+                                        <div>
+                                            <span class="bg-gray-900 rounded font-black funder-alias font-normal text-md" data-pair_val="funder"></span>
+                                            <span class="mb-3 font-normal text-gray-700 dark:text-white" data-pair_val="funder_account_id_short"></span>
+                                        </div>
+                                        <h5 class="dark:text-white font-bold text-gray-900 text-md tracking-tight" data-pair_val="unit_name"></h5>
+                                    </div>
+                                </div>
+                                <div class="flex flex-row">
+                                    <div id="item-pair-1-body" class="buy-wrap-handle w-1/2">
+                                        <div class="border-b border-gray-900 flex flex-row">
+                                            <div class="label px-3 py-2 w-1/2">Starting Balance</div>
+                                            <div class="bg-gray-700 px-3 py-2 w-1/2" data-pair_val="starting_balance"></div>
+                                        </div>
+                                        <div class="border-b border-gray-900 flex flex-row">
+                                            <div class="label px-3 py-2 w-1/2">Starting Equity</div>
+                                            <div class="bg-gray-700 px-3 py-2 w-1/2" data-pair_val="starting_equity"></div>
+                                        </div>
+                                        <div class="border-b border-gray-900 flex flex-row">
+                                            <div class="label px-3 py-2 w-1/2">Latest Equity</div>
+                                            <div class="bg-gray-700 px-3 py-2 w-1/2" data-pair_val="latest_equity"></div>
+                                        </div>
+                                        <div class="border-b border-gray-900 flex flex-row">
+                                            <div class="label px-3 py-2 w-1/2">Daily P&L</div>
+                                            <div class="bg-gray-700 px-3 py-2 w-1/2" data-pair_val="pnl"></div>
+                                        </div>
+                                        <div class="border-b border-gray-900 flex flex-row">
+                                            <div class="label px-3 py-2 w-1/2">RDD</div>
+                                            <div class="bg-gray-700 px-3 py-2 w-1/2" data-pair_val="rdd"></div>
+                                        </div>
+                                        <div class="border-b border-gray-900 flex flex-row">
+                                            <div class="label px-3 py-2 w-1/2">Symbol</div>
+                                            <div class="bg-gray-700 w-1/2">
+                                                <select data-pair_val="symbol" class="border-2 border-gray-600 bg-gray-900 text-gray-300 text-sm block w-full p-2.5">
+                                                    @foreach($symbols as $symbol)
+                                                        <option value="{{ $symbol }}">{{ $symbol }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="border-b border-gray-900 flex flex-row">
+                                            <div class="label px-3 py-2 w-1/2">Order Amount</div>
+                                            <div class="bg-gray-700 w-1/2">
+                                                <input type="number" data-pair_val="order_amount" step="0.01" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
+                                            </div>
+                                        </div>
+                                        <div class="border-b border-gray-900 flex flex-row">
+                                            <div class="label px-3 py-2 w-1/2">Take Profit (Ticks)</div>
+                                            <div class="bg-gray-700 w-1/2">
+                                                <input type="number" data-pair_val="tp" step="1" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
+                                            </div>
+                                        </div>
+                                        <div class="border-b border-gray-900 flex flex-row">
+                                            <div class="label px-3 py-2 w-1/2">Stop Loss (Ticks)</div>
+                                            <div class="bg-gray-700 w-1/2">
+                                                <input type="number" step="1" data-pair_val="sl" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
+                                            </div>
+                                        </div>
+                                        <div class="border-b border-gray-900 flex flex-row">
+                                            <div class="label px-3 py-2 w-1/2">Purchase Type</div>
+                                            <div class="bg-gray-700 w-1/2">
+                                                <select data-pair_val="purchase_type" class="border-2 border-gray-600 purchase-type bg-gray-900 text-gray-300 text-sm block w-full p-2.5">
+                                                    <option value="buy" selected>Buy</option>
+                                                    <option value="sell">Sell</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="item-pair-2-body" class="sell-wrap-handle w-1/2">
+                                        <div class="border-b border-gray-900 flex flex-row">
+                                            <div class="label px-3 py-2 w-1/2">Starting Balance</div>
+                                            <div class="bg-gray-700 px-3 py-2 w-1/2" data-pair_val="starting_balance"></div>
+                                        </div>
+                                        <div class="border-b border-gray-900 flex flex-row">
+                                            <div class="label px-3 py-2 w-1/2">Starting Equity</div>
+                                            <div class="bg-gray-700 px-3 py-2 w-1/2" data-pair_val="starting_equity"></div>
+                                        </div>
+                                        <div class="border-b border-gray-900 flex flex-row">
+                                            <div class="label px-3 py-2 w-1/2">Latest Equity</div>
+                                            <div class="bg-gray-700 px-3 py-2 w-1/2" data-pair_val="latest_equity"></div>
+                                        </div>
+                                        <div class="border-b border-gray-900 flex flex-row">
+                                            <div class="label px-3 py-2 w-1/2">Daily P&L</div>
+                                            <div class="bg-gray-700 px-3 py-2 w-1/2" data-pair_val="pnl"></div>
+                                        </div>
+                                        <div class="border-b border-gray-900 flex flex-row">
+                                            <div class="label px-3 py-2 w-1/2">RDD</div>
+                                            <div class="bg-gray-700 px-3 py-2 w-1/2" data-pair_val="rdd"></div>
+                                        </div>
+                                        <div class="border-b border-gray-900 flex flex-row">
+                                            <div class="label px-3 py-2 w-1/2">Symbol</div>
+                                            <div class="bg-gray-700 w-1/2">
+                                                <select data-pair_val="symbol" class="border-2 border-gray-600 bg-gray-900 text-gray-300 text-sm block w-full p-2.5">
+                                                    @foreach($symbols as $symbol)
+                                                        <option value="{{ $symbol }}">{{ $symbol }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="border-b border-gray-900 flex flex-row">
+                                            <div class="label px-3 py-2 w-1/2">Order Amount</div>
+                                            <div class="bg-gray-700 w-1/2">
+                                                <input type="number" data-pair_val="order_amount" step="0.01" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
+                                            </div>
+                                        </div>
+                                        <div class="border-b border-gray-900 flex flex-row">
+                                            <div class="label px-3 py-2 w-1/2">Take Profit (Ticks)</div>
+                                            <div class="bg-gray-700 w-1/2">
+                                                <input type="number" data-pair_val="tp" step="1" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
+                                            </div>
+                                        </div>
+                                        <div class="border-b border-gray-900 flex flex-row">
+                                            <div class="label px-3 py-2 w-1/2">Stop Loss (Ticks)</div>
+                                            <div class="bg-gray-700 w-1/2">
+                                                <input type="number" step="1" data-pair_val="sl" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
+                                            </div>
+                                        </div>
+                                        <div class="border-b border-gray-900 flex flex-row">
+                                            <div class="label px-3 py-2 w-1/2">Purchase Type</div>
+                                            <div class="bg-gray-700 w-1/2">
+                                                <select data-pair_val="purchase_type" class="border-2 border-gray-600 purchase-type bg-gray-900 text-gray-300 text-sm block w-full p-2.5">
+                                                    <option value="buy">Buy</option>
+                                                    <option value="sell" selected>Sell</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="flex justify-between items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                                <button type="submit" class="px-3 py-2 text-sm font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-md hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    <svg data-modal-hide="pair-unit-modal" class="w-[18px] h-[18px] text-white me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M8.6 5.2A1 1 0 0 0 7 6v12a1 1 0 0 0 1.6.8l8-6a1 1 0 0 0 0-1.6l-8-6Z" clip-rule="evenodd"/>
+                                    </svg>
+                                    {{ __("Initiate Trade") }}
+                                </button>
+                                <button data-modal-hide="pair-unit-modal" type="button" class="cancel-pair-accounts-btn py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Cancel</button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+            <button id="pair-modal-handler" class="hidden" data-modal-target="pair-unit-modal" data-modal-toggle="pair-unit-modal"></button>
+
             <div id="pair-accounts-btn-wrapper" class="hidden do-pair-btn flex rounded items-center shadow-lg">
-                <form id="do-pair-accounts" method="post" action="{{ route('trade.pair-manual') }}">
-                    @csrf
-                    <button class="font-medium inline-flex items-center px-3 py-3 rounded-md text-center text-sm text-white" type="submit">
+{{--                <form id="do-pair-accounts" method="post" action="{{ route('trade.pair-manual') }}">--}}
+{{--                    @csrf--}}
+                    <button id="request-pair-data" class="font-medium inline-flex items-center px-3 py-3 rounded-md text-center text-sm text-white" type="button">
                         <svg class="w-6 h-6 text-gray-800 dark:text-white mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                             <path fill-rule="evenodd" d="M14.516 6.743c-.41-.368-.443-1-.077-1.41a.99.99 0 0 1 1.405-.078l5.487 4.948.007.006A2.047 2.047 0 0 1 22 11.721a2.06 2.06 0 0 1-.662 1.51l-5.584 5.09a.99.99 0 0 1-1.404-.07 1.003 1.003 0 0 1 .068-1.412l5.578-5.082a.05.05 0 0 0 .015-.036.051.051 0 0 0-.015-.036l-5.48-4.942Zm-6.543 9.199v-.42a4.168 4.168 0 0 0-2.715 2.415c-.154.382-.44.695-.806.88a1.683 1.683 0 0 1-2.167-.571 1.705 1.705 0 0 1-.279-1.092V15.88c0-3.77 2.526-7.039 5.967-7.573V7.57a1.957 1.957 0 0 1 .993-1.838 1.931 1.931 0 0 1 2.153.184l5.08 4.248a.646.646 0 0 1 .012.011l.011.01a2.098 2.098 0 0 1 .703 1.57 2.108 2.108 0 0 1-.726 1.59l-5.08 4.25a1.933 1.933 0 0 1-2.929-.614 1.957 1.957 0 0 1-.217-1.04Z" clip-rule="evenodd"/>
                         </svg>
                         Pair Accounts
                     </button>
                     <input type="hidden" name="paired-ids" id="paired-ids" value="">
-                </form>
-                <a href="#" id="cancel-pair-accounts-btn" class="border-gray-900 border-l px-1">
+{{--                </form>--}}
+                <a href="#" class="cancel-pair-accounts-btn cancel-pair-floating border-gray-900 border-l px-1">
                     <svg class="w-5 h-5 text-gray-800 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/>
                     </svg>
@@ -385,48 +559,6 @@
                 let pairedItemsId = [];
                 let pairedUsersId = [];
                 let pairedUnitId = [];
-
-                document.addEventListener('DOMContentLoaded', function() {
-
-                    const pairablesCheckbox = document.getElementById('toggle-pairables');
-                    const userAccountsTable = document.getElementById('trading-accounts');
-                    const cancelPairingBtn = document.getElementById('cancel-pair-accounts-btn');
-                    const pairAccountsBtn = document.getElementById('pair-accounts-btn-wrapper');
-
-                    pairablesCheckbox.addEventListener('change', function() {
-                        if (pairablesCheckbox.checked) {
-                            userAccountsTable.classList.add('show-pairables-only');
-                        } else {
-                            userAccountsTable.classList.remove('show-pairables-only');
-                        }
-                    });
-
-                    cancelPairingBtn.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        const pairedItems = document.querySelectorAll('.pair-select');
-                        const pairedIdsField = document.getElementById('paired-ids');
-
-                        pairedItemsCount = 0;
-
-                        pairedItems.forEach(function(item) {
-                            item.classList.remove('pair-select');
-                        });
-
-                        userAccountsTable.classList.remove('pair-full');
-                        pairAccountsBtn.classList.add('hidden');
-                        pairedItemsId = [];
-                        pairedUsersId = [];
-                        pairedUnitId = [];
-                        pairedIdsField.value = '';
-
-                        userAccountsTable.classList.remove('filter-phase');
-                        userAccountsTable.classList.remove('table-pairing');
-                        userAccountsTable.removeAttribute('data-phase');
-                        userAccountsTable.removeAttribute('data-user');
-                        userAccountsTable.removeAttribute('data-unit');
-                        hideSameUserId();
-                    });
-                });
 
                 function reducePairedItemsId(id) {
                     const index = pairedItemsId.indexOf(id);
@@ -489,6 +621,78 @@
                     pairedIdsField.value = pairedItemsId.join(',');
                 }
 
+                function populatePairModalField(wrapper, item, key, contentType = 'text') {
+                    const element = wrapper.querySelector('[data-pair_val="'+ key +'"]');
+
+                    if (contentType === 'text') {
+                        element.textContent = item[key];
+                    } else {
+                        element.value = item[key];
+                    }
+                }
+
+                function populatePairModalData(data) {
+                    Object.entries(data).forEach(([itemId, item]) => {
+
+                        const pairHeader = document.querySelector('[data-pair_item_header="'+ itemId +'"]');
+                        const pairBody = document.querySelector('[data-pair_item_body="'+ itemId +'"]');
+
+                        const funderTheme = item.funder_theme.split('|');
+                        const funder = pairHeader.querySelector('[data-pair_val="funder"]');
+
+                        funder.textContent = item.funder;
+                        funder.style.cssText = 'background: '+ funderTheme[0] +'; color:'+ funderTheme[1] +';';
+
+                        populatePairModalField(pairHeader, item, 'funder_account_id_short');
+                        populatePairModalField(pairHeader, item, 'unit_name');
+
+                        populatePairModalField(pairBody, item, 'starting_balance');
+                        populatePairModalField(pairBody, item, 'starting_equity');
+                        populatePairModalField(pairBody, item, 'latest_equity');
+                        populatePairModalField(pairBody, item, 'pnl');
+                        populatePairModalField(pairBody, item, 'rdd');
+                        populatePairModalField(pairBody, item, 'symbol', 'value');
+                        populatePairModalField(pairBody, item, 'order_amount', 'value');
+                        populatePairModalField(pairBody, item, 'tp', 'value');
+                        populatePairModalField(pairBody, item, 'sl', 'value');
+                    });
+                }
+
+                function requestPairData(data) {
+                    const loader = document.querySelector('.global-loader-wrap');
+                    const pairModalBtn = document.getElementById('pair-modal-handler');
+
+                    const pairItem1Header = document.getElementById('item-pair-1-header');
+                    const pairItem1Body = document.getElementById('item-pair-1-body');
+                    pairItem1Header.setAttribute('data-pair_item_header', data[0]);
+                    pairItem1Body.setAttribute('data-pair_item_body', data[0]);
+
+                    const pairItem2Header = document.getElementById('item-pair-2-header');
+                    const pairItem2Body = document.getElementById('item-pair-2-body');
+                    pairItem2Header.setAttribute('data-pair_item_header', data[1]);
+                    pairItem2Body.setAttribute('data-pair_item_body', data[1]);
+
+                    loader.classList.remove('hidden');
+                    $.ajax({
+                        url: "{{ route('trade.pair-units') }}",
+                        type: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": csrfToken,
+                        },
+                        data: JSON.stringify(data),
+                        success: function(response) {
+                            populatePairModalData(response);
+
+                            pairModalBtn.click();
+                            loader.classList.add('hidden');
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Error:", error);
+                        }
+                    });
+                }
+
                 function hideSameUserId()
                 {
                     const userAccountsTable = document.getElementById('trading-accounts');
@@ -538,6 +742,91 @@
                         userAccountsTable.removeAttribute('data-unit');
                     }
                 }
+
+                document.addEventListener('DOMContentLoaded', function() {
+
+                    const selects = document.querySelectorAll('select.purchase-type');
+
+
+                    const purchaseTypeSelects = [];
+
+                    selects.forEach(function(select, index) {
+                        purchaseTypeSelects.push(select);
+                        select.addEventListener('change', function() {
+                            const buyWrap = document.querySelector('.buy-wrap');
+                            const sellWrap = document.querySelector('.sell-wrap');
+                            let pairIndex = (index === 0)? 1 : 0;
+
+                            if(this.value === 'sell') {
+                                purchaseTypeSelects[pairIndex].value = 'buy';
+                            }
+                            if(this.value === 'buy') {
+                                purchaseTypeSelects[pairIndex].value = 'sell';
+                            }
+
+                            buyWrap.classList.remove('buy-wrap');
+                            buyWrap.classList.add('sell-wrap');
+                            buyWrap.classList.add('bg-red-700');
+
+                            sellWrap.classList.remove('sell-wrap');
+                            sellWrap.classList.remove('bg-red-700');
+                            sellWrap.classList.add('buy-wrap');
+                        });
+                    });
+
+                    const pairablesCheckbox = document.getElementById('toggle-pairables');
+                    const userAccountsTable = document.getElementById('trading-accounts');
+                    const cancelPairingBtn = document.querySelectorAll('.cancel-pair-accounts-btn');
+                    const pairAccountsBtn = document.getElementById('pair-accounts-btn-wrapper');
+
+                    pairablesCheckbox.addEventListener('change', function() {
+                        if (pairablesCheckbox.checked) {
+                            userAccountsTable.classList.add('show-pairables-only');
+                        } else {
+                            userAccountsTable.classList.remove('show-pairables-only');
+                        }
+                    });
+
+                    cancelPairingBtn.forEach(element => {
+                        element.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            const pairedItems = document.querySelectorAll('.pair-select');
+                            const pairedIdsField = document.getElementById('paired-ids');
+
+                            pairedItemsCount = 0;
+
+                            pairedItems.forEach(function(item) {
+                                item.classList.remove('pair-select');
+                            });
+
+                            userAccountsTable.classList.remove('pair-full');
+                            pairAccountsBtn.classList.add('hidden');
+                            pairedItemsId = [];
+                            pairedUsersId = [];
+                            pairedUnitId = [];
+                            pairedIdsField.value = '';
+
+                            userAccountsTable.classList.remove('filter-phase');
+                            userAccountsTable.classList.remove('table-pairing');
+                            userAccountsTable.removeAttribute('data-phase');
+                            userAccountsTable.removeAttribute('data-user');
+                            userAccountsTable.removeAttribute('data-unit');
+                            hideSameUserId();
+                        });
+                    });
+                });
+
+                document.addEventListener('DOMContentLoaded', function() {
+                    const requestPairBtn = document.getElementById('request-pair-data');
+                    const requestPairBtnWrap = document.getElementById('pair-accounts-btn-wrapper');
+
+                    requestPairBtn.addEventListener('click', function(e) {
+                        let pairIds = document.getElementById('paired-ids');
+                        pairIds = pairIds.value.split(',');
+                        requestPairData(pairIds);
+                        requestPairBtnWrap.classList.add('hidden');
+                    });
+                });
                 @endif
             </script>
 

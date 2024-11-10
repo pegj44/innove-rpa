@@ -236,6 +236,8 @@ Route::middleware(['auth_api', 'admin'])->group(function () {
 
            Route::post('pair-manual', 'pairManual')->name('pair-manual');
            Route::delete('pair/{id}/remove', 'removePair')->name('remove-pair');
+
+           Route::post('pair-units', 'getPairData')->name('pair-units');
        });
 
         Route::controller(TradeReportController::class)->group(function()

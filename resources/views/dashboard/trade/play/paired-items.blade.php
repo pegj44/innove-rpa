@@ -107,7 +107,7 @@
                                                     Symbol
                                                 </th>
                                                 <td class="px-6 py-4 w-1/2 dark:bg-gray-900">
-                                                    <select id="symbol-{{ $pairedItem['pair1']['id'] }}" name="symbol" class="purchase-type bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                    <select id="symbol-{{ $pairedItem['pair1']['id'] }}" name="symbol" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                                         @foreach($symbols as $symbol)
                                                             <option value="{{ $symbol }}" {{ ($symbol === $pairedItem['pair1']['trading_account_credential']['symbol'])? 'selected' : '' }}>{{ $symbol }}</option>
                                                         @endforeach
@@ -143,7 +143,7 @@
                                                     {{ __('Purchase Type') }}
                                                 </th>
                                                 <td class="px-6 py-4 w-1/2 dark:bg-gray-900">
-                                                    <select name="purchase_type" id="purchase-type-{{ $pairedItem['pair1']['id'] }}" data-pair="purchase-type-{{ $pairedItem['pair2']['id'] }}" class="purchase-type bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                    <select name="purchase_type" id="purchase-type-{{ $pairedItem['pair1']['id'] }}" data-pair="purchase-type-{{ $pairedItem['pair2']['id'] }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                                         <option value="buy" class="buy" selected>Buy</option>
                                                         <option value="sell" class="sell">Sell</option>
                                                         <option value="buy-cross-phase" class="buy-cross-phase">Buy (Cross-phase)</option>
@@ -204,7 +204,7 @@
                                                     Symbol
                                                 </th>
                                                 <td class="px-6 py-4 w-1/2 dark:bg-gray-900">
-                                                    <select id="symbol-{{ $pairedItem['pair2']['id'] }}" name="symbol" class="purchase-type bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                    <select id="symbol-{{ $pairedItem['pair2']['id'] }}" name="symbol" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                                         @foreach($symbols as $symbol)
                                                             <option value="{{ $symbol }}" {{ ($symbol === $pairedItem['pair2']['trading_account_credential']['symbol'])? 'selected' : '' }}>{{ $symbol }}</option>
                                                         @endforeach
@@ -240,7 +240,7 @@
                                                     {{ __('Purchase Type') }}
                                                 </th>
                                                 <td class="px-6 py-4 w-1/2 dark:bg-gray-900">
-                                                    <select name="purchase_type" id="purchase-type-{{ $pairedItem['pair2']['id'] }}" data-pair="purchase-type-{{ $pairedItem['pair1']['id'] }}" class="purchase-type bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                    <select name="purchase_type" id="purchase-type-{{ $pairedItem['pair2']['id'] }}" data-pair="purchase-type-{{ $pairedItem['pair1']['id'] }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                                         <option value="buy" class="buy">Buy</option>
                                                         <option value="sell" class="sell" selected>Sell</option>
                                                         <option value="buy-cross-phase" class="buy-cross-phase">Buy (Cross-phase)</option>
@@ -310,23 +310,6 @@
 
             tradeBtn.forEach(function(btn) {
                 btn.classList.remove('hidden');
-            });
-
-
-            const selects = document.querySelectorAll('select.purchase-type');
-
-            selects.forEach(function(select) {
-                select.addEventListener('change', function() {
-                    const pairId = this.getAttribute('data-pair');
-                    const pair = document.getElementById(pairId);
-
-                    if(this.value === 'sell') {
-                        pair.value = 'buy';
-                    }
-                    if(this.value === 'buy') {
-                        pair.value = 'sell';
-                    }
-                });
             });
 
             const tradeForms = document.querySelectorAll('.form-trade');

@@ -96,6 +96,13 @@ class TradeController extends Controller
         ]);
     }
 
+    public function getPairData(Request $request)
+    {
+        $queueData = requestApi('post', 'trade/pair-units', $request->except('_token'));
+
+        return response()->json($queueData);
+    }
+
     public function removeAllPairs()
     {
         $remove = requestApi('get', 'remove-all-pairs');
@@ -111,8 +118,7 @@ class TradeController extends Controller
         $filterSettings = requestApi('get', 'user/settings', [
             'key' => 'trading_filters'
         ]);
-//!d($tradingAccounts);
-//die();
+
         return view('dashboard.trade.play.index')->with([
             'pairedItems' => $pairedItems,
             'tradingAccounts' => $tradingAccounts,

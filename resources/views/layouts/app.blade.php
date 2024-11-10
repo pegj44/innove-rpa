@@ -54,6 +54,12 @@
             </main>
         </div>
 
+        <div class="global-loader-wrap hidden">
+            <div>
+                <span class="loader"></span>
+            </div>
+        </div>
+
         <script src="//cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.js"></script>
         <script>
             var Space = {
