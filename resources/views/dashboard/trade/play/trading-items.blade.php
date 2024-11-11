@@ -11,8 +11,8 @@
                 $unitReady = (!empty($tradedItem['unit_ready']))? $tradedItem['unit_ready'] : [];
                 $keysIntersect = array_intersect($unitReady, $pairedItemKeys);
             @endphp
-            <h2 id="accordion-paired-collapse-heading-{{$index}}" class="flex">
-                <button type="button" class="flex items-center justify-between w-full p-0 font-medium rtl:text-right text-white border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 text-white hover:bg-gray-{{$index}}00 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-paired-collapse-body-{{$index}}" aria-expanded="false" aria-controls="accordion-paired-collapse-body-{{$index}}">
+            <h2 id="accordion-trading-collapse-heading-{{$index}}" class="flex">
+                <button type="button" class="flex items-center justify-between w-full p-0 font-medium rtl:text-right text-white border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 text-white hover:bg-gray-{{$index}}00 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-trading-collapse-body-{{$index}}" aria-expanded="false" aria-controls="accordion-trading-collapse-body-{{$index}}">
                     <div class="flex items-center w-full" style="padding-left: 17px;">
                         <svg data-accordion-icon class="mr-5 w-3 h-3 rotate-{{$index}}80 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
@@ -60,7 +60,7 @@
                 $symbols = getTradingSymbols();
             @endphp
 
-            <div id="accordion-paired-collapse-body-{{$index}}" class="hidden" aria-labelledby="accordion-paired-collapse-heading-{{$index}}">
+            <div id="accordion-trading-collapse-body-{{$index}}" class="hidden" aria-labelledby="accordion-trading-collapse-heading-{{$index}}">
                 <div class="border border-gray-200 dark:border-gray-700 dark:bg-gray-900">
                     <div class="mb-5 flex bg-white border border-b-0 border-gray-200 shadow dark:bg-gray-800 dark:border-gray-700">
                         <div class="grid grid-cols-2 flex-1">
