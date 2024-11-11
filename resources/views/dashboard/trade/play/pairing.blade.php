@@ -1,58 +1,33 @@
 
 <div class="">
 
+    @php
+        $pairedItemsHandler = [];
+    @endphp
+
     @if(!empty($pairedItems))
         @php
             $waitingPairedItems = [];
             $tradedItems = [];
             $tradesHandler = [];
+            $pairedItemsHandler = [];
         @endphp
         @foreach($pairedItems as $index => $item)
-            @php
+            @foreach($item['data'] as $itemId => $itemData)
+                @php
+                    $itemFunder = str_replace(' ', '_', $itemData['funder']);
+                    $pairedItemsHandler[] = strtolower($itemFunder) .'_'. $itemData['unit_id'];
+                @endphp
+            @endforeach
+{{--            @php--}}
+{{--                $pair1 = $item['trade_report_pair1'];--}}
+{{--                $pair2 = $item['trade_report_pair2'];--}}
 
-                if (empty($item['trade_report_pair1']) || empty($item['trade_report_pair2'])) {
-                    continue;
-                }
-
-                $pair1 = $item['trade_report_pair1'];
-                $pair2 = $item['trade_report_pair2'];
-
-                $reportInfo = [
-                    'pair1' => getTradeReportCalculations($pair1),
-                    'pair2' => getTradeReportCalculations($pair2)
-                ];
-
-                $pair1FunderMetadata = [];
-                foreach($pair1['trading_account_credential']['funder']['metadata'] as $funderMeta1) {
-                    $pair1FunderMetadata[$funderMeta1['key']] = $funderMeta1['value'];
-                }
-
-                $pair2FunderMetadata = [];
-                foreach($pair2['trading_account_credential']['funder']['metadata'] as $funderMeta2) {
-                    $pair2FunderMetadata[$funderMeta2['key']] = $funderMeta2['value'];
-                }
-
-                if ($item['status'] === 'pairing') {
-                    $waitingPairedItems[$item['id']] = [
-                        'pair1' => $pair1,
-                        'pair2' => $pair2,
-                        'pair1FunderMetadata' => $pair1FunderMetadata,
-                        'pair2FunderMetadata' => $pair2FunderMetadata
-                    ];
-                }
-
-                if ($item['status'] === 'trading') {
-                    $tradedItems[$item['id']] = [
-                        'pair1' => $pair1,
-                        'pair2' => $pair2,
-                        'pair1FunderMetadata' => $pair1FunderMetadata,
-                        'pair2FunderMetadata' => $pair2FunderMetadata
-                    ];
-
-                $tradesHandler[] = $pair1['trading_account_credential']['funder']['alias'] .'_'. $pair1['trading_account_credential']['user_account']['trading_unit']['unit_id'];
-                $tradesHandler[] = $pair2['trading_account_credential']['funder']['alias'] .'_'. $pair2['trading_account_credential']['user_account']['trading_unit']['unit_id'];
-                }
-            @endphp
+{{--                if ($item['status'] === 'trading') {--}}
+{{--                    $tradesHandler[] = $pair1['trading_account_credential']['funder']['alias'] .'_'. $pair1['trading_account_credential']['user_account']['trading_unit']['unit_id'];--}}
+{{--                    $tradesHandler[] = $pair2['trading_account_credential']['funder']['alias'] .'_'. $pair2['trading_account_credential']['user_account']['trading_unit']['unit_id'];--}}
+{{--                }--}}
+{{--            @endphp--}}
         @endforeach
     @endif
 
@@ -86,9 +61,9 @@
                         <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M6 4v10m0 0a2 2 0 1 0 0 4m0-4a2 2 0 1 1 0 4m0 0v2m6-16v2m0 0a2 2 0 1 0 0 4m0-4a2 2 0 1 1 0 4m0 0v10m6-16v10m0 0a2 2 0 1 0 0 4m0-4a2 2 0 1 1 0 4m0 0v2"/>
                     </svg>
                     {{ __('Paired Accounts') }}
-                    @if(!empty($waitingPairedItems))
+                    @if(!empty($pairedItems))
                         <span class="bg-red-600 inline-block ml-2 rounded-full text-sm text-white" style="min-width: 20px;font-size: 11px;">
-                            {{ count($waitingPairedItems) }}
+                            {{ count($pairedItems) }}
                         </span>
                     @endif
                 </a>

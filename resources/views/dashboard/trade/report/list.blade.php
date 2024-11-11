@@ -231,6 +231,8 @@
                         }
 
                         $isShining = ($item['status'] === 'payout')? 'shining-gold-bg1' : '';
+                        $itemFunder = str_replace(' ', '_', $item['trading_account_credential']['funder']['alias']);
+                        $itemPairHandler = strtolower($itemFunder) .'_'. $item['trading_account_credential']['user_account']['trading_unit']['unit_id'];
                     @endphp
 
                     <tr class="account-item border-b border-gray-700 bg-gray-800 hover:bg-gray-600 {{ $isShining }} {{ ($item['status'] === 'idle')? 'item-pairable' : 'item-not-pairable' }}"
@@ -259,7 +261,7 @@
                                             <div class="tooltip-arrow" data-popper-arrow></div>
                                         </div>
                                 @else
-                                    @if($item['status'] === 'idle')
+                                    @if($item['status'] === 'idle' && !in_array($itemPairHandler, $pairedItemsHandler))
                                         <a href="#" x-on:click="requestPair({{$item['id']}}, event, $event.target)" class="pair-item-btn font-medium text-blue-600 dark:text-blue-50">
                                             <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16 10 3-3m0 0-3-3m3 3H5v3m3 4-3 3m0 0 3 3m-3-3h14v-3"/>
@@ -334,7 +336,7 @@
                     <!-- Modal content -->
                     <div class="relative bg-white rounded-lg shadow dark:bg-gray-700 overflow-hidden">
 
-                        <form id="update-unit-form" action="" method="POST">
+                        <form action="{{ route('trade.initiate-v2') }}" method="POST">
                         @csrf
                             <!-- Modal body -->
 
@@ -414,6 +416,19 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        <input type="hidden" data-pair_val="unit_id">
+                                        <input type="hidden" data-pair_val="platform_type">
+                                        <input type="hidden" data-pair_val="login_username">
+                                        <input type="hidden" data-pair_val="login_password">
+                                        <input type="hidden" data-pair_val="funder_account_id_long">
+                                        <input type="hidden" data-pair_val="funder_account_id_short">
+                                        <input type="hidden" data-pair_val="funder">
+                                        <input type="hidden" data-pair_val="funder_theme">
+                                        <input type="hidden" data-pair_val="unit_name">
+                                        <input type="hidden" data-pair_val="starting_balance">
+                                        <input type="hidden" data-pair_val="starting_equity">
+                                        <input type="hidden" data-pair_val="latest_equity">
+                                        <input type="hidden" data-pair_val="rdd">
                                     </div>
                                     <div id="item-pair-2-body" class="sell-wrap-handle w-1/2">
                                         <div class="border-b border-gray-900 flex flex-row">
@@ -473,6 +488,19 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        <input type="hidden" data-pair_val="unit_id">
+                                        <input type="hidden" data-pair_val="platform_type">
+                                        <input type="hidden" data-pair_val="login_username">
+                                        <input type="hidden" data-pair_val="login_password">
+                                        <input type="hidden" data-pair_val="funder_account_id_long">
+                                        <input type="hidden" data-pair_val="funder_account_id_short">
+                                        <input type="hidden" data-pair_val="funder">
+                                        <input type="hidden" data-pair_val="funder_theme">
+                                        <input type="hidden" data-pair_val="unit_name">
+                                        <input type="hidden" data-pair_val="starting_balance">
+                                        <input type="hidden" data-pair_val="starting_equity">
+                                        <input type="hidden" data-pair_val="latest_equity">
+                                        <input type="hidden" data-pair_val="rdd">
                                     </div>
                                 </div>
                             </div>
@@ -483,7 +511,7 @@
                                     <svg data-modal-hide="pair-unit-modal" class="w-[18px] h-[18px] text-white me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                         <path fill-rule="evenodd" d="M8.6 5.2A1 1 0 0 0 7 6v12a1 1 0 0 0 1.6.8l8-6a1 1 0 0 0 0-1.6l-8-6Z" clip-rule="evenodd"/>
                                     </svg>
-                                    {{ __("Initiate Trade") }}
+                                    {{ __("Initiate Pairing") }}
                                 </button>
                                 <button data-modal-hide="pair-unit-modal" type="button" class="cancel-pair-accounts-btn py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Cancel</button>
                             </div>
@@ -622,12 +650,14 @@
                 }
 
                 function populatePairModalField(wrapper, item, key, contentType = 'text') {
-                    const element = wrapper.querySelector('[data-pair_val="'+ key +'"]');
-
                     if (contentType === 'text') {
+                        let element = wrapper.querySelector('[data-pair_val="'+ key +'"]');
                         element.textContent = item[key];
                     } else {
+                        let element = wrapper.querySelector('select[data-pair_val="'+ key +'"], input[data-pair_val="'+ key +'"]');
+                        console.log(element);
                         element.value = item[key];
+                        element.setAttribute('name', 'data['+ [item.id] +']['+ key +']');
                     }
                 }
 
@@ -655,6 +685,21 @@
                         populatePairModalField(pairBody, item, 'order_amount', 'value');
                         populatePairModalField(pairBody, item, 'tp', 'value');
                         populatePairModalField(pairBody, item, 'sl', 'value');
+                        populatePairModalField(pairBody, item, 'unit_id', 'value');
+                        populatePairModalField(pairBody, item, 'platform_type', 'value');
+                        populatePairModalField(pairBody, item, 'login_username', 'value');
+                        populatePairModalField(pairBody, item, 'login_password', 'value');
+                        populatePairModalField(pairBody, item, 'funder_account_id_long', 'value');
+                        populatePairModalField(pairBody, item, 'funder_account_id_short', 'value');
+                        populatePairModalField(pairBody, item, 'funder', 'value');
+                        populatePairModalField(pairBody, item, 'funder_theme', 'value');
+                        populatePairModalField(pairBody, item, 'unit_name', 'value');
+                        populatePairModalField(pairBody, item, 'starting_balance', 'value');
+                        populatePairModalField(pairBody, item, 'starting_equity', 'value');
+                        populatePairModalField(pairBody, item, 'latest_equity', 'value');
+                        populatePairModalField(pairBody, item, 'rdd', 'value');
+
+                        pairBody.querySelector('[data-pair_val="purchase_type"]').setAttribute('name', 'data['+ [itemId] +'][purchase_type]');
                     });
                 }
 

@@ -233,6 +233,8 @@ Route::middleware(['auth_api', 'admin'])->group(function () {
            Route::delete('pair', 'clearPairing')->name('pair.clear');
 
            Route::post('initiate', 'initiateTrade')->name('initiate');
+           Route::post('initiate-v2', 'initiateTradeV2')->name('initiate-v2');
+           Route::post('start', 'startTrade')->name('start');
 
            Route::post('pair-manual', 'pairManual')->name('pair-manual');
            Route::delete('pair/{id}/remove', 'removePair')->name('remove-pair');

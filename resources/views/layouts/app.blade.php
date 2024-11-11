@@ -192,6 +192,21 @@
                 }
             });
 
+            document.addEventListener('pusherNotificationEvent', function(event) {
+                if(event.detail.action === 'initialize-complete') {
+                    const audio = new Audio("{{ asset('media/trade-ready.mp3') }}");
+                    audio.play().catch(error => {
+                        console.error("Playback failed:", error);
+                    });
+
+                    const pairedBtnWrap = document.getElementById('trade-item-status-'+ event.detail.arguments.queue_db_id);
+                    if (pairedBtnWrap) {
+                        pairedBtnWrap.querySelector('.initializing-trade').classList.add('hidden');
+                        pairedBtnWrap.querySelector('.start-trade-wrap').classList.remove('hidden');
+                    }
+                }
+            });
+
         </script>
     </body>
 </html>

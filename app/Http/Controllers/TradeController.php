@@ -15,6 +15,17 @@ class TradeController extends Controller
     public static $forexTpPips = 4.9;
     public static $forexSlPips = 5.1;
 
+    public function startTrade(Request $request)
+    {
+        $tradeStart = requestApi('post', 'trade/start', $request->except('_token'));
+
+        if (!empty($tradeStart['errors'])) {
+            return redirect()->back()->with('error', $tradeStart['errors']);
+        }
+
+        return redirect()->back()->with('success', $tradeStart['message']);
+    }
+
     public function destroyHistory(string $id)
     {
         $item = requestApi('delete', 'trade-history/'. $id);
@@ -112,13 +123,14 @@ class TradeController extends Controller
 
     public function index()
     {
-        $pairedItems = requestApi('get', 'trade/paired-items');
+        $pairedItems = requestApi('get', 'trade/paired-items-v2');
         $tradingAccounts = requestApi('get', 'trade/reports');
         $funders = requestApi('get', 'funders');
         $filterSettings = requestApi('get', 'user/settings', [
             'key' => 'trading_filters'
         ]);
-
+//!d($pairedItems);
+//die();
         return view('dashboard.trade.play.index')->with([
             'pairedItems' => $pairedItems,
             'tradingAccounts' => $tradingAccounts,
@@ -159,6 +171,17 @@ class TradeController extends Controller
             'success' => true,
             'accounts' => $pairs
         ]);
+    }
+
+    public function initiateTradeV2(Request $request)
+    {
+        $response = requestApi('post', 'trade/initiate-v2', $request->except('_token'));
+
+        if (isset($response['error'])) {
+            return redirect()->back()->with('error', $response['error']);
+        }
+
+        return redirect()->back()->with('success', $response['message']);
     }
 
     public function initiateTrade(Request $request)
