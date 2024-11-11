@@ -48,9 +48,9 @@
                     </svg>
 
                     {{ __('Ongoing Trades') }}
-                    @if(!empty($tradedItems))
+                    @if(!empty($tradingItems))
                         <span class="bg-red-600 inline-block ml-2 rounded-full text-sm text-white" style="min-width: 20px;font-size: 11px;">
-                            {{ count($tradedItems) }}
+                            {{ count($tradingItems) }}
                         </span>
                     @endif
                 </a>

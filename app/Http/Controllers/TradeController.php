@@ -123,16 +123,16 @@ class TradeController extends Controller
 
     public function index()
     {
-        $pairedItems = requestApi('get', 'trade/paired-items-v2');
+        $queueItems = requestApi('get', 'trade/queue');
         $tradingAccounts = requestApi('get', 'trade/reports');
         $funders = requestApi('get', 'funders');
         $filterSettings = requestApi('get', 'user/settings', [
             'key' => 'trading_filters'
         ]);
-//!d($pairedItems);
-//die();
+
         return view('dashboard.trade.play.index')->with([
-            'pairedItems' => $pairedItems,
+            'pairedItems' => $queueItems['pairedItems'],
+            'tradingItems' => $queueItems['tradingItems'],
             'tradingAccounts' => $tradingAccounts,
             'funders' => $funders,
             'filterSettings' => (!empty($filterSettings))? $filterSettings['value'] : []
