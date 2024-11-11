@@ -76,7 +76,6 @@ class DashboardController extends Controller
                 $profit = (float) $tradeHistoryItem['latest_equity'] - (float) $tradeHistoryItem['starting_daily_equity'];
 
                 if ($profit > 0 && $date->isToday()) {
-                    !d($tradeHistoryItem['created_at'], $date->isToday());
                     $totalDailyProfit[] = $profit;
                 }
 
