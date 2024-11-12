@@ -13,6 +13,7 @@ class FunderController extends Controller
         'Rtrader_base' => 'Rithmic Trader',
         'UProfitTradingView' => 'UProfit Trading View',
         'Tradoverse_1' => 'Tradoverse',
+        'ProjectX_1' => 'ProjectX',
         'NinjaTrader' => 'Ninja Trader',
     ];
 
