@@ -261,6 +261,11 @@
 
                     pairForm.setAttribute('action', route);
 
+                    const statusHandler = document.querySelector('.status-handler[data-itemid="'+ event.detail.arguments.itemId +'"]');
+                    const msgHtml = '<span class="bg-red-600 font-normal ml-2 px-2 py-1 rounded text-sm">{{ __('Failed to initialize') }}</span>';
+
+                    statusHandler.innerHTML = msgHtml;
+
                     getTemplate('dashboard.trade.play.components.re-initiate-trade-btn', {
                         'pairedItemData': {
                             "queue_db_id": event.detail.arguments.queue_db_id
