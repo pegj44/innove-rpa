@@ -106,6 +106,8 @@ Route::middleware(['auth_api'])->group(function () {
 
 Route::middleware(['auth_api', 'investor'])->group(function ()
 {
+    Route::post('/template', [\App\Http\Controllers\AjaxController::class, 'getHtmlTemplate'])->name('template');
+
     Route::controller(\App\Http\Controllers\InvestorController::class)->group(function()
     {
         Route::get('/trade-accounts', 'tradeAccounts')->name('investor.trade-accounts');
@@ -234,6 +236,7 @@ Route::middleware(['auth_api', 'admin'])->group(function () {
 
            Route::post('initiate', 'initiateTrade')->name('initiate');
            Route::post('initiate-v2', 'initiateTradeV2')->name('initiate-v2');
+           Route::post('re-initialize', 'reInitializeTrade')->name('re-initialize');
            Route::post('start', 'startTrade')->name('start');
 
            Route::post('pair-manual', 'pairManual')->name('pair-manual');

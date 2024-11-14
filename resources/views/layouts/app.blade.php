@@ -156,6 +156,29 @@
                 Space.init();
             };
 
+            function getTemplate(template, data, wrapperHtml = null) {
+                $.ajax({
+                    url: "{{ route('template') }}",
+                    type: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": csrfToken,
+                    },
+                    data: JSON.stringify({
+                        template: template,
+                        data: data
+                    }),
+                    success: function(response) {
+                        if (wrapperHtml) {
+                            wrapperHtml.innerHTML = response.template;
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error:", error);
+                    }
+                });
+            }
+
             const numberInputs = document.querySelectorAll('input[type="number"]');
 
             // Check if there are any number inputs
@@ -199,13 +222,53 @@
                         console.error("Playback failed:", error);
                     });
 
-                    const pairedBtnWrap = document.getElementById('trade-item-status-'+ event.detail.arguments.queue_db_id);
-                    if (pairedBtnWrap) {
-                        pairedBtnWrap.querySelector('.initializing-trade').classList.add('hidden');
-                        pairedBtnWrap.querySelector('.start-trade-wrap').classList.remove('hidden');
-                    }
+                    const pairForm = document.getElementById('trade-item-status-'+ event.detail.arguments.queue_db_id);
+                    const pairFormWrap = pairForm.querySelector('.pair-form-wrap');
+                    const route = '{{ route("trade.start") }}';
+
+                    pairForm.setAttribute('action', route);
+
+                    getTemplate('dashboard.trade.play.components.initiate-trade-btn', {
+                        'pairedItemData': {
+                            "queue_db_id": event.detail.arguments.queue_db_id
+                        }
+                    }, pairFormWrap);
                 }
             });
+
+            document.addEventListener('pusherNotificationEvent', function(event) {
+                if (event.detail.action === 'trade-initialize-error') {
+                    const audio = new Audio("{{ asset('media/trade-error.mp3') }}");
+                    let playCount = 0;
+                    const maxPlays = 3;
+
+                    const playAudio = () => {
+                        if (playCount < maxPlays) {
+                            audio.play().then(() => {
+                                playCount++;
+                            }).catch(error => {
+                                console.error("Playback failed:", error);
+                            });
+                        }
+                    };
+
+                    playAudio();
+                    audio.addEventListener('ended', playAudio);
+
+                    const pairForm = document.getElementById('trade-item-status-'+ event.detail.arguments.queue_db_id);
+                    const pairFormWrap = pairForm.querySelector('.pair-form-wrap');
+                    const route = '{{ route("trade.re-initialize") }}';
+
+                    pairForm.setAttribute('action', route);
+
+                    getTemplate('dashboard.trade.play.components.re-initiate-trade-btn', {
+                        'pairedItemData': {
+                            "queue_db_id": event.detail.arguments.queue_db_id
+                        }
+                    }, pairFormWrap);
+                }
+            });
+
 
         </script>
     </body>

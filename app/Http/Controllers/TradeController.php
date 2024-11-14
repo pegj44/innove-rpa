@@ -173,6 +173,17 @@ class TradeController extends Controller
         ]);
     }
 
+    public function reInitializeTrade(Request $request)
+    {
+        $response = requestApi('post', 'trade/re-initialize', $request->except('_token'));
+
+        if (isset($response['error'])) {
+            return redirect()->back()->with('error', $response['error']);
+        }
+
+        return redirect()->back()->with('success', $response['message']);
+    }
+
     public function initiateTradeV2(Request $request)
     {
         $response = requestApi('post', 'trade/initiate-v2', $request->except('_token'));

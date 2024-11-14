@@ -32,7 +32,7 @@
                             <div class="w-1/2 p-5 bg-gray-800">
                                 <div class="dark:border-gray-600 flex justify-between">
                                     <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
-                                        <span class="bg-gray-900 rounded font-black funder-alias font-normal text-md" {!! renderFunderAliasAttr(['theme' => $pairItem1['funder_theme']]) !!}> {{ $pairItem2['funder'] }}</span>
+                                        <span class="bg-gray-900 rounded font-black funder-alias font-normal text-md" {!! renderFunderAliasAttr(['theme' => $pairItem2['funder_theme']]) !!}> {{ $pairItem2['funder'] }}</span>
                                         <span class="mb-3 font-normal text-gray-700 dark:text-white"> {{ $pairItem2['funder_account_id_short'] }}</span>
                                     </h5>
                                     <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
@@ -249,21 +249,21 @@
                         </div>
                     </div>
                     <div class="h-12 text-center">
-                        <form method="POST" id="trade-item-status-{{ $tradedItem['queue_db_id'] }}" action="{{ route('trade.start') }}" class="form-trade">
-                            @csrf
-                            <div class="initializing-trade {{ (count($keysIntersect) === 2)? 'hidden' : '' }}">
-                                <p class="text-blue-500">Initializing Trade...</p>
-                            </div>
-                            <div class="start-trade-wrap {{ (count($keysIntersect) < 2)? 'hidden' : '' }}">
-                                <input type="hidden" name="queue_id" value="{{ $tradedItem['queue_db_id'] }}">
-                                <button type="submit" class="initiate-trade-btn hidden px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                    <svg class="w-[24px] h-[24px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 18V6l8 6-8 6Z"/>
-                                    </svg>
-                                    {{ __('Start Trade') }}
-                                </button>
-                            </div>
-                        </form>
+{{--                        <form method="POST" id="trade-item-status-{{ $tradedItem['queue_db_id'] }}" action="{{ route('trade.start') }}" class="form-trade">--}}
+{{--                            @csrf--}}
+{{--                            <div class="initializing-trade {{ (count($keysIntersect) === 2)? 'hidden' : '' }}">--}}
+{{--                                <p class="text-blue-500">Initializing Trade...</p>--}}
+{{--                            </div>--}}
+{{--                            <div class="start-trade-wrap {{ (count($keysIntersect) < 2)? 'hidden' : '' }}">--}}
+{{--                                <input type="hidden" name="queue_id" value="{{ $tradedItem['queue_db_id'] }}">--}}
+{{--                                <button type="submit" class="initiate-trade-btn hidden px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">--}}
+{{--                                    <svg class="w-[24px] h-[24px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">--}}
+{{--                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 18V6l8 6-8 6Z"/>--}}
+{{--                                    </svg>--}}
+{{--                                    {{ __('Start Trade') }}--}}
+{{--                                </button>--}}
+{{--                            </div>--}}
+{{--                        </form>--}}
                     </div>
                 </div>
             </div>

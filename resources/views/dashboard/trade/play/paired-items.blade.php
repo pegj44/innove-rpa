@@ -9,8 +9,14 @@
 
                 $unitReady = (!empty($pairedItemData['unit_ready']))? $pairedItemData['unit_ready'] : [];
                 $keysIntersect = array_intersect($unitReady, $pairedItemKeys);
+
+                $canStartTrade = false;
+
+                if ($pairedItemData['status'] === 'pairing-error' || count($keysIntersect) === 2) {
+                    $canStartTrade = true;
+                }
             @endphp
-            <h2 id="accordion-paired-collapse-heading-{{$index}}" class="flex">
+            <h2 id="accordion-paired-collapse-heading-{{$index}}" data-queueItemId="{{ $pairedItemData['queue_db_id'] }}" class="flex">
                 <button type="button" class="flex items-center justify-between w-full p-0 font-medium rtl:text-right text-white border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 text-white hover:bg-gray-{{$index}}00 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-paired-collapse-body-{{$index}}" aria-expanded="false" aria-controls="accordion-paired-collapse-body-{{$index}}">
                     <div class="flex items-center w-full" style="padding-left: 17px;">
                         <svg data-accordion-icon class="mr-5 w-3 h-3 rotate-{{$index}}80 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
@@ -22,6 +28,11 @@
                                     <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
                                         <span class="bg-gray-900 rounded font-black funder-alias font-normal text-md" {!! renderFunderAliasAttr(['theme' => $pairItem1['funder_theme']]) !!}> {{ $pairItem1['funder'] }}</span>
                                         <span class="mb-3 font-normal text-gray-700 dark:text-white"> {{ $pairItem1['funder_account_id_short'] }}</span>
+                                        <span class="status-handler" data-itemId="{{ $pairedItemKeys[0] }}">
+                                            @if($pairedItemData['status'] === 'pairing-error' && !in_array($pairedItemKeys[0], $unitReady))
+                                                <span class="bg-red-600 font-normal ml-2 px-2 py-1 rounded text-sm">{{ __('Failed to initialize') }}</span>
+                                            @endif
+                                        </span>
                                     </h5>
                                     <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
                                         {{ $pairItem1['unit_name'] }}
@@ -31,8 +42,13 @@
                             <div class="w-1/2 p-5 bg-gray-800">
                                 <div class="dark:border-gray-600 flex justify-between">
                                     <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
-                                        <span class="bg-gray-900 rounded font-black funder-alias font-normal text-md" {!! renderFunderAliasAttr(['theme' => $pairItem1['funder_theme']]) !!}> {{ $pairItem2['funder'] }}</span>
+                                        <span class="bg-gray-900 rounded font-black funder-alias font-normal text-md" {!! renderFunderAliasAttr(['theme' => $pairItem2['funder_theme']]) !!}> {{ $pairItem2['funder'] }}</span>
                                         <span class="mb-3 font-normal text-gray-700 dark:text-white"> {{ $pairItem2['funder_account_id_short'] }}</span>
+                                        <span class="status-handler" data-itemId="{{ $pairedItemKeys[1] }}">
+                                            @if($pairedItemData['status'] === 'pairing-error' && !in_array($pairedItemKeys[1], $unitReady))
+                                                <span class="bg-red-600 font-normal ml-2 px-2 py-1 rounded text-sm">{{ __('Failed to initialize') }}</span>
+                                            @endif
+                                        </span>
                                     </h5>
                                     <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
                                         {{ $pairItem2['unit_name'] }}
@@ -247,56 +263,20 @@
                             </div>
                         </div>
                     </div>
-                    <div class="h-12 text-center">
+                    <div id="pair-footer-wrap-{{ $pairedItemData['queue_db_id'] }}" class="h-12 text-center">
                         <form method="POST" id="trade-item-status-{{ $pairedItemData['queue_db_id'] }}" action="{{ route('trade.start') }}" class="form-trade">
                             @csrf
-{{--                            <input type="hidden" name="paired_id" value="{{ $index }}">--}}
-
-{{--                            <input type="hidden" name="unit1[id]" value="{{ $pairedItem['pair1']['id'] }}">--}}
-{{--                            <input type="hidden" name="unit1[unit]" value="{{ $pairedItem['funder']['user_account']['trading_unit']['unit_id'] }}">--}}
-{{--                            <input type="hidden" name="unit1[machine]" value="{{ $pairedItem['funder']['platform_type'] }}">--}}
-{{--                            <input type="hidden" name="unit1[latest_equity]" value="{{ $pairedItem['pair1']['latest_equity'] }}">--}}
-{{--                            <input type="hidden" name="unit1[purchase_type]" class="adaptval" data-key="purchase-type-{{ $pairedItem['pair1']['id'] }}" value="">--}}
-{{--                            <input type="hidden" name="unit1[order_amount]" class="adaptval" data-key="order_amount-{{ $pairedItem['pair1']['id'] }}" value="">--}}
-{{--                            <input type="hidden" name="unit1[take_profit_ticks]" class="adaptval" data-key="take_profit_ticks-{{ $pairedItem['pair1']['id'] }}" value="">--}}
-{{--                            <input type="hidden" name="unit1[stop_loss_ticks]" class="adaptval" data-key="stop_loss_ticks-{{ $pairedItem['pair1']['id'] }}" value="">--}}
-{{--                            <input type="hidden" name="unit1[account_id]" value="{{ $pairedItem['funder']['funder_account_id'] }}">--}}
-{{--                            <input type="hidden" name="unit1[symbol]" class="adaptval" data-key="symbol-{{ $pairedItem['pair1']['id'] }}" value="{{ $pairedItem['funder']['symbol'] }}">--}}
-
-{{--                            <input type="hidden" name="unit2[id]" value="{{ $pairedItem['pair2']['id'] }}">--}}
-{{--                            <input type="hidden" name="unit2[unit]" value="{{ $pairedItem['pair2']['trading_account_credential']['user_account']['trading_unit']['unit_id'] }}">--}}
-{{--                            <input type="hidden" name="unit2[machine]" value="{{ $pairedItem['pair2']['trading_account_credential']['platform_type'] }}">--}}
-{{--                            <input type="hidden" name="unit2[latest_equity]" value="{{ $pairedItem['pair2']['latest_equity'] }}">--}}
-{{--                            <input type="hidden" name="unit2[purchase_type]" class="adaptval" data-key="purchase-type-{{ $pairedItem['pair2']['id'] }}" value="">--}}
-{{--                            <input type="hidden" name="unit2[order_amount]" class="adaptval" data-key="order_amount-{{ $pairedItem['pair2']['id'] }}" value="">--}}
-{{--                            <input type="hidden" name="unit2[take_profit_ticks]" class="adaptval" data-key="take_profit_ticks-{{ $pairedItem['pair2']['id'] }}" value="">--}}
-{{--                            <input type="hidden" name="unit2[stop_loss_ticks]" class="adaptval" data-key="stop_loss_ticks-{{ $pairedItem['pair2']['id'] }}" value="">--}}
-{{--                            <input type="hidden" name="unit2[account_id]" value="{{ $pairedItem['pair2']['trading_account_credential']['funder_account_id'] }}">--}}
-{{--                            <input type="hidden" name="unit2[symbol]" class="adaptval" data-key="symbol-{{ $pairedItem['pair2']['id'] }}" value="{{ $pairedItem['pair2']['trading_account_credential']['symbol'] }}">--}}
-
-{{--                            @php--}}
-{{--                                $pair1InstanceKey = $pairedItem['funder']['alias'] .'_'. $pairedItem['funder']['user_account']['trading_unit']['unit_id'];--}}
-{{--                                $pair2InstanceKey = $pairedItem['pair2']['trading_account_credential']['funder']['alias'] .'_'. $pairedItem['pair2']['trading_account_credential']['user_account']['trading_unit']['unit_id'];--}}
-{{--                            @endphp--}}
-
-{{--                            @if(in_array($pair1InstanceKey, $tradesHandler) || in_array($pair2InstanceKey, $tradesHandler))--}}
-{{--                                <p class="text-red-500">Unable to initiate trade.</p>--}}
-{{--                            @else--}}
-
-                                <div class="initializing-trade {{ (count($keysIntersect) === 2)? 'hidden' : '' }}">
-                                    <p class="text-blue-500">Initializing Trade...</p>
-                                </div>
-                                <div class="start-trade-wrap {{ (count($keysIntersect) < 2)? 'hidden' : '' }}">
-                                    <input type="hidden" name="queue_id" value="{{ $pairedItemData['queue_db_id'] }}">
-                                    <button type="submit" class="initiate-trade-btn hidden px-3 py-2 text-xs font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                        <svg class="w-[24px] h-[24px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 18V6l8 6-8 6Z"/>
-                                        </svg>
-                                        {{ __('Start Trade') }}
-                                    </button>
-                                </div>
-
-{{--                            @endif--}}
+                            <div class="pair-form-wrap">
+                                @if(!$canStartTrade && $pairedItemData['status'] !== 'pairing-error')
+                                    @include('dashboard.trade.play.components.initializing-notif')
+                                @else
+                                    @if($pairedItemData['status'] === 'pairing-error')
+                                        @include('dashboard.trade.play.components.re-initiate-trade-btn')
+                                    @else
+                                        @include('dashboard.trade.play.components.initiate-trade-btn')
+                                    @endif
+                                @endif
+                            </div>
                         </form>
                     </div>
                 </div>

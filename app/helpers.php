@@ -104,7 +104,7 @@ function getFunderAccountShortName($accountId)
         $accountId = preg_replace($regexPattern, '', $accountId);
     }
 
-    return $accountId;
+    return (strlen($accountId) > 7)? substr($accountId, 0, 7) .'...' : $accountId;
 }
 
 function isChecked($value, $collection, $default = '', $echo = true)
