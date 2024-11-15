@@ -3,31 +3,20 @@
 
     @php
         $pairedItemsHandler = [];
+        $waitingPairedItems = [];
+        $tradedItems = [];
+        $tradesHandler = [];
+        $pairedItemsHandler = [];
     @endphp
 
-    @if(!empty($pairedItems))
-        @php
-            $waitingPairedItems = [];
-            $tradedItems = [];
-            $tradesHandler = [];
-            $pairedItemsHandler = [];
-        @endphp
-        @foreach($pairedItems as $index => $item)
+    @if(!empty($tradingItems))
+        @foreach($tradingItems as $index => $item)
             @foreach($item['data'] as $itemId => $itemData)
                 @php
                     $itemFunder = str_replace(' ', '_', $itemData['funder']);
                     $pairedItemsHandler[] = strtolower($itemFunder) .'_'. $itemData['unit_id'];
                 @endphp
             @endforeach
-{{--            @php--}}
-{{--                $pair1 = $item['trade_report_pair1'];--}}
-{{--                $pair2 = $item['trade_report_pair2'];--}}
-
-{{--                if ($item['status'] === 'trading') {--}}
-{{--                    $tradesHandler[] = $pair1['trading_account_credential']['funder']['alias'] .'_'. $pair1['trading_account_credential']['user_account']['trading_unit']['unit_id'];--}}
-{{--                    $tradesHandler[] = $pair2['trading_account_credential']['funder']['alias'] .'_'. $pair2['trading_account_credential']['user_account']['trading_unit']['unit_id'];--}}
-{{--                }--}}
-{{--            @endphp--}}
         @endforeach
     @endif
 
