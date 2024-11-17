@@ -190,6 +190,9 @@
                         {{ __('RDD') }}
                     </th>
                     <th scope="col" class="px-6 py-3">
+                        {{ __('Highest Profit') }}
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         {{ __('Consis') }}
                     </th>
                     <th scope="col" class="px-6 py-3 whitespace-nowrap">
@@ -343,6 +346,9 @@
                             @else
                                 {{ round($rdd, 0) }}
                             @endif
+                        </td>
+                        <td class="relative px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ getHighestProfit($item) }}
                         </td>
                         <td class="relative px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ getCalculatedConsistency($item) }}

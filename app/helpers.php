@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Session;
 function getCalculatedConsistency($data)
 {
     //@todo Add trading rules to admin.
-    if ($data['trading_account_credential']['funder']['alias'] === 'UPFT' && $data['trading_account_credential']['starting_balance'] === '50000') {
+    if (($data['trading_account_credential']['funder']['alias'] === 'UPFT' && $data['trading_account_credential']['starting_balance'] === '50000') ||
+        ($data['trading_account_credential']['funder']['alias'] === 'GFF' && $data['trading_account_credential']['current_phase'] === 'phase-2')) {
         return '';
     }
 
@@ -40,6 +41,33 @@ function getCalculatedConsistency($data)
     }
 
     return 0;
+}
+
+function getHighestProfit($data)
+{
+    $PnLs = [];
+
+    if (!empty($data['trading_account_credential']['history_v3'])) {
+        $latestPayout = getLatestPayout($data);
+
+        foreach ($data['trading_account_credential']['history_v3'] as $tradeItem) {
+            if ($data['trading_account_credential']['current_phase'] === $tradeItem['status']) {
+                if ($latestPayout) {
+                    if ($tradeItem['created_at'] > $latestPayout) {
+                        $PnLs[] = (float) $tradeItem['latest_equity'] - (float) $tradeItem['starting_daily_equity'];
+                    }
+                } else {
+                    $PnLs[] = (float) $tradeItem['latest_equity'] - (float) $tradeItem['starting_daily_equity'];
+                }
+            }
+        }
+
+        if (empty($PnLs)) {
+            return 0;
+        }
+
+        return round(max($PnLs), 2);
+    }
 }
 
 function getCalculatedRdd($data)
