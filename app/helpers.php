@@ -5,17 +5,38 @@ use Illuminate\Support\Facades\Session;
 
 function getCalculatedConsistency($data)
 {
+    //@todo Add trading rules to admin.
+    if ($data['trading_account_credential']['funder']['alias'] === 'UPFT' && $data['trading_account_credential']['starting_balance'] === '50000') {
+        return '';
+    }
+
+
     if (!empty($data['trading_account_credential']['history_v3'])) {
         $PnLs = [];
+        $latestPayout = getLatestPayout($data);
+
         foreach ($data['trading_account_credential']['history_v3'] as $tradeItem) {
-            $PnLs[] = (float) $tradeItem['latest_equity'] - (float) $tradeItem['starting_daily_equity'];
+            if ($data['trading_account_credential']['current_phase'] === $tradeItem['status']) {
+                if ($latestPayout) {
+                    if ($tradeItem['created_at'] > $latestPayout) {
+                        $PnLs[] = (float) $tradeItem['latest_equity'] - (float) $tradeItem['starting_daily_equity'];
+                    }
+                } else {
+                    $PnLs[] = (float) $tradeItem['latest_equity'] - (float) $tradeItem['starting_daily_equity'];
+                }
+            }
+        }
+
+        if (empty($PnLs)) {
+            return 100;
         }
 
         $highestPnL = max($PnLs);
         $totalPn = array_sum($PnLs);
         $consis = ($highestPnL/$totalPn) * 100;
+        $consis = round($consis, 2);
 
-        return round($consis, 2);
+        return ($consis >= 100)? '100+' : round($consis, 0);
     }
 
     return 0;
@@ -105,6 +126,83 @@ function getFunderAccountShortName($accountId)
     }
 
     return (strlen($accountId) > 7)? substr($accountId, 0, 7) .'...' : $accountId;
+}
+
+function getLatestPayout($item)
+{
+    if (empty($item['trading_account_credential']['payouts'])) {
+        return false;
+    }
+
+    $payouts = collect($item['trading_account_credential']['payouts']);
+    $filtered = $payouts->filter(function ($item) {
+        return $item['status'] === 'received';
+    });
+
+    $latestPayout = $filtered->sortByDesc('created_at')->first();
+    return (!empty($latestPayout['created_at']))? $latestPayout['created_at'] : false;
+}
+
+function getRemainingTargetProfit($item)
+{
+    $currentPhase = str_replace('phase-', '', $item['trading_account_credential']['current_phase']);
+    $targetProfit = (float) $item['trading_account_credential']['phase_'. $currentPhase .'_total_target_profit'];
+    $totalPnL = (float) $item['latest_equity'] - (float) $item['trading_account_credential']['starting_balance'];
+    $remainingTP = $targetProfit - $totalPnL;
+    $remainingTP = round($remainingTP, 2);
+
+    return ($remainingTP <= 0 )? 0 : $remainingTP;
+}
+
+function getRemainingTradingDays($item)
+{
+    //@todo add trading days to admin.
+    $requiredDays = 10;
+
+    if (($item['trading_account_credential']['funder']['alias'] === 'UPFT' && $item['trading_account_credential']['starting_balance'] === '50000') ||
+        ($item['trading_account_credential']['funder']['alias'] === 'UPFT' && $item['trading_account_credential']['starting_balance'] === '30000')) {
+        $requiredDays = 5;
+    }
+
+    $tradingDays = getTradingDays($item);
+
+    return $requiredDays - $tradingDays;
+}
+
+function getTradingDays($item)
+{
+    $history = $item['trading_account_credential']['history_v3'];
+
+    if (empty($history)) {
+        return 0;
+    }
+
+    $positiveTradingDaysFunders = [
+        'upft'
+    ];
+
+    $positiveTradingDays = (in_array(strtolower($item['trading_account_credential']['funder']['alias']), $positiveTradingDaysFunders));
+    $current_phase = $item['trading_account_credential']['current_phase'];
+    $latestPayout = getLatestPayout($item);
+
+    $history = collect($history);
+
+    $tradingDaysArr = $history->filter(function ($item) use ($latestPayout, $current_phase, $positiveTradingDays) {
+        if ($item['status'] === $current_phase) {
+            if ($positiveTradingDays) {
+                $pnl = (float) $item['latest_equity'] - (float) $item['starting_daily_equity'];
+                if ($pnl <= 0) {
+                    return false;
+                }
+            }
+            if (!empty($latestPayout)) {
+                return $item['created_at'] > $latestPayout;
+            }
+            return true;
+        }
+    });
+
+    return count($tradingDaysArr);
 }
 
 function isChecked($value, $collection, $default = '', $echo = true)

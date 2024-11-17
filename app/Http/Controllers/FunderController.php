@@ -15,6 +15,7 @@ class FunderController extends Controller
         'Tradoverse_1' => 'Tradoverse',
         'ProjectX_1' => 'ProjectX',
         'NinjaTrader' => 'Ninja Trader',
+        'TradingView_1' => 'TradingView'
     ];
 
     public static $webPlatforms = [
