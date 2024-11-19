@@ -174,9 +174,6 @@
                     <th scope="col" class="px-6 py-3">
                         {{ __('Account') }}
                     </th>
-                    <th scope="col" class="px-6 py-3">
-                        {{ __('Unit') }}
-                    </th>
 {{--                    <th scope="col" class="px-6 py-3">--}}
 {{--                        {{ __('Phase') }}--}}
 {{--                    </th>--}}
@@ -324,9 +321,6 @@
                                 </span>
                             </span>
 
-                        </td>
-                        <td class="relative px-0 text-center py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ str_replace('UNIT', '', $item['trading_account_credential']['user_account']['trading_unit']['name']) }}
                         </td>
 {{--                        <td class="relative px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">--}}
 {{--                            <span class="dot {{$item['trading_account_credential']['current_phase']}}"></span> {{ getPhaseName($item['trading_account_credential']['current_phase']) }}--}}
