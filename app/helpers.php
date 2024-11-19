@@ -36,7 +36,7 @@ function getCalculatedConsistency($data)
         $totalPn = array_sum($PnLs);
         $consis = ($highestPnL/$totalPn) * 100;
         $consis = round($consis, 2);
-
+//        !d($PnLs, $totalPn, max($PnLs));
         return ($consis >= 100)? '100+' : round($consis, 0);
     }
 

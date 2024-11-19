@@ -516,13 +516,13 @@ tr.account-item:not([data-phase="phase-3"]) {
     font-size: 10px;
     text-align: center;
     line-height: 13px;
-    border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
 }
 table .funder-alias {
     min-width: 45px;
     line-height: 21px;
     font-size: 12px;
+    border-top-left-radius: 0 !important;
 }
 #logo-sidebar {
     background-image: url("images/disruptor-bg.jpg");
@@ -781,4 +781,9 @@ table tr:hover .table-row-edit {
         transform: rotateY(3600deg);
     }
 }
-
+.trade-list-account > span:first-child {
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border: 1px solid #222222;
+    min-width: 24px;
+}

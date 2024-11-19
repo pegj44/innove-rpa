@@ -174,6 +174,9 @@
                     <th scope="col" class="px-6 py-3">
                         {{ __('Account') }}
                     </th>
+                    <th scope="col" class="px-6 py-3">
+                        {{ __('Unit') }}
+                    </th>
 {{--                    <th scope="col" class="px-6 py-3">--}}
 {{--                        {{ __('Phase') }}--}}
 {{--                    </th>--}}
@@ -200,9 +203,6 @@
                     </th>
                     <th scope="col" class="px-6 py-3 whitespace-nowrap">
                         {{ __('R.T-Profit') }}
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        {{ __('Unit') }}
                     </th>
                     @if(!empty($controls))
                         <th scope="col" class="py-3"></th>
@@ -285,10 +285,13 @@
                         <td class="relative px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             <span class="flex flex-row items-center gap-2">
                                 <span class="px-2 hidden user-acc-id" style="text-shadow: 1px 1px 1px #000;">{{ $item['trading_account_credential']['user_account']['id'] }}</span>
-                                <span class="flex flex-col">
-                                    <span class="bg-gray-900 font-black funder-alias" {!! renderFunderAliasAttr($item['trading_account_credential']['funder']) !!}> {{ $item['trading_account_credential']['funder']['alias'] }}</span>
-                                    <span class="acc-status {{$item['trading_account_credential']['current_phase']}}">
-                                        {{ getPhaseName($item['trading_account_credential']['current_phase']) }}
+                                <span class="flex flex-row trade-list-account">
+                                    <span class="bg-gray-700 flex flex-row items-center justify-center">{{ str_replace('UNIT', '', $item['trading_account_credential']['user_account']['trading_unit']['name']) }}</span>
+                                    <span class="flex flex-col">
+                                        <span class="bg-gray-900 font-black funder-alias" {!! renderFunderAliasAttr($item['trading_account_credential']['funder']) !!}> {{ $item['trading_account_credential']['funder']['alias'] }}</span>
+                                        <span class="acc-status {{$item['trading_account_credential']['current_phase']}}">
+                                            {{ getPhaseName($item['trading_account_credential']['current_phase']) }}
+                                        </span>
                                     </span>
                                 </span>
                                 <span class="flex flex-col">
@@ -321,6 +324,9 @@
                                 </span>
                             </span>
 
+                        </td>
+                        <td class="relative px-0 text-center py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{ str_replace('UNIT', '', $item['trading_account_credential']['user_account']['trading_unit']['name']) }}
                         </td>
 {{--                        <td class="relative px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">--}}
 {{--                            <span class="dot {{$item['trading_account_credential']['current_phase']}}"></span> {{ getPhaseName($item['trading_account_credential']['current_phase']) }}--}}
@@ -372,9 +378,6 @@
                             @else
                                 {{ $rtp }}
                             @endif
-                        </td>
-                        <td class="relative px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ $item['trading_account_credential']['user_account']['trading_unit']['name'] }}
                         </td>
                         @if(!empty($controls))
                             <td class="pr-3 py-4 text-right border-gray-600">
