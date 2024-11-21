@@ -233,27 +233,32 @@
                             "queue_db_id": event.detail.arguments.queue_db_id
                         }
                     }, pairFormWrap);
+
+                    const queueItemWrap = document.querySelector('.status-handler[data-itemid="'+ event.detail.arguments.itemId +'"]');
+                    queueItemWrap.innerHTML = '';
                 }
             });
 
             document.addEventListener('pusherNotificationEvent', function(event) {
-                if (event.detail.action === 'trade-initialize-error') {
+                if (event.detail.action === 'trade-initialize-error2') {
                     const audio = new Audio("{{ asset('media/trade-error.mp3') }}");
                     let playCount = 0;
                     const maxPlays = 3;
 
-                    const playAudio = () => {
-                        if (playCount < maxPlays) {
-                            audio.play().then(() => {
-                                playCount++;
-                            }).catch(error => {
-                                console.error("Playback failed:", error);
-                            });
-                        }
-                    };
+                    if (event.detail.arguments.sound) {
+                        const playAudio = () => {
+                            if (playCount < maxPlays) {
+                                audio.play().then(() => {
+                                    playCount++;
+                                }).catch(error => {
+                                    console.error("Playback failed:", error);
+                                });
+                            }
+                        };
 
-                    playAudio();
-                    audio.addEventListener('ended', playAudio);
+                        playAudio();
+                        audio.addEventListener('ended', playAudio);
+                    }
 
                     const pairForm = document.getElementById('trade-item-status-'+ event.detail.arguments.queue_db_id);
                     const pairFormWrap = pairForm.querySelector('.pair-form-wrap');
@@ -261,16 +266,20 @@
 
                     pairForm.setAttribute('action', route);
 
+                    console.log(event.detail);
+
                     const statusHandler = document.querySelector('.status-handler[data-itemid="'+ event.detail.arguments.itemId +'"]');
-                    const msgHtml = '<span class="bg-red-600 font-normal ml-2 px-2 py-1 rounded text-sm">{{ __('Failed to initialize') }}</span>';
+                    const msgHtml = '<span class="bg-red-600 font-normal ml-2 px-2 py-1 rounded text-sm">'+ event.detail.arguments.message +'</span>';
 
                     statusHandler.innerHTML = msgHtml;
 
-                    getTemplate('dashboard.trade.play.components.re-initiate-trade-btn', {
-                        'pairedItemData': {
-                            "queue_db_id": event.detail.arguments.queue_db_id
-                        }
-                    }, pairFormWrap);
+                    if (event.detail.arguments.errorCode === 'missing_uipath') {
+                        getTemplate('dashboard.trade.play.components.re-initiate-trade-btn', {
+                            'pairedItemData': {
+                                "queue_db_id": event.detail.arguments.queue_db_id
+                            }
+                        }, pairFormWrap);
+                    }
                 }
             });
 

@@ -4,8 +4,11 @@
         @foreach($pairedItems as $index => $pairedItemData)
             @php
                 $pairedItemKeys = array_keys($pairedItemData['data']);
-                $pairItem1 = $pairedItemData['data'][$pairedItemKeys[0]];
-                $pairItem2 = $pairedItemData['data'][$pairedItemKeys[1]];
+                $pair1ItemId = $pairedItemKeys[0];
+                $pair2ItemId = $pairedItemKeys[1];
+
+                $pairItem1 = $pairedItemData['data'][$pair1ItemId];
+                $pairItem2 = $pairedItemData['data'][$pair2ItemId];
 
                 $unitReady = (!empty($pairedItemData['unit_ready']))? $pairedItemData['unit_ready'] : [];
                 $keysIntersect = array_intersect($unitReady, $pairedItemKeys);
@@ -28,9 +31,13 @@
                                     <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
                                         <span class="bg-gray-900 rounded font-black funder-alias font-normal text-md" {!! renderFunderAliasAttr(['theme' => $pairItem1['funder_theme']]) !!}> {{ $pairItem1['funder'] }}</span>
                                         <span class="mb-3 font-normal text-gray-700 dark:text-white"> {{ $pairItem1['funder_account_id_short'] }}</span>
-                                        <span class="status-handler" data-itemId="{{ $pairedItemKeys[0] }}">
-                                            @if($pairedItemData['status'] === 'pairing-error' && !in_array($pairedItemKeys[0], $unitReady))
+                                        <span class="status-handler" data-itemId="{{ $pair1ItemId }}">
+                                            @if($pairedItemData['status'] === 'pairing-error' && !in_array($pair1ItemId, $unitReady))
                                                 <span class="bg-red-600 font-normal ml-2 px-2 py-1 rounded text-sm">{{ __('Failed to initialize') }}</span>
+                                            @endif
+
+                                            @if($pairedItemData['status'] === 'pairing-reinitializing' && !in_array($pair1ItemId, $unitReady))
+                                                <span class="bg-orange-600 font-normal ml-2 px-2 py-1 rounded text-sm">{{ __('Reinitializing...') }}</span>
                                             @endif
                                         </span>
                                     </h5>
@@ -44,9 +51,13 @@
                                     <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
                                         <span class="bg-gray-900 rounded font-black funder-alias font-normal text-md" {!! renderFunderAliasAttr(['theme' => $pairItem2['funder_theme']]) !!}> {{ $pairItem2['funder'] }}</span>
                                         <span class="mb-3 font-normal text-gray-700 dark:text-white"> {{ $pairItem2['funder_account_id_short'] }}</span>
-                                        <span class="status-handler" data-itemId="{{ $pairedItemKeys[1] }}">
-                                            @if($pairedItemData['status'] === 'pairing-error' && !in_array($pairedItemKeys[1], $unitReady))
+                                        <span class="status-handler" data-itemId="{{ $pair2ItemId }}">
+                                            @if($pairedItemData['status'] === 'pairing-error' && !in_array($pair2ItemId, $unitReady))
                                                 <span class="bg-red-600 font-normal ml-2 px-2 py-1 rounded text-sm">{{ __('Failed to initialize') }}</span>
+                                            @endif
+
+                                            @if($pairedItemData['status'] === 'pairing-reinitializing' && !in_array($pair2ItemId, $unitReady))
+                                                <span class="bg-orange-600 font-normal ml-2 px-2 py-1 rounded text-sm">{{ __('Reinitializing...') }}</span>
                                             @endif
                                         </span>
                                     </h5>
@@ -75,7 +86,7 @@
                 $symbols = getTradingSymbols();
             @endphp
 
-            <div id="accordion-paired-collapse-body-{{$index}}" class="hidden" aria-labelledby="accordion-paired-collapse-heading-{{$index}}">
+            <div id="accordion-paired-collapse-body-{{$index}}" class="hidden pair-item-accordion" aria-labelledby="accordion-paired-collapse-heading-{{$index}}">
                 <div class="border border-gray-200 dark:border-gray-700 dark:bg-gray-900">
                     <div class="mb-5 flex bg-white border border-b-0 border-gray-200 shadow dark:bg-gray-800 dark:border-gray-700">
                         <div class="grid grid-cols-2 flex-1">
@@ -163,7 +174,10 @@
                                                     {{ __('Purchase Type') }}
                                                 </th>
                                                 <td class="px-6 py-4 w-1/2 dark:bg-gray-900">
-                                                    {{ ucfirst($pairItem1['purchase_type']) }}
+                                                    <select id="pair1_purchase_type" class="border-2 border-gray-600 bg-gray-900 text-gray-300 text-sm block w-full p-2.5">
+                                                        <option value="buy" {{ ($pairItem1['purchase_type'] === 'buy')? 'selected' : '' }}>Buy</option>
+                                                        <option value="sell" {{ ($pairItem1['purchase_type'] === 'sell')? 'selected' : '' }}>Sell</option>
+                                                    </select>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -254,7 +268,10 @@
                                                 {{ __('Purchase Type') }}
                                             </th>
                                             <td class="px-6 py-4 w-1/2 dark:bg-gray-900">
-                                                {{ ucfirst($pairItem2['purchase_type']) }}
+                                                <select id="pair2_purchase_type" class="border-2 border-gray-600 bg-gray-900 text-gray-300 text-sm block w-full p-2.5">
+                                                    <option value="buy" {{ ($pairItem2['purchase_type'] === 'buy')? 'selected' : '' }}>Buy</option>
+                                                    <option value="sell" {{ ($pairItem2['purchase_type'] === 'sell')? 'selected' : '' }}>Sell</option>
+                                                </select>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -266,8 +283,11 @@
                     <div id="pair-footer-wrap-{{ $pairedItemData['queue_db_id'] }}" class="h-12 text-center">
                         <form method="POST" id="trade-item-status-{{ $pairedItemData['queue_db_id'] }}" action="{{ route('trade.start') }}" class="form-trade">
                             @csrf
+                            <input type="hidden" id="pair1_purchase_type" name="purchase_type[{{ $pair1ItemId }}]" value="">
+                            <input type="hidden" id="pair2_purchase_type" name="purchase_type[{{ $pair2ItemId }}]" value="">
+
                             <div class="pair-form-wrap">
-                                @if(!$canStartTrade && $pairedItemData['status'] !== 'pairing-error')
+                                @if((!$canStartTrade && $pairedItemData['status'] !== 'pairing-error') || ($pairedItemData['status'] === 'pairing-reinitializing'))
                                     @include('dashboard.trade.play.components.initializing-notif')
                                 @else
                                     @if($pairedItemData['status'] === 'pairing-error')
@@ -308,6 +328,38 @@
 
                    form.submit();
                });
+            });
+
+            const pairItemAccordion = document.querySelectorAll('.pair-item-accordion');
+
+            pairItemAccordion.forEach(function(item) {
+
+                const pair1PurchaseType = item.querySelector('#pair1_purchase_type');
+                const pair2PurchaseType = item.querySelector('#pair2_purchase_type');
+
+                const pair1PurchaseTypeOverride = item.querySelector('input#pair1_purchase_type');
+                const pair2PurchaseTypeOverride = item.querySelector('input#pair2_purchase_type');
+
+                pair1PurchaseType.addEventListener('change', function(e) {
+                    if (pair1PurchaseType.value === 'buy') {
+                        pair2PurchaseType.value = 'sell';
+                    } else {
+                        pair2PurchaseType.value = 'buy';
+                    }
+
+                    pair1PurchaseTypeOverride.value = pair1PurchaseType.value;
+                    pair2PurchaseTypeOverride.value = pair2PurchaseType.value;
+                });
+
+                pair2PurchaseType.addEventListener('change', function(e) {
+                    if (pair2PurchaseType.value === 'buy') {
+                        pair1PurchaseType.value = 'sell';
+                    } else {
+                        pair1PurchaseType.value = 'buy';
+                    }
+                    pair1PurchaseTypeOverride.value = pair1PurchaseType.value;
+                    pair2PurchaseTypeOverride.value = pair2PurchaseType.value;
+                });
             });
         });
 

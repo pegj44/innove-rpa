@@ -13,9 +13,9 @@ class TradeReportController extends Controller
         'idle' => 'Idle',
         'trading' => 'Trading',
         'pairing' => 'Paired',
-        'abstained' => 'Abstained',
-        'breached' => 'Breached',
-        'onhold' => 'On Hold',
+        'abstained' => 'ABS',
+        'breached' => 'BRC',
+        'onhold' => 'OH',
         'kyc' => 'KYC',
         'payout' => 'FOR PAYOUT'
     ];
