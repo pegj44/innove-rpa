@@ -206,7 +206,8 @@ function getTradingDays($item)
     }
 
     $positiveTradingDaysFunders = [
-        'upft'
+        'upft',
+        'gff'
     ];
 
     $positiveTradingDays = (in_array(strtolower($item['trading_account_credential']['funder']['alias']), $positiveTradingDaysFunders));
@@ -230,7 +231,7 @@ function getTradingDays($item)
         }
     });
 
-    return count($tradingDaysArr);
+    return $tradingDaysArr->count();
 }
 
 function isChecked($value, $collection, $default = '', $echo = true)

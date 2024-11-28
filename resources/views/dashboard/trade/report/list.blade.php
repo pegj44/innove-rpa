@@ -712,13 +712,23 @@
                         element.textContent = item[key];
                     } else {
                         let element = wrapper.querySelector('select[data-pair_val="'+ key +'"], input[data-pair_val="'+ key +'"]');
-                        console.log(element);
+                        // console.log(element);
                         element.value = item[key];
                         element.setAttribute('name', 'data['+ [item.id] +']['+ key +']');
                     }
                 }
 
+                function populateMarketFields(wrapper, item, key, value) {
+                    let orderAmountEl = wrapper.querySelector('select[data-pair_val="'+ key +'"], input[data-pair_val="'+ key +'"]');
+                    orderAmountEl.value = value;
+                    orderAmountEl.setAttribute('name', 'data['+ [item.id] +']['+ key +']');
+                }
+
                 function populatePairModalData(data) {
+
+                    const lowestDrawdownObj = {};
+                    const drawDowns = [];
+
                     Object.entries(data).forEach(([itemId, item]) => {
 
                         const pairHeader = document.querySelector('[data-pair_item_header="'+ itemId +'"]');
@@ -730,6 +740,10 @@
                         funder.textContent = item.funder;
                         funder.style.cssText = 'background: '+ funderTheme[0] +'; color:'+ funderTheme[1] +';';
 
+                        drawDowns.push(item.max_draw_down);
+
+                        lowestDrawdownObj[item.max_draw_down] = item.id;
+
                         populatePairModalField(pairHeader, item, 'funder_account_id_short');
                         populatePairModalField(pairHeader, item, 'unit_name');
 
@@ -739,9 +753,9 @@
                         populatePairModalField(pairBody, item, 'pnl');
                         populatePairModalField(pairBody, item, 'rdd');
                         populatePairModalField(pairBody, item, 'symbol', 'value');
-                        populatePairModalField(pairBody, item, 'order_amount', 'value');
-                        populatePairModalField(pairBody, item, 'tp', 'value');
-                        populatePairModalField(pairBody, item, 'sl', 'value');
+                        // populatePairModalField(pairBody, item, 'order_amount', 'value');
+                        // populatePairModalField(pairBody, item, 'tp', 'value');
+                        // populatePairModalField(pairBody, item, 'sl', 'value');
                         populatePairModalField(pairBody, item, 'unit_id', 'value');
                         populatePairModalField(pairBody, item, 'platform_type', 'value');
                         populatePairModalField(pairBody, item, 'login_username', 'value');
@@ -758,6 +772,34 @@
 
                         pairBody.querySelector('[data-pair_val="purchase_type"]').setAttribute('name', 'data['+ [itemId] +'][purchase_type]');
                     });
+
+                    const minRandom = 46;
+                    const maxRandom = 52;
+                    const baseStopLoss = Math.floor(Math.random() * (maxRandom - minRandom + 1)) + minRandom;
+
+                    let lowestKey = Math.min(...Object.keys(lowestDrawdownObj).map(Number));
+                    let lowestDrawdown = {[lowestKey]: lowestDrawdownObj[lowestKey]};
+                    const lowestDrawdownItemId = Object.values(lowestDrawdown)[0];
+
+                    lowestDrawdown = Object.keys(lowestDrawdown)[0];
+
+                    Object.entries(data).forEach(([itemId, item]) => {
+                        const pairBody = document.querySelector('[data-pair_item_body="'+ itemId +'"]');
+                        const orderAmount = Math.floor(lowestDrawdown / baseStopLoss);
+                        let sl = baseStopLoss;
+                        let tp = sl - 1;
+
+                        if (item.id !== lowestDrawdownItemId) {
+                            tp = sl - 2
+                            sl = tp + 3;
+                        }
+
+                        populateMarketFields(pairBody, item, 'order_amount', orderAmount);
+                        populateMarketFields(pairBody, item, 'tp', tp);
+                        populateMarketFields(pairBody, item, 'sl', sl);
+                    });
+                    //
+                    // console.log(baseStopLoss, minDrawDown);
                 }
 
                 function requestPairData(data) {
