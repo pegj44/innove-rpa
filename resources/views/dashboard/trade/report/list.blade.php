@@ -727,7 +727,6 @@
                 function populatePairModalData(data) {
 
                     const lowestDrawdownObj = {};
-                    const drawDowns = [];
 
                     Object.entries(data).forEach(([itemId, item]) => {
 
@@ -740,9 +739,12 @@
                         funder.textContent = item.funder;
                         funder.style.cssText = 'background: '+ funderTheme[0] +'; color:'+ funderTheme[1] +';';
 
-                        drawDowns.push(item.max_draw_down);
+                        const dailyDrawDown = item.daily_draw_down;
+                        const drawDownHandler = item.starting_balance - item.max_draw_down;
+                        const maxDrawDown = item.latest_equity - drawDownHandler;
+                        const lowestDrawdown = (maxDrawDown < dailyDrawDown)? maxDrawDown : dailyDrawDown;
 
-                        lowestDrawdownObj[item.max_draw_down] = item.id;
+                        lowestDrawdownObj[lowestDrawdown] = item.id;
 
                         populatePairModalField(pairHeader, item, 'funder_account_id_short');
                         populatePairModalField(pairHeader, item, 'unit_name');
@@ -798,8 +800,6 @@
                         populateMarketFields(pairBody, item, 'tp', tp);
                         populateMarketFields(pairBody, item, 'sl', sl);
                     });
-                    //
-                    // console.log(baseStopLoss, minDrawDown);
                 }
 
                 function requestPairData(data) {
