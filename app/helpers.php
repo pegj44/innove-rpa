@@ -145,7 +145,9 @@ function getFunderAccountShortName($accountId)
         'FTT-RALLY-',
         'Zero\d+k-s',
         'LV-Zero\d+k-s',
-        'LV-\d+k-s'
+        'LV-\d+k-s',
+        'ZeroDay\d+k-s',
+        'LV-ZeroDay\d+k-s',
     ];
 
     foreach ($toRemove as $pattern) {

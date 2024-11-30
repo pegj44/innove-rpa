@@ -236,6 +236,7 @@
                         $isShining = ($item['status'] === 'payout')? 'shining-gold-bg1' : '';
                         $itemFunder = str_replace(' ', '_', $item['trading_account_credential']['funder']['alias']);
                         $itemPairHandler = strtolower($itemFunder) .'_'. $item['trading_account_credential']['user_account']['trading_unit']['unit_id'];
+                        $remainingNTrades = 5 - $item['n_trades'];
                     @endphp
 
                     <tr class="account-item border-b border-gray-700 bg-gray-800 hover:bg-gray-600 {{ $isShining }} {{ ($item['status'] === 'idle')? 'item-pairable' : 'item-not-pairable' }}"
@@ -264,11 +265,16 @@
                                             <div class="tooltip-arrow" data-popper-arrow></div>
                                         </div>
                                 @else
-                                    @if($item['status'] === 'idle' && !in_array($itemPairHandler, $pairedItemsHandler))
-                                        <a href="#" x-on:click="requestPair({{$item['id']}}, event, $event.target)" class="pair-item-btn font-medium text-blue-600 dark:text-blue-50">
+                                    @if($item['status'] === 'idle' && !in_array($itemPairHandler, $pairedItemsHandler) && $remainingNTrades > 0)
+                                        <a href="#" x-on:click="requestPair({{$item['id']}}, event, $event.target)" class="flex flex-row gap-1 pair-item-btn font-medium text-blue-600 dark:text-blue-50">
                                             <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16 10 3-3m0 0-3-3m3 3H5v3m3 4-3 3m0 0 3 3m-3-3h14v-3"/>
                                             </svg>
+                                            @if($remainingNTrades > 1)
+                                                <span class="text-green-500">{{ $remainingNTrades }}</span>
+                                            @else
+                                                <span class="text-red-500">{{ $remainingNTrades }}</span>
+                                            @endif
                                         </a>
                                         <a href="#" x-on:click="requestCancelPair({{$item['id']}}, event, $event.target)" class="cancel-pair-item-btn font-medium text-blue-600 dark:text-blue-50">
                                             <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">

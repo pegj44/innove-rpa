@@ -15,7 +15,7 @@
 
                 $canStartTrade = false;
 
-                if ($pairedItemData['status'] === 'pairing-error' || count($keysIntersect) === 2) {
+                if (count($keysIntersect) === 2) {
                     $canStartTrade = true;
                 }
             @endphp
@@ -28,15 +28,16 @@
                         <div class="border-gray-700 border-l flex items-center justify-between w-full">
                             <div class="w-1/2 p-5 bg-gray-900">
                                 <div class="dark:border-gray-600 flex justify-between">
-                                    <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
-                                        <span class="bg-gray-900 rounded font-black funder-alias font-normal text-md" {!! renderFunderAliasAttr(['theme' => $pairItem1['funder_theme']]) !!}> {{ $pairItem1['funder'] }}</span>
-                                        <span class="mb-3 font-normal text-gray-700 dark:text-white"> {{ $pairItem1['funder_account_id_short'] }}</span>
-                                        <span class="status-handler" data-itemId="{{ $pair1ItemId }}">
-                                            @if($pairedItemData['status'] === 'pairing-error' && !in_array($pair1ItemId, $unitReady))
+                                    <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight flex flex-row">
+                                        <span>
+                                            <span class="bg-gray-900 rounded font-black funder-alias font-normal text-md" {!! renderFunderAliasAttr(['theme' => $pairItem1['funder_theme']]) !!}> {{ $pairItem1['funder'] }}</span>
+                                            <span class="mb-3 font-normal text-gray-700 dark:text-white"> {{ $pairItem1['funder_account_id_short'] }}</span>
+                                        </span>
+                                        <span class="status-handler flex flex-row gap-1 items-center" data-itemId="{{ $pair1ItemId }}">
+                                            @if($pairedItemData['status'] === 'error' && !in_array($pair1ItemId, $unitReady))
                                                 <span class="bg-red-600 font-normal ml-2 px-2 py-1 rounded text-sm">{{ __('Failed to initialize') }}</span>
                                             @endif
-
-                                            @if($pairedItemData['status'] === 'pairing-reinitializing' && !in_array($pair1ItemId, $unitReady))
+                                            @if($pairedItemData['status'] === 'reinitializing' && !in_array($pair1ItemId, $unitReady))
                                                 <span class="bg-orange-600 font-normal ml-2 px-2 py-1 rounded text-sm">{{ __('Reinitializing...') }}</span>
                                             @endif
                                         </span>
@@ -52,11 +53,11 @@
                                         <span class="bg-gray-900 rounded font-black funder-alias font-normal text-md" {!! renderFunderAliasAttr(['theme' => $pairItem2['funder_theme']]) !!}> {{ $pairItem2['funder'] }}</span>
                                         <span class="mb-3 font-normal text-gray-700 dark:text-white"> {{ $pairItem2['funder_account_id_short'] }}</span>
                                         <span class="status-handler" data-itemId="{{ $pair2ItemId }}">
-                                            @if($pairedItemData['status'] === 'pairing-error' && !in_array($pair2ItemId, $unitReady))
+                                            @if($pairedItemData['status'] === 'error' && !in_array($pair2ItemId, $unitReady))
                                                 <span class="bg-red-600 font-normal ml-2 px-2 py-1 rounded text-sm">{{ __('Failed to initialize') }}</span>
                                             @endif
 
-                                            @if($pairedItemData['status'] === 'pairing-reinitializing' && !in_array($pair2ItemId, $unitReady))
+                                            @if($pairedItemData['status'] === 'reinitializing' && !in_array($pair2ItemId, $unitReady))
                                                 <span class="bg-orange-600 font-normal ml-2 px-2 py-1 rounded text-sm">{{ __('Reinitializing...') }}</span>
                                             @endif
                                         </span>
@@ -287,11 +288,11 @@
                             <input type="hidden" id="pair2_purchase_type" name="purchase_type[{{ $pair2ItemId }}]" value="">
 
                             <div class="pair-form-wrap">
-                                @if((!$canStartTrade && $pairedItemData['status'] !== 'pairing-error') || ($pairedItemData['status'] === 'pairing-reinitializing'))
+                                @if((!$canStartTrade && $pairedItemData['status'] !== 'error') || $pairedItemData['status'] === 'reinitializing')
                                     @include('dashboard.trade.play.components.initializing-notif')
                                 @else
-                                    @if($pairedItemData['status'] === 'pairing-error')
-                                        @include('dashboard.trade.play.components.re-initiate-trade-btn')
+                                    @if($pairedItemData['status'] === 'error')
+{{--                                        @include('dashboard.trade.play.components.re-initiate-trade-btn')--}}
                                     @else
                                         @include('dashboard.trade.play.components.initiate-trade-btn')
                                     @endif

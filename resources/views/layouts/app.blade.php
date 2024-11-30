@@ -240,7 +240,7 @@
             });
 
             document.addEventListener('pusherNotificationEvent', function(event) {
-                if (event.detail.action === 'trade-initialize-error2') {
+                if (event.detail.action === 'trade-initialize-error') {
                     const audio = new Audio("{{ asset('media/trade-error.mp3') }}");
                     let playCount = 0;
                     const maxPlays = 3;

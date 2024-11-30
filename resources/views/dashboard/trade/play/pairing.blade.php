@@ -88,46 +88,6 @@
 
 <script>
 
-    {{--const form = document.getElementById('pair-accounts');--}}
-    {{--const submitButton = form.querySelector('button[type="submit"]');--}}
-
-    {{--form.addEventListener('submit', function(event) {--}}
-    {{--    event.preventDefault();--}}
-
-    {{--    // Disable the submit button and add the class--}}
-    {{--    submitButton.disabled = true;--}}
-    {{--    submitButton.classList.add('dark:bg-gray-700', 'bg-gray-700');--}}
-
-    {{--    const formData = new FormData(form);--}}
-
-    {{--    fetch('{{ route('trade.pair') }}', {--}}
-    {{--        method: 'POST',--}}
-    {{--        body: formData--}}
-    {{--    })--}}
-    {{--        .then(response => {--}}
-    {{--            if (response.ok) {--}}
-    {{--                return response.json();--}}
-    {{--            } else {--}}
-    {{--                throw new Error('Request failed with status code ' + response.status);--}}
-    {{--            }--}}
-    {{--        })--}}
-    {{--        .then(data => {--}}
-    {{--            if (!data.success) {--}}
-    {{--                form.querySelector('.pairing-error').textContent = data.error;--}}
-    {{--            }--}}
-    {{--            if (data.accounts.data.length > 0) {--}}
-    {{--                location.reload();--}}
-    {{--            } else {--}}
-    {{--                form.querySelector('.pairing-error').textContent = data.accounts.message;--}}
-    {{--            }--}}
-    {{--        })--}}
-    {{--        .catch(error => {--}}
-    {{--            console.error(error);--}}
-    {{--            submitButton.disabled = false;--}}
-    {{--            submitButton.classList.remove('dark:bg-gray-700', 'bg-gray-700');--}}
-    {{--        });--}}
-    {{--});--}}
-
     document.addEventListener('DOMContentLoaded', function() {
         const tabsElement = document.getElementById('pairing-tabs');
 

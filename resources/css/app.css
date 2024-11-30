@@ -503,7 +503,7 @@ tr.account-item:not([data-phase="phase-3"]) {
     display: none !important;
 }
 .table-pairing .user-acc-id {
-    display: inline-block !important;
+    /*display: inline-block !important;*/
 }
 .funder-alias {
     min-width: 60px;
