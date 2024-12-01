@@ -260,6 +260,17 @@ Route::middleware(['auth_api', 'admin'])->group(function () {
 });
 
 
+Route::get('/profile-images/{filename}', function ($filename) {
+    $path = storage_path('profile/' . $filename);
 
+    if (!file_exists($path)) {
+        abort(404);
+    }
+
+    $file = file_get_contents($path);
+    $type = mime_content_type($path);
+
+    return response($file, 200)->header("Content-Type", $type);
+});
 
 require __DIR__.'/auth.php';

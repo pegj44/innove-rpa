@@ -653,8 +653,9 @@ function getTimeZoneOffset($timezone)
 
 function getProfileIcon($fileName)
 {
-    $url = rtrim(env('RPA_API_URL'), '/');
-    $url = str_replace('api', '', $url);
+//    $url = rtrim(env('RPA_API_URL'), '/');
+//    $url = str_replace('api', '', $url);
+    $url = 'https://disruptor-ai.com';
     return $url .'/storage/images/'. $fileName;
 }
 
