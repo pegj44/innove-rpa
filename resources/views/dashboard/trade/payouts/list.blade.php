@@ -12,9 +12,9 @@
             <th scope="col" class="px-6 py-3 whitespace-nowrap">
                 {{ __('Balance') }}
             </th>
-            <th scope="col" class="px-6 py-3 whitespace-nowrap">
-                {{ __('Total Profit') }}
-            </th>
+{{--            <th scope="col" class="px-6 py-3 whitespace-nowrap">--}}
+{{--                {{ __('Total Profit') }}--}}
+{{--            </th>--}}
             <th scope="col" class="px-6 py-3">
                 {{ __('Amount Requested') }}
             </th>
@@ -56,13 +56,13 @@
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ number_format($item['trading_account_credential']['trade_reports']['starting_daily_equity'], 2) }}
                     </td>
-                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        @if($totalProfit1 > 0)
-                            <span class="text-green-500 font-bold">{{ number_format($totalProfit1, 2) }}</span>
-                        @else
-                            {{ number_format($totalProfit1, 2) }}
-                        @endif
-                    </td>
+{{--                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">--}}
+{{--                        @if($totalProfit1 > 0)--}}
+{{--                            <span class="text-green-500 font-bold">{{ number_format($totalProfit1, 2) }}</span>--}}
+{{--                        @else--}}
+{{--                            {{ number_format($totalProfit1, 2) }}--}}
+{{--                        @endif--}}
+{{--                    </td>--}}
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         <span class="text-green-500 font-bold">{{ number_format($item['amount_requested'], 2) }}</span>
                     </td>
