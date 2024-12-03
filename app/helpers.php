@@ -142,20 +142,22 @@ function getCalculatedRdd_old($data)
 function getFunderAccountShortName($accountId)
 {
     $toRemove = [
-        'FTT-RALLY-',
-        'Zero\d+k-s',
-        'LV-Zero\d+k-s',
-        'LV-\d+k-s',
-        'ZeroDay\d+k-s',
-        'LV-ZeroDay\d+k-s',
+        'FTT-RALLY-' => '',
+        'Zero\d+k-s' => '',
+        'LV-Zero\d+k-s' => '',
+        'LV-\d+k-s' => '',
+        'ZeroDay\d+k-s' => 'ZDay-',
+        'LV-ZeroDay\d+k-s' => 'ZDay-',
     ];
 
-    foreach ($toRemove as $pattern) {
+    foreach ($toRemove as $pattern => $override) {
         $regexPattern = '/^' . $pattern . '/';
-        $accountId = preg_replace($regexPattern, '', $accountId);
+        $accountId = preg_replace($regexPattern, $override, $accountId);
     }
 
-    return (strlen($accountId) > 7)? substr($accountId, 0, 7) .'...' : $accountId;
+    $stringLimit = 12;
+
+    return (strlen($accountId) > $stringLimit)? substr($accountId, 0, $stringLimit) .'...' : $accountId;
 }
 
 function getLatestPayout($item)
