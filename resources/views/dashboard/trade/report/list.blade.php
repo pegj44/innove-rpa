@@ -346,11 +346,12 @@
                         <td class="relative px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             @php
                                 $rdd = getCalculatedRdd($item);
+                                $rdd = (is_numeric($rdd))? round($rdd, 0) : $rdd;
                             @endphp
                             @if($rdd < 100)
-                                <span class="text-red-500">{{ round($rdd, 0) }}</span>
+                                <span class="text-red-500">{{ $rdd }}</span>
                             @else
-                                {{ round($rdd, 0) }}
+                                {{ $rdd }}
                             @endif
                         </td>
                         <td class="relative px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
