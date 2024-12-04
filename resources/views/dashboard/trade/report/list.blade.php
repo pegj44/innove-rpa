@@ -733,7 +733,7 @@
 
                 function populatePairModalData(data) {
 
-                    const lowestDrawdownObj = {};
+                    const lowestPossibleTargetProfit = {};
 
                     Object.entries(data).forEach(([itemId, item]) => {
 
@@ -751,7 +751,8 @@
                         const maxDrawDown = item.latest_equity - drawDownHandler;
                         const lowestDrawdown = (maxDrawDown < dailyDrawDown)? maxDrawDown : dailyDrawDown;
 
-                        lowestDrawdownObj[lowestDrawdown] = item.id;
+                        lowestPossibleTargetProfit[lowestDrawdown] = item.id;
+                        lowestPossibleTargetProfit[item.remaining_target_profit] = item.id;
 
                         populatePairModalField(pairHeader, item, 'funder_account_id_short');
                         populatePairModalField(pairHeader, item, 'unit_name');
@@ -786,8 +787,8 @@
                     const maxRandom = 52;
                     const baseStopLoss = Math.floor(Math.random() * (maxRandom - minRandom + 1)) + minRandom;
 
-                    let lowestKey = Math.min(...Object.keys(lowestDrawdownObj).map(Number));
-                    let lowestDrawdown = {[lowestKey]: lowestDrawdownObj[lowestKey]};
+                    let lowestKey = Math.min(...Object.keys(lowestPossibleTargetProfit).map(Number));
+                    let lowestDrawdown = {[lowestKey]: lowestPossibleTargetProfit[lowestKey]};
                     const lowestDrawdownItemId = Object.values(lowestDrawdown)[0];
 
                     lowestDrawdown = Object.keys(lowestDrawdown)[0];
