@@ -183,7 +183,7 @@ function getRemainingTargetProfit($item)
     $remainingTP = $targetProfit - $totalPnL;
     $remainingTP = round($remainingTP, 2);
 
-    return ($remainingTP <= 0 )? 0 : $remainingTP;
+    return ($remainingTP <= 0 )? 200 : $remainingTP;
 }
 
 function getRemainingTradingDays($item)
