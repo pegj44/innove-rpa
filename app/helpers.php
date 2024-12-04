@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Session;
 function getCalculatedConsistency($data)
 {
     //@todo Add trading rules to admin.
-    if (($data['trading_account_credential']['funder']['alias'] === 'UPFT' && $data['trading_account_credential']['starting_balance'] === '50000') ||
+    if ((($data['trading_account_credential']['funder']['alias'] === 'UPFT' && stripos($data['trading_account_credential']['funder_account_id'], 'ZeroDay') === false) && $data['trading_account_credential']['starting_balance'] === '50000') ||
         ($data['trading_account_credential']['funder']['alias'] === 'GFF' && $data['trading_account_credential']['current_phase'] === 'phase-2')) {
         return '';
     }
