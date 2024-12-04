@@ -99,11 +99,11 @@
                     targets: [0]
                 },
                 {
-                    targets: 5,
+                    targets: 4,
                     type: "custom-date"
                 }
             ],
-            order: [[5, 'desc']]
+            order: [[4, 'desc']]
         });
 
     </script>
