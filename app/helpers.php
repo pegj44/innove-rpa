@@ -33,11 +33,13 @@ function getCalculatedConsistency($data)
         }
 
         $highestPnL = max($PnLs);
-        $totalPn = array_sum($PnLs);
+//        $totalPn = array_sum($PnLs);
+
+        $totalPn = (float) $data['latest_equity'] - (float) $data['trading_account_credential']['starting_balance'];
         $consis = ($highestPnL/$totalPn) * 100;
-        $consis = round($consis, 2);
+//        $consis = round($consis, 2);
 //        !d($PnLs, $totalPn, max($PnLs));
-        return ($consis >= 100)? '100+' : round($consis, 0);
+        return ($consis >= 100)? '100+' : round($consis, 2);
     }
 
     return 0;
