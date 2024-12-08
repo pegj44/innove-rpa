@@ -355,7 +355,10 @@
                             @endif
                         </td>
                         <td class="relative px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ getHighestProfit($item) }}
+                            @php
+                                $highestProfit = getHighestProfit($item);
+                            @endphp
+                            {{ $highestProfit }}
                         </td>
                         <td class="relative px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ getCalculatedConsistency($item) }}
@@ -372,7 +375,7 @@
                         </td>
                         <td class="relative px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             @php
-                                $rtp = getRemainingTargetProfit($item);
+                                $rtp = getRemainingTargetProfit($item, $highestProfit);
                             @endphp
                             @if($rtp <= 0)
                                 <span class="text-green-500">{{ $rtp }}</span>
@@ -795,19 +798,13 @@
 
                     Object.entries(data).forEach(([itemId, item]) => {
                         const pairBody = document.querySelector('[data-pair_item_body="'+ itemId +'"]');
-                        let orderAmount = Math.floor(lowestDrawdown / baseStopLoss);
+                        const orderAmount = Math.floor(lowestDrawdown / baseStopLoss);
                         let sl = baseStopLoss;
                         let tp = sl - 1;
 
                         if (item.id !== lowestDrawdownItemId) {
                             tp = sl - 2
                             sl = tp + 3;
-                        }
-
-                        if (item.asset_type === 'forex') {
-                            tp = orderAmount * tp;
-                            sl = orderAmount * sl;
-                            orderAmount = 1;
                         }
 
                         populateMarketFields(pairBody, item, 'order_amount', orderAmount);
