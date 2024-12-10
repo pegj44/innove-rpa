@@ -84,7 +84,9 @@ function getCalculatedRdd($data)
     if ($data['trading_account_credential']['drawdown_type'] === 'trailing_endofday') {
         if (!empty($data['trading_account_credential']['history_v3'])) {
             foreach ($data['trading_account_credential']['history_v3'] as $tradeItem) {
-                $highestBalArr[] = (float) $tradeItem['highest_balance'];
+                if ($tradeItem['status'] === $data['trading_account_credential']['current_phase']) {
+                    $highestBalArr[] = (float) $tradeItem['highest_balance'];
+                }
             }
         }
 
