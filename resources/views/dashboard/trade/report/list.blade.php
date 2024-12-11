@@ -846,16 +846,16 @@
                         }
 
                         const remainingTpHtml = pairBody.querySelector('.remaining-tp');
-                        remainingTpHtml.textContent = '$'+ remainingTp;
+                        remainingTpHtml.textContent = '$'+ remainingTp.toFixed(2);
 
                         const remainingSlHtml = pairBody.querySelector('.remaining-sl');
-                        remainingSlHtml.textContent = '$'+ remainingSl;
+                        remainingSlHtml.textContent = '$'+ remainingSl.toFixed(2);
 
                         const convertedTpHtml = pairBody.querySelector('.converted-tp');
-                        convertedTpHtml.textContent = '$'+ convertedTp;
+                        convertedTpHtml.textContent = '$'+ convertedTp.toFixed(2);
 
                         const convertedSlHtml = pairBody.querySelector('.converted-sl');
-                        convertedSlHtml.textContent = '$'+ convertedSl;
+                        convertedSlHtml.textContent = '$'+ convertedSl.toFixed(2);
 
                         populateMarketFields(pairBody, item, 'order_amount', orderAmount);
                         populateMarketFields(pairBody, item, 'tp', tp);
