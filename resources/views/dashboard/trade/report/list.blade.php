@@ -750,9 +750,14 @@
                         const drawDownHandler = item.starting_balance - item.max_draw_down;
                         const maxDrawDown = item.latest_equity - drawDownHandler;
                         const lowestDrawdown = (maxDrawDown < dailyDrawDown)? maxDrawDown : dailyDrawDown;
+                        const maxDrawDownPercentage = parseInt(item.starting_balance) * (1.5 / 100);
+                        const pnl = item.pnl.replace(/,/g, "");
+                        const remainingDailyTargetProfit = item.daily_target_profit - parseFloat(pnl);
 
                         lowestPossibleTargetProfit[lowestDrawdown] = item.id;
                         lowestPossibleTargetProfit[item.remaining_target_profit] = item.id;
+                        lowestPossibleTargetProfit[maxDrawDownPercentage] = item.id;
+                        lowestPossibleTargetProfit[remainingDailyTargetProfit] = item.id;
 
                         populatePairModalField(pairHeader, item, 'funder_account_id_short');
                         populatePairModalField(pairHeader, item, 'unit_name');
@@ -782,6 +787,8 @@
 
                         pairBody.querySelector('[data-pair_val="purchase_type"]').setAttribute('name', 'data['+ [itemId] +'][purchase_type]');
                     });
+
+                    console.log(lowestPossibleTargetProfit);
 
                     const minRandom = 46;
                     const maxRandom = 52;
