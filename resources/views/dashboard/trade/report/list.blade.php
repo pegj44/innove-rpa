@@ -460,15 +460,23 @@
                                             </div>
                                         </div>
                                         <div class="border-b border-gray-900 flex flex-row">
-                                            <div class="label px-3 py-2 w-1/2">Take Profit (Ticks)</div>
-                                            <div class="bg-gray-700 w-1/2">
+                                            <div class="label px-3 py-2 w-1/2 relative">
+                                                Take Profit (Ticks)
+                                                <span class="remaining-tp"></span>
+                                            </div>
+                                            <div class="bg-gray-700 w-1/2 relative">
                                                 <input type="number" data-pair_val="tp" step="1" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
+                                                <span class="converted-tp"></span>
                                             </div>
                                         </div>
                                         <div class="border-b border-gray-900 flex flex-row">
-                                            <div class="label px-3 py-2 w-1/2">Stop Loss (Ticks)</div>
-                                            <div class="bg-gray-700 w-1/2">
+                                            <div class="label px-3 py-2 w-1/2 relative">
+                                                Stop Loss (Ticks)
+                                                <span class="remaining-sl"></span>
+                                            </div>
+                                            <div class="bg-gray-700 w-1/2 relative">
                                                 <input type="number" step="1" data-pair_val="sl" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
+                                                <span class="converted-sl"></span>
                                             </div>
                                         </div>
                                         <div class="border-b border-gray-900 flex flex-row">
@@ -532,15 +540,23 @@
                                             </div>
                                         </div>
                                         <div class="border-b border-gray-900 flex flex-row">
-                                            <div class="label px-3 py-2 w-1/2">Take Profit (Ticks)</div>
-                                            <div class="bg-gray-700 w-1/2">
+                                            <div class="label px-3 py-2 w-1/2 relative">
+                                                Take Profit (Ticks)
+                                                <span class="remaining-tp"></span>
+                                            </div>
+                                            <div class="bg-gray-700 w-1/2 relative">
                                                 <input type="number" data-pair_val="tp" step="1" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
+                                                <span class="converted-tp"></span>
                                             </div>
                                         </div>
                                         <div class="border-b border-gray-900 flex flex-row">
-                                            <div class="label px-3 py-2 w-1/2">Stop Loss (Ticks)</div>
-                                            <div class="bg-gray-700 w-1/2">
+                                            <div class="label px-3 py-2 w-1/2 relative">
+                                                Stop Loss (Ticks)
+                                                <span class="remaining-sl"></span>
+                                            </div>
+                                            <div class="bg-gray-700 w-1/2 relative">
                                                 <input type="number" step="1" data-pair_val="sl" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
+                                                <span class="converted-sl"></span>
                                             </div>
                                         </div>
                                         <div class="border-b border-gray-900 flex flex-row">
@@ -734,6 +750,7 @@
                 function populatePairModalData(data) {
 
                     const lowestPossibleTargetProfit = {};
+                    const remainingTpSl = {};
 
                     Object.entries(data).forEach(([itemId, item]) => {
 
@@ -750,6 +767,7 @@
                         const drawDownHandler = item.starting_balance - item.max_draw_down;
                         const maxDrawDown = item.latest_equity - drawDownHandler;
                         const lowestDrawdown = (maxDrawDown < dailyDrawDown)? maxDrawDown : dailyDrawDown;
+
                         const maxDrawDownPercentage = parseInt(item.starting_balance) * (1.5 / 100);
                         const pnl = item.pnl.replace(/,/g, "");
                         const remainingDailyTargetProfit = item.daily_target_profit - parseFloat(pnl);
@@ -758,6 +776,11 @@
                         lowestPossibleTargetProfit[item.remaining_target_profit] = item.id;
                         lowestPossibleTargetProfit[maxDrawDownPercentage] = item.id;
                         lowestPossibleTargetProfit[remainingDailyTargetProfit] = item.id;
+
+                        remainingTpSl[item.id] = {
+                            'tp': remainingDailyTargetProfit,
+                            'sl': lowestDrawdown
+                        };
 
                         populatePairModalField(pairHeader, item, 'funder_account_id_short');
                         populatePairModalField(pairHeader, item, 'unit_name');
@@ -811,11 +834,28 @@
                             sl = tp + 3;
                         }
 
+                        let convertedTp = tp * orderAmount;
+                        let convertedSl = sl * orderAmount;
+                        let remainingTp = remainingTpSl[itemId]['tp'];
+                        let remainingSl = remainingTpSl[itemId]['sl'];
+
                         if (item.asset_type === 'forex') {
                             tp = orderAmount * tp;
                             sl = orderAmount * sl;
                             orderAmount = 1;
                         }
+
+                        const remainingTpHtml = pairBody.querySelector('.remaining-tp');
+                        remainingTpHtml.textContent = '$'+ remainingTp;
+
+                        const remainingSlHtml = pairBody.querySelector('.remaining-sl');
+                        remainingSlHtml.textContent = '$'+ remainingSl;
+
+                        const convertedTpHtml = pairBody.querySelector('.converted-tp');
+                        convertedTpHtml.textContent = '$'+ convertedTp;
+
+                        const convertedSlHtml = pairBody.querySelector('.converted-sl');
+                        convertedSlHtml.textContent = '$'+ convertedSl;
 
                         populateMarketFields(pairBody, item, 'order_amount', orderAmount);
                         populateMarketFields(pairBody, item, 'tp', tp);

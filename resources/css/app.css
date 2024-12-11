@@ -787,3 +787,24 @@ table tr:hover .table-row-edit {
     border: 1px solid #222222;
     min-width: 24px;
 }
+.remaining-tp,
+.remaining-sl {
+    color: #05c605;
+    font-size: 13px;
+    position: absolute;
+    bottom: -2px;
+    width: 100%;
+    left: 12px;
+}
+.converted-tp,
+.converted-sl {
+    color: #05c605;
+    font-size: 13px;
+    position: absolute;
+    bottom: 10px;
+    right: 32px;
+}
+.converted-sl,
+.remaining-sl {
+    color: red;
+}
