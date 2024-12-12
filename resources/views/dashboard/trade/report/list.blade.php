@@ -752,6 +752,9 @@
                     const lowestPossibleTargetProfit = {};
                     const remainingTpSl = {};
                     let forexOrderAmount = 0;
+                    let rangedTp = 0;
+                    let rangedSl = 0;
+                    let rangeVal = 20;
 
                     Object.entries(data).forEach(([itemId, item]) => {
 
@@ -835,8 +838,6 @@
                             sl = tp + 3;
                         }
 
-                        let convertedTp = tp * orderAmount;
-                        let convertedSl = sl * orderAmount;
                         let remainingTp = remainingTpSl[itemId]['tp'];
                         let remainingSl = remainingTpSl[itemId]['sl'];
 
@@ -858,12 +859,25 @@
 
                             orderAmount = forexOrderAmount.toFixed(1);
 
-                            tp = tp / orderAmount;
-                            tp = tp.toFixed(0);
+                            if (rangedTp === 0) {
+                                tp = tp / orderAmount;
+                                tp = tp.toFixed(0);
+                                rangedTp = tp;
+                            } else {
+                                tp = rangedSl - rangeVal;
+                            }
 
-                            sl = sl / orderAmount;
-                            sl = sl.toFixed(0);
+                            if (rangedSl === 0) {
+                                sl = sl / orderAmount;
+                                sl = sl.toFixed(0);
+                                rangedSl = sl;
+                            } else {
+                                sl = rangedTp - rangeVal;
+                            }
                         }
+
+                        let convertedTp = tp * orderAmount;
+                        let convertedSl = sl * orderAmount;
 
                         const remainingTpHtml = pairBody.querySelector('.remaining-tp');
                         remainingTpHtml.textContent = '$'+ remainingTp.toFixed(0);
