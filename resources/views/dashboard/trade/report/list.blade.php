@@ -265,7 +265,7 @@
                                             <div class="tooltip-arrow" data-popper-arrow></div>
                                         </div>
                                 @else
-                                    @if($item['status'] === 'idle' && !in_array($itemPairHandler, $pairedItemsHandler) && $remainingNTrades > 0)
+                                    @if($item['status'] === 'idle' && !in_array($itemPairHandler, $workingItemsHandler) && $remainingNTrades > 0)
                                         <a href="#" x-on:click="requestPair({{$item['id']}}, event, $event.target)" class="flex flex-row gap-1 pair-item-btn font-medium text-blue-600 dark:text-blue-50">
                                             <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16 10 3-3m0 0-3-3m3 3H5v3m3 4-3 3m0 0 3 3m-3-3h14v-3"/>
@@ -751,6 +751,7 @@
 
                     const lowestPossibleTargetProfit = {};
                     const remainingTpSl = {};
+                    let forexOrderAmount = 0;
 
                     Object.entries(data).forEach(([itemId, item]) => {
 
@@ -768,7 +769,9 @@
                         const maxDrawDown = item.latest_equity - drawDownHandler;
                         const lowestDrawdown = (maxDrawDown < dailyDrawDown)? maxDrawDown : dailyDrawDown;
 
-                        const maxDrawDownPercentage = parseInt(item.starting_balance) * (1.5 / 100);
+                        let maxDrawDownPercentage = parseInt(item.starting_balance) * (1.5 / 100);
+                        maxDrawDownPercentage = maxDrawDownPercentage - 40; // allowance for trade charge
+
                         const pnl = item.pnl.replace(/,/g, "");
                         const remainingDailyTargetProfit = item.daily_target_profit - parseFloat(pnl);
 
@@ -811,8 +814,6 @@
                         pairBody.querySelector('[data-pair_val="purchase_type"]').setAttribute('name', 'data['+ [itemId] +'][purchase_type]');
                     });
 
-                    console.log(lowestPossibleTargetProfit);
-
                     const minRandom = 46;
                     const maxRandom = 52;
                     const baseStopLoss = Math.floor(Math.random() * (maxRandom - minRandom + 1)) + minRandom;
@@ -840,22 +841,41 @@
                         let remainingSl = remainingTpSl[itemId]['sl'];
 
                         if (item.asset_type === 'forex') {
+                            if (forexOrderAmount === 0) {
+                                if (parseInt(item.starting_balance) === 10000) {
+                                    forexOrderAmount = 0.3;
+                                }
+                                if (parseInt(item.starting_balance) === 50000) {
+                                    forexOrderAmount = Math.random() * (1.5 - 1.3) + 1.3;
+                                }
+                                if (parseInt(item.starting_balance) === 100000) {
+                                    forexOrderAmount = Math.random() * (2 - 2.5) + 2.5;
+                                }
+                            }
+
                             tp = orderAmount * tp;
                             sl = orderAmount * sl;
-                            orderAmount = 1;
+
+                            orderAmount = forexOrderAmount.toFixed(1);
+
+                            tp = tp / orderAmount;
+                            tp = tp.toFixed(0);
+
+                            sl = sl / orderAmount;
+                            sl = sl.toFixed(0);
                         }
 
                         const remainingTpHtml = pairBody.querySelector('.remaining-tp');
-                        remainingTpHtml.textContent = '$'+ remainingTp.toFixed(2);
+                        remainingTpHtml.textContent = '$'+ remainingTp.toFixed(0);
 
                         const remainingSlHtml = pairBody.querySelector('.remaining-sl');
-                        remainingSlHtml.textContent = '$'+ remainingSl.toFixed(2);
+                        remainingSlHtml.textContent = '$'+ remainingSl.toFixed(0);
 
                         const convertedTpHtml = pairBody.querySelector('.converted-tp');
-                        convertedTpHtml.textContent = '$'+ convertedTp.toFixed(2);
+                        convertedTpHtml.textContent = '$'+ convertedTp.toFixed(0);
 
                         const convertedSlHtml = pairBody.querySelector('.converted-sl');
-                        convertedSlHtml.textContent = '$'+ convertedSl.toFixed(2);
+                        convertedSlHtml.textContent = '$'+ convertedSl.toFixed(0);
 
                         populateMarketFields(pairBody, item, 'order_amount', orderAmount);
                         populateMarketFields(pairBody, item, 'tp', tp);

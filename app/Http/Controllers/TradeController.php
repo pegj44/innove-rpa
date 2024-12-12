@@ -130,9 +130,26 @@ class TradeController extends Controller
             'key' => 'trading_filters'
         ]);
 
+        $workingItemsHandler = [];
+
+        foreach ($queueItems['pairedItems'] as $pairedItem) {
+            foreach ($pairedItem['data'] as $pairedItemData) {
+                $itemFunder = str_replace(' ', '_', $pairedItemData['funder']);
+                $workingItemsHandler[] = strtolower($itemFunder) .'_'. $pairedItemData['unit_id'];
+            }
+        }
+
+        foreach ($queueItems['tradingItems'] as $tradingItem) {
+            foreach ($tradingItem['data'] as $tradingItemData) {
+                $itemFunder = str_replace(' ', '_', $tradingItemData['funder']);
+                $workingItemsHandler[] = strtolower($itemFunder) .'_'. $tradingItemData['unit_id'];
+            }
+        }
+
         return view('dashboard.trade.play.index')->with([
             'pairedItems' => $queueItems['pairedItems'],
             'tradingItems' => $queueItems['tradingItems'],
+            'workingItemsHandler' => $workingItemsHandler,
             'tradingAccounts' => $tradingAccounts,
             'funders' => $funders,
             'filterSettings' => (!empty($filterSettings))? $filterSettings['value'] : []

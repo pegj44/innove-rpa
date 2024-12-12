@@ -2,23 +2,22 @@
 <div class="">
 
     @php
-        $pairedItemsHandler = [];
         $waitingPairedItems = [];
         $tradedItems = [];
         $tradesHandler = [];
-        $pairedItemsHandler = [];
+        //$pairedItemsHandler = [];
     @endphp
 
-    @if(!empty($tradingItems))
-        @foreach($tradingItems as $index => $item)
-            @foreach($item['data'] as $itemId => $itemData)
-                @php
-                    $itemFunder = str_replace(' ', '_', $itemData['funder']);
-                    $pairedItemsHandler[] = strtolower($itemFunder) .'_'. $itemData['unit_id'];
-                @endphp
-            @endforeach
-        @endforeach
-    @endif
+{{--    @if(!empty($tradingItems))--}}
+{{--        @foreach($tradingItems as $index => $item)--}}
+{{--            @foreach($item['data'] as $itemId => $itemData)--}}
+{{--                @php--}}
+{{--                    $itemFunder = str_replace(' ', '_', $itemData['funder']);--}}
+{{--                    $pairedItemsHandler[] = strtolower($itemFunder) .'_'. $itemData['unit_id'];--}}
+{{--                @endphp--}}
+{{--            @endforeach--}}
+{{--        @endforeach--}}
+{{--    @endif--}}
 
     <div class="mb-6">
         <ul id="pairing-tabs" role="tablist" class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
