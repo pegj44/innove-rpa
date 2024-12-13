@@ -864,7 +864,7 @@
                                 tp = tp.toFixed(0);
                                 rangedTp = tp;
                             } else {
-                                tp = rangedSl - rangeVal;
+                                tp = parseInt(rangedSl) + parseInt(rangeVal);
                             }
 
                             if (rangedSl === 0) {
@@ -872,7 +872,7 @@
                                 sl = sl.toFixed(0);
                                 rangedSl = sl;
                             } else {
-                                sl = rangedTp - rangeVal;
+                                sl = parseInt(rangedTp) - parseInt(rangeVal);
                             }
                         }
 
