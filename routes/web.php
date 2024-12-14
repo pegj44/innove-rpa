@@ -177,6 +177,8 @@ Route::middleware(['auth_api', 'admin'])->group(function () {
     {
         Route::get('/funder/list', 'index')->name('funders');
         Route::get('/funder/add', 'create')->name('funder.create');
+        Route::get('/funders/packages', 'fundersPackages')->name('funders.packages');
+        Route::post('/funders/packages', 'storeFundersPackages')->name('funders.packages.store');
         Route::post('/funder', 'store')->name('funder.store');
         Route::get('/funder/{id}', 'edit')->name('funder.edit');
         Route::post('/funder/{id}', 'update')->name('funder.update');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Forms\AddFunderForm;
+use App\Forms\FunderConfigForm;
 use Illuminate\Http\Request;
 use Kris\LaravelFormBuilder\FormBuilder;
 
@@ -37,6 +38,21 @@ class FunderController extends Controller
 
         return view('dashboard.funders.index')->with([
             'funders' => $funders
+        ]);
+    }
+
+    public function fundersPackages(FormBuilder $formBuilder)
+    {
+        $form = $formBuilder->create(FunderConfigForm::class, [
+            'method' => 'POST',
+            'url' => route('funders.packages.store')
+        ]);
+
+        $packages = requestApi('get', 'funders/packages');
+
+        return view('dashboard.funders.packages')->with([
+            'form' => $form,
+            'packages' => $packages
         ]);
     }
 
