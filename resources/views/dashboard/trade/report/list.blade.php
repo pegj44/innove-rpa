@@ -878,6 +878,7 @@
 
                             sl = sl - tradeChargeAllowance;
 
+console.log(tp, sl, lowestDrawdown);
                             orderAmount = forexOrderAmount.toFixed(1);
 
                             if (rangedTp === 0) {
