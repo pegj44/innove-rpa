@@ -755,6 +755,7 @@
                     let rangedTp = 0;
                     let rangedSl = 0;
                     let rangeVal = 20;
+                    let tradeChargeAllowance = 50;
 
                     Object.entries(data).forEach(([itemId, item]) => {
 
@@ -783,8 +784,12 @@
                             }
                         }
 
+                        if (item.funder.toLowerCase() === 'fpro') {
+                            maxDrawDownPercentage = 1.8;
+                        }
+
                         maxDrawDownPercentage = parseInt(item.starting_balance) * (maxDrawDownPercentage / 100);
-                        maxDrawDownPercentage = maxDrawDownPercentage - 30; // allowance for trade charge
+                        // maxDrawDownPercentage = maxDrawDownPercentage - 30; // allowance for trade charge
 
                         const pnl = item.pnl.replace(/,/g, "");
                         const remainingDailyTargetProfit = item.daily_target_profit - parseFloat(pnl);
@@ -852,6 +857,9 @@
                         let remainingTp = remainingTpSl[itemId]['tp'];
                         let remainingSl = remainingTpSl[itemId]['sl'];
 
+                        let convertedTp = tp * orderAmount;
+                        let convertedSl = sl * orderAmount;
+
                         if (item.asset_type === 'forex') {
                             if (forexOrderAmount === 0) {
                                 if (parseInt(item.starting_balance) === 10000) {
@@ -861,12 +869,14 @@
                                     forexOrderAmount = Math.random() * (1.5 - 1.3) + 1.3;
                                 }
                                 if (parseInt(item.starting_balance) === 100000) {
-                                    forexOrderAmount = Math.random() * (2 - 2.5) + 2.5;
+                                    forexOrderAmount = Math.random() * (2.3 - 2.5) + 2.5;
                                 }
                             }
 
                             tp = orderAmount * tp;
                             sl = orderAmount * sl;
+
+                            sl = sl - tradeChargeAllowance;
 
                             orderAmount = forexOrderAmount.toFixed(1);
 
@@ -885,10 +895,11 @@
                             } else {
                                 sl = parseInt(rangedTp) + parseInt(rangeVal);
                             }
-                        }
 
-                        let convertedTp = tp * orderAmount;
-                        let convertedSl = sl * orderAmount;
+                            convertedTp = tp * orderAmount;
+                            convertedSl = sl * orderAmount;
+                            // console.log(tp, sl);
+                        }
 
                         const remainingTpHtml = pairBody.querySelector('.remaining-tp');
                         remainingTpHtml.textContent = '$'+ remainingTp.toFixed(0);
