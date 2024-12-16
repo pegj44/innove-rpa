@@ -772,8 +772,19 @@
                         const maxDrawDown = item.latest_equity - drawDownHandler;
                         const lowestDrawdown = (maxDrawDown < dailyDrawDown)? maxDrawDown : dailyDrawDown;
 
-                        let maxDrawDownPercentage = parseInt(item.starting_balance) * (1.5 / 100);
-                        maxDrawDownPercentage = maxDrawDownPercentage - 40; // allowance for trade charge
+                        let maxDrawDownPercentage = 1.5;
+
+                        if (item.funder.toLowerCase() === 'gff') {
+                            if (item.starting_balance === 50000) {
+                                maxDrawDownPercentage = 1;
+                            }
+                            if (item.starting_balance === 100000) {
+                                maxDrawDownPercentage = 1.2;
+                            }
+                        }
+
+                        maxDrawDownPercentage = parseInt(item.starting_balance) * (maxDrawDownPercentage / 100);
+                        maxDrawDownPercentage = maxDrawDownPercentage - 30; // allowance for trade charge
 
                         const pnl = item.pnl.replace(/,/g, "");
                         const remainingDailyTargetProfit = item.daily_target_profit - parseFloat(pnl);
