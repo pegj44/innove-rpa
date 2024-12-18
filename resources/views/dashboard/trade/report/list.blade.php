@@ -265,7 +265,7 @@
                                             <div class="tooltip-arrow" data-popper-arrow></div>
                                         </div>
                                 @else
-                                    @if($item['status'] === 'idle' && !in_array($itemPairHandler, $workingItemsHandler) && $remainingNTrades > 0)
+                                    @if($item['status'] === 'idle' && !in_array($itemPairHandler, $workingItemsHandler) && $remainingNTrades > 0 && !in_array($item['trading_account_credential']['user_account']['trading_unit']['unit_id'], $pairingUnitsHandler))
                                         <a href="#" x-on:click="requestPair({{$item['id']}}, event, $event.target)" class="flex flex-row gap-1 pair-item-btn font-medium text-blue-600 dark:text-blue-50">
                                             <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16 10 3-3m0 0-3-3m3 3H5v3m3 4-3 3m0 0 3 3m-3-3h14v-3"/>
@@ -281,6 +281,16 @@
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/>
                                             </svg>
                                         </a>
+                                    @endif
+
+                                    @if(in_array($item['trading_account_credential']['user_account']['trading_unit']['unit_id'], $pairingUnitsHandler))
+                                        <svg class="w-6 h-6 text-yellow-400" data-tooltip-target="tooltip-right-{{ $item['id'] }}" data-tooltip-placement="right" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                        </svg>
+                                        <div id="tooltip-right-{{ $item['id'] }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                                            Waiting for another platform to complete the initialization.
+                                            <div class="tooltip-arrow" data-popper-arrow></div>
+                                        </div>
                                     @endif
                                 @endif
                             </td>
@@ -878,7 +888,6 @@
 
                             sl = sl - tradeChargeAllowance;
 
-console.log(tp, sl, lowestDrawdown);
                             orderAmount = forexOrderAmount.toFixed(1);
 
                             if (rangedTp === 0) {

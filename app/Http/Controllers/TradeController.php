@@ -131,11 +131,13 @@ class TradeController extends Controller
         ]);
 
         $workingItemsHandler = [];
+        $pairingUnitsHandler = [];
 
         foreach ($queueItems['pairedItems'] as $pairedItem) {
             foreach ($pairedItem['data'] as $pairedItemData) {
                 $itemFunder = str_replace(' ', '_', $pairedItemData['funder']);
                 $workingItemsHandler[] = strtolower($itemFunder) .'_'. $pairedItemData['unit_id'];
+                $pairingUnitsHandler[] = $pairedItemData['unit_id'];
             }
         }
 
@@ -150,6 +152,7 @@ class TradeController extends Controller
             'pairedItems' => $queueItems['pairedItems'],
             'tradingItems' => $queueItems['tradingItems'],
             'workingItemsHandler' => $workingItemsHandler,
+            'pairingUnitsHandler' => $pairingUnitsHandler,
             'tradingAccounts' => $tradingAccounts,
             'funders' => $funders,
             'filterSettings' => (!empty($filterSettings))? $filterSettings['value'] : []
