@@ -50,7 +50,7 @@
                                                     {{ getPhaseName($pairItem2['phase']) }}
                                                 </span>
                                             </span>
-                                            <span class="font-normal text-gray-700 dark:text-white"> {{ getFunderAccountShortName($pairItem1['funder_account_id_long']) }}</span>
+                                            <span class="font-normal text-gray-700 dark:text-white"> {{ getFunderAccountShortName($pairItem2['funder_account_id_long']) }}</span>
                                         </span>
                                     </h5>
                                     <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">

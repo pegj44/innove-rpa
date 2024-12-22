@@ -66,7 +66,7 @@
                                                     {{ getPhaseName($pairItem2['phase']) }}
                                                 </span>
                                             </span>
-                                            <span class="font-normal text-gray-700 dark:text-white"> {{ getFunderAccountShortName($pairItem1['funder_account_id_long']) }}</span>
+                                            <span class="font-normal text-gray-700 dark:text-white"> {{ getFunderAccountShortName($pairItem2['funder_account_id_long']) }}</span>
                                         </span>
                                         <span class="status-handler" data-itemId="{{ $pair2ItemId }}">
                                             @if($pairedItemData['status'] === 'error' && !in_array($pair2ItemId, $unitReady))
