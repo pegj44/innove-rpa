@@ -29,9 +29,16 @@
                             <div class="w-1/2 p-5 bg-gray-900">
                                 <div class="dark:border-gray-600 flex justify-between">
                                     <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight flex flex-row">
-                                        <span>
-                                            <span class="bg-gray-900 rounded font-black funder-alias font-normal text-md" {!! renderFunderAliasAttr(['theme' => $pairItem1['funder_theme']]) !!}> {{ $pairItem1['funder'] }}</span>
-                                            <span class="mb-3 font-normal text-gray-700 dark:text-white"> {{ $pairItem1['funder_account_id_short'] }}</span>
+                                        <span class="flex flex-row gap-3 items-center">
+                                            <span class="flex flex-col">
+                                                <span class="bg-gray-900 font-black font-bold funder-alias text-sm" {!! renderFunderAliasAttr(['theme' => $pairItem1['funder_theme']]) !!}>
+                                                    {{ $pairItem1['funder'] }}
+                                                </span>
+                                                <span class="acc-status {{$pairItem1['phase']}}" style="font-size: 12px !important; border-bottom-left-radius: 3px;">
+                                                    {{ getPhaseName($pairItem1['phase']) }}
+                                                </span>
+                                            </span>
+                                            <span class="font-normal text-gray-700 dark:text-white"> {{ getFunderAccountShortName($pairItem1['funder_account_id_long']) }}</span>
                                         </span>
                                         <span class="status-handler flex flex-row gap-1 items-center" data-itemId="{{ $pair1ItemId }}">
                                             @if($pairedItemData['status'] === 'error' && !in_array($pair1ItemId, $unitReady))
@@ -50,8 +57,17 @@
                             <div class="w-1/2 p-5 bg-gray-800">
                                 <div class="dark:border-gray-600 flex justify-between">
                                     <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
-                                        <span class="bg-gray-900 rounded font-black funder-alias font-normal text-md" {!! renderFunderAliasAttr(['theme' => $pairItem2['funder_theme']]) !!}> {{ $pairItem2['funder'] }}</span>
-                                        <span class="mb-3 font-normal text-gray-700 dark:text-white"> {{ $pairItem2['funder_account_id_short'] }}</span>
+                                        <span class="flex flex-row gap-3 items-center">
+                                            <span class="flex flex-col">
+                                                <span class="bg-gray-900 font-black font-bold funder-alias text-sm" {!! renderFunderAliasAttr(['theme' => $pairItem2['funder_theme']]) !!}>
+                                                    {{ $pairItem2['funder'] }}
+                                                </span>
+                                                <span class="acc-status {{$pairItem2['phase']}}" style="font-size: 12px !important; border-bottom-left-radius: 3px;">
+                                                    {{ getPhaseName($pairItem2['phase']) }}
+                                                </span>
+                                            </span>
+                                            <span class="font-normal text-gray-700 dark:text-white"> {{ getFunderAccountShortName($pairItem1['funder_account_id_long']) }}</span>
+                                        </span>
                                         <span class="status-handler" data-itemId="{{ $pair2ItemId }}">
                                             @if($pairedItemData['status'] === 'error' && !in_array($pair2ItemId, $unitReady))
                                                 <span class="bg-red-600 font-normal ml-2 px-2 py-1 rounded text-sm">{{ __('Failed to initialize') }}</span>

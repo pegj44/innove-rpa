@@ -511,6 +511,7 @@
                                         <input type="hidden" data-pair_val="starting_equity">
                                         <input type="hidden" data-pair_val="latest_equity">
                                         <input type="hidden" data-pair_val="rdd">
+                                        <input type="hidden" data-pair_val="phase">
                                     </div>
                                     <div id="item-pair-2-body" class="sell-wrap-handle w-1/2">
                                         <div class="border-b border-gray-900 flex flex-row">
@@ -591,6 +592,7 @@
                                         <input type="hidden" data-pair_val="starting_equity">
                                         <input type="hidden" data-pair_val="latest_equity">
                                         <input type="hidden" data-pair_val="rdd">
+                                        <input type="hidden" data-pair_val="phase">
                                     </div>
                                 </div>
                             </div>
@@ -839,6 +841,7 @@
                         populatePairModalField(pairBody, item, 'starting_equity', 'value');
                         populatePairModalField(pairBody, item, 'latest_equity', 'value');
                         populatePairModalField(pairBody, item, 'rdd', 'value');
+                        populatePairModalField(pairBody, item, 'phase', 'value');
 
                         pairBody.querySelector('[data-pair_val="purchase_type"]').setAttribute('name', 'data['+ [itemId] +'][purchase_type]');
                     });
