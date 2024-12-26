@@ -37,8 +37,8 @@
                             @foreach($tradeHistory as $itemIndex => $pairItems)
                                 @php
                                     $counter = 0;
-                                    $date = \Carbon\Carbon::parse($pairItems['updated_at']);
-                                    $formattedDate = $date->format('M j, Y H:i a');
+                                    $date = \Carbon\Carbon::parse($pairItems['updated_at'])->setTimezone('Asia/Manila');
+                                    $formattedDate = $date->format('M j, Y h:i a');
 
                                     $pData = array_values($pairItems['data']);
                                     //$pnl1 = $pData['']
@@ -86,7 +86,7 @@
                                         </td>
                                         <td>
                                             <span class="pr-3">{{ ucfirst($item['purchase_type']) }}</span>
-                                            <span class="{!! ($pnl > 0)? 'text-green-500' : 'text-red-500' !!}">{{ $pnl }}</span>
+                                            <span class="{!! ($pnl > 0)? 'text-green-500' : 'text-red-500' !!}">{{ number_format($pnl, 2) }}</span>
                                         </td>
                                         <td>
                                             <span>{{ $item['order_amount'] }}</span>
