@@ -51,7 +51,7 @@
 
                                         $latestEquity = $item['latest_equity'];
                                         $newEquity = (isset($item['new_equity']))? $item['new_equity'] : $latestEquity;
-                                        $pnl = (float) $latestEquity - (float) $newEquity;
+                                        $pnl = (float) $newEquity - (float) $latestEquity;
                                         $counter++;
                                     @endphp
                                     @if($counter === 1)
