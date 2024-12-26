@@ -29,6 +29,15 @@ class TradeReportController extends Controller
         ]);
     }
 
+    public function getLatestTrades()
+    {
+        $items = requestApi('get', 'trade/report/latest');
+
+        return view('dashboard.trade.history-v2.index')->with([
+           'tradeHistory' => $items
+        ]);
+    }
+
     public function create(FormBuilder $formBuilder)
     {
         $form = $formBuilder->create(TradeReportForm::class, [

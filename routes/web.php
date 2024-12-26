@@ -249,6 +249,7 @@ Route::middleware(['auth_api', 'admin'])->group(function () {
 
         Route::controller(TradeReportController::class)->group(function()
         {
+            Route::get('report/latest', 'getLatestTrades')->name('report.latest');
             Route::get('report','index')->name('report');
             Route::get('report/create','create')->name('report.create');
             Route::get('report/{id}', 'edit')->name('report.edit');
@@ -257,6 +258,7 @@ Route::middleware(['auth_api', 'admin'])->group(function () {
             Route::post('report','store')->name('report.store');
 
             Route::post('update-trade-report-settings', 'updateTradeSettings')->name('update-trade-report-settings');
+
         });
     });
 });
