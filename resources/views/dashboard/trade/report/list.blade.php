@@ -789,7 +789,12 @@
 
                         if (item.funder.toLowerCase() === 'gff') {
                             if (item.starting_balance === 50000) {
-                                maxDrawDownPercentage = 1;
+                                if (item.phase === 'phase-2') {
+                                    maxDrawDownPercentage = 1.6;
+                                }
+                                if (item.phase === 'phase-3') {
+                                    maxDrawDownPercentage = 1.2;
+                                }
                             }
                             if (item.starting_balance === 100000) {
                                 maxDrawDownPercentage = 1.2;
@@ -855,6 +860,7 @@
                     const lowestDrawdownItemId = Object.values(lowestDrawdown)[0];
 
                     lowestDrawdown = Object.keys(lowestDrawdown)[0];
+                    lowestDrawdown = lowestDrawdown - 10;
 
                     Object.entries(data).forEach(([itemId, item]) => {
                         const pairBody = document.querySelector('[data-pair_item_body="'+ itemId +'"]');
