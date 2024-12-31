@@ -792,9 +792,9 @@
                                 if (item.phase === 'phase-2') {
                                     maxDrawDownPercentage = 1.6;
                                 }
-                                if (item.phase === 'phase-3') {
-                                    maxDrawDownPercentage = 1.2;
-                                }
+                                // if (item.phase === 'phase-3') {
+                                //     maxDrawDownPercentage = 1.2;
+                                // }
                             }
                             if (item.starting_balance === 100000) {
                                 maxDrawDownPercentage = 1.2;
@@ -808,6 +808,15 @@
                             }
                             if (item.starting_balance === 100000) {
                                 maxDrawDownPercentage = 3;
+                            }
+                        }
+
+                        if (item.phase === 'phase-3') {
+                            if (item.starting_balance === 50000) {
+                                maxDrawDownPercentage = 1;
+                            }
+                            if (item.starting_balance === 100000) {
+                                maxDrawDownPercentage = 0.5;
                             }
                         }
 
