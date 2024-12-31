@@ -802,7 +802,13 @@
                         }
 
                         if (item.funder.toLowerCase() === 'fpro') {
-                            maxDrawDownPercentage = 2;
+
+                            if (item.starting_balance === 50000) {
+                                maxDrawDownPercentage = 3.4;
+                            }
+                            if (item.starting_balance === 100000) {
+                                maxDrawDownPercentage = 3;
+                            }
                         }
 
                         maxDrawDownPercentage = parseInt(item.starting_balance) * (maxDrawDownPercentage / 100);

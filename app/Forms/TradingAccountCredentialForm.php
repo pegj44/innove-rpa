@@ -33,6 +33,14 @@ class TradingAccountCredentialForm extends Form
             }
         }
 
+        $packages = requestApi('get', 'funders/packages');
+
+        if (!empty($packages)) {
+            $packages = collect($packages)->mapWithKeys(function ($item) {
+                return [$item['id'] => $item['funder']['alias'] .' - '. $item['name']];
+            })->toArray();
+        }
+
         $this
             ->add('user_account_id', 'select', [
                 'wrapper' => ['class' => 'mb-5'],
@@ -64,6 +72,17 @@ class TradingAccountCredentialForm extends Form
                 'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
                 'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                 'default_value' => (!empty($data['funder_account_id']))? $data['funder_account_id'] : ''
+            ])
+            ->add('funder_package_id', 'select', [
+                'wrapper' => ['class' => 'mb-5'],
+                'label' => __('Package (Required)'),
+                'rules' => ['required'],
+                'choices' => $packages,
+                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+                'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
+                'empty_value' => __('-- Choose Package --'),
+                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+                'default_value' => (!empty($data['funder_package_id']))? $data['funder_package_id'] : ''
             ])
             ->add('asset_type', 'select', [
                 'wrapper' => ['class' => 'mb-5'],

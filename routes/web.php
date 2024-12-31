@@ -178,6 +178,13 @@ Route::middleware(['auth_api', 'admin'])->group(function () {
         Route::get('/funder/list', 'index')->name('funders');
         Route::get('/funder/add', 'create')->name('funder.create');
         Route::get('/funders/packages', 'fundersPackages')->name('funders.packages');
+
+        Route::get('/funder/packages/create', 'createFunderPackage')->name('funders.packages.create');
+        Route::get('/funder/package/{id}', 'editFunderPackage')->name('funders.packages.edit');
+        Route::post('/funder/packages/store', 'storeFunderPackage')->name('funders.packages.store');
+        Route::post('/funder/package/{id}', 'updateFunderPackage')->name('funders.packages.update');
+        Route::delete('/funder/package/{id}', 'deleteFunderPackage')->name('funders.packages.delete');
+
         Route::post('/funders/packages', 'storeFundersPackages')->name('funders.packages.store');
         Route::post('/funder', 'store')->name('funder.store');
         Route::get('/funder/{id}', 'edit')->name('funder.edit');

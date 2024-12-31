@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Forms\AddFunderForm;
 use App\Forms\FunderConfigForm;
+use App\Forms\FunderPackages;
 use Illuminate\Http\Request;
+use Kris\LaravelFormBuilder\Form;
 use Kris\LaravelFormBuilder\FormBuilder;
 
 class FunderController extends Controller
@@ -41,17 +43,72 @@ class FunderController extends Controller
         ]);
     }
 
-    public function fundersPackages(FormBuilder $formBuilder)
+    public function storeFundersPackages(Request $request)
     {
-        $form = $formBuilder->create(FunderConfigForm::class, [
+        $response = requestApi('post', 'funders/packages', $request->except('_token'));
+
+        if (!empty($response['errors'])) {
+            return redirect()->back()->with('error', $response['errors']);
+        }
+
+        return redirect()->route('funders.packages')->with('success', $response['message']);
+    }
+
+    public function editFunderPackage(FormBuilder $formBuilder, string $id)
+    {
+        $package = requestApi('get', 'funders/package/'. $id);
+
+        $form = $formBuilder->create(FunderPackages::class, [
+            'method' => 'POST',
+            'url' => route('funders.packages.update', $id)
+        ], $package);
+
+        return view('dashboard.funders.packages.edit')->with([
+            'form' => $form
+        ]);
+    }
+
+    public function updateFunderPackage(Request $request, string $id)
+    {
+        $response = requestApi('post', 'funders/package/'. $id, $request->except('_token'));
+
+        if (!empty($response['errors'])) {
+            return redirect()->back()->with('error', $response['errors']);
+        }
+
+        return redirect()->back()->with('success', $response['message']);
+    }
+
+    public function deleteFunderPackage(string $id)
+    {
+        $response = requestApi('delete', 'funders/package/'. $id);
+
+        if (!empty($response['errors'])) {
+            return redirect()->back()->with('error', $response['errors']);
+        }
+
+        return redirect()->back()->with('success', $response['message']);
+    }
+
+    public function createFunderPackage(FormBuilder $formBuilder)
+    {
+        $packages = [];
+
+        $form = $formBuilder->create(FunderPackages::class, [
             'method' => 'POST',
             'url' => route('funders.packages.store')
-        ]);
+        ], $packages);
 
+        return view('dashboard.funders.packages.create')->with([
+            'form' => $form
+        ]);
+    }
+
+    public function fundersPackages()
+    {
         $packages = requestApi('get', 'funders/packages');
 
-        return view('dashboard.funders.packages')->with([
-            'form' => $form,
+        return view('dashboard.funders.packages.index')->with([
             'packages' => $packages
         ]);
     }
