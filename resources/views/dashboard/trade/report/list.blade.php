@@ -821,6 +821,7 @@
                         lowestPossibleTargetProfit[item.remaining_target_profit] = item.id;
                         lowestPossibleTargetProfit[maxDrawDownPercentage] = item.id;
                         lowestPossibleTargetProfit[remainingDailyTargetProfit] = item.id;
+                        lowestPossibleTargetProfit[item.rdd] = item.id;
 
                         remainingTpSl[item.id] = {
                             'tp': remainingDailyTargetProfit,
