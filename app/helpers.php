@@ -97,13 +97,10 @@ function getCalculatedRdd($data)
             return $latestEqty - $startingBal;
         }
 
-        if ($highestBal <= $startingBal) {
-            $maxThreshold = $startingBal - $maxDrawdown;
-        } else {
-            $maxThreshold = $highestBal - $maxDrawdown;
-        }
+        $staticThreshold = $startingBal - $maxDrawdown;
+        $maxThreshold = max($highestBal - $maxDrawdown, $staticThreshold);
 
-        return $startingBal - $maxThreshold;
+        return floor($latestEqty - $maxThreshold);
     }
 
     if ($data['trading_account_credential']['drawdown_type'] === 'static') {
