@@ -234,16 +234,16 @@
                         }
 
                         $isShining = ($item['status'] === 'payout')? 'shining-gold-bg1' : '';
-                        $itemFunder = str_replace(' ', '_', $item['trading_account_credential']['funder']['alias']);
+                        $itemFunder = str_replace(' ', '_', $item['trading_account_credential']['package']['funder']['alias']);
                         $itemPairHandler = strtolower($itemFunder) .'_'. $item['trading_account_credential']['user_account']['trading_unit']['unit_id'];
                         $remainingNTrades = 5 - $item['n_trades'];
                     @endphp
 
                     <tr class="account-item border-b border-gray-700 bg-gray-800 hover:bg-gray-600 {{ $isShining }} {{ ($item['status'] === 'idle')? 'item-pairable' : 'item-not-pairable' }}"
-                        data-phase="{{ $item['trading_account_credential']['current_phase'] }}"
-                        data-user="{{ $item['trading_account_credential']['funder']['alias'] }}{{ $item['trading_account_credential']['user_account']['id'] }}"
-                        data-unit="{{ $item['trading_account_credential']['funder']['alias'] }}{{ $item['trading_account_credential']['user_account']['trading_unit']['id'] }}"
-                        data-funder="{{ $item['trading_account_credential']['funder']['id'] }}"
+                        data-phase="{{ $item['trading_account_credential']['package']['current_phase'] }}"
+                        data-user="{{ $item['trading_account_credential']['package']['funder']['alias'] }}{{ $item['trading_account_credential']['user_account']['id'] }}"
+                        data-unit="{{ $item['trading_account_credential']['package']['funder']['alias'] }}{{ $item['trading_account_credential']['user_account']['trading_unit']['id'] }}"
+                        data-funder="{{ $item['trading_account_credential']['package']['funder']['id'] }}"
                         data-status="{{ $item['status'] }}"
                     >
                         @if(!empty($controls))
@@ -255,7 +255,7 @@
                                     </div>
                                 @endif
 
-                                @if(!hasFunderAccountCredential($item['trading_account_credential']['user_account']['funder_account_credential'], $item['trading_account_credential']['funder_id']))
+                                @if(!hasFunderAccountCredential($item['trading_account_credential']['user_account']['funder_account_credential'], $item['trading_account_credential']['package']['funder']['id']))
                                         <svg class="w-6 h-6 text-orange-400" data-tooltip-target="tooltip-right-{{ $item['id'] }}" data-tooltip-placement="right" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13V8m0 8h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                         </svg>
@@ -301,9 +301,9 @@
                                 <span class="flex flex-row trade-list-account">
                                     <span class="bg-gray-700 flex flex-row items-center justify-center">{{ str_replace('UNIT', '', $item['trading_account_credential']['user_account']['trading_unit']['name']) }}</span>
                                     <span class="flex flex-col">
-                                        <span class="bg-gray-900 font-black funder-alias" {!! renderFunderAliasAttr($item['trading_account_credential']['funder']) !!}> {{ $item['trading_account_credential']['funder']['alias'] }}</span>
-                                        <span class="acc-status {{$item['trading_account_credential']['current_phase']}}">
-                                            {{ getPhaseName($item['trading_account_credential']['current_phase']) }}
+                                        <span class="bg-gray-900 font-black funder-alias" {!! renderFunderAliasAttr($item['trading_account_credential']['package']['funder']) !!}> {{ $item['trading_account_credential']['package']['funder']['alias'] }}</span>
+                                        <span class="acc-status {{$item['trading_account_credential']['package']['current_phase']}}">
+                                            {{ getPhaseName($item['trading_account_credential']['package']['current_phase']) }}
                                         </span>
                                     </span>
                                 </span>
@@ -339,7 +339,7 @@
 
                         </td>
 {{--                        <td class="relative px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">--}}
-{{--                            <span class="dot {{$item['trading_account_credential']['current_phase']}}"></span> {{ getPhaseName($item['trading_account_credential']['current_phase']) }}--}}
+{{--                            <span class="dot {{$item['trading_account_credential']['package']['current_phase']}}"></span> {{ getPhaseName($item['trading_account_credential']['package']['current_phase']) }}--}}
 {{--                        </td>--}}
                         <td class="relative px-3 py-4 font-medium dark:text{{ $trHtmlClass }} whitespace-nowrap">
                                 @if($item['status'] !== 'payout')
@@ -870,7 +870,7 @@
                     const minRandom = 46;
                     const maxRandom = 52;
                     const baseStopLoss = Math.floor(Math.random() * (maxRandom - minRandom + 1)) + minRandom;
-
+console.log(lowestPossibleTargetProfit);
                     let lowestKey = Math.min(...Object.keys(lowestPossibleTargetProfit).map(Number));
                     let lowestDrawdown = {[lowestKey]: lowestPossibleTargetProfit[lowestKey]};
                     const lowestDrawdownItemId = Object.values(lowestDrawdown)[0];

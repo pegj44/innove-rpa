@@ -5,19 +5,16 @@ use Illuminate\Support\Facades\Session;
 
 function getCalculatedConsistency($data)
 {
-    //@todo Add trading rules to admin.
-    if ((($data['trading_account_credential']['funder']['alias'] === 'UPFT' && stripos($data['trading_account_credential']['funder_account_id'], 'ZeroDay') === false) && $data['trading_account_credential']['starting_balance'] === '50000') ||
-        ($data['trading_account_credential']['funder']['alias'] === 'GFF' && $data['trading_account_credential']['current_phase'] === 'phase-2')) {
+    if (empty($data['trading_account_credential']['package']['consistency'])) {
         return '';
     }
-
 
     if (!empty($data['trading_account_credential']['history_v3'])) {
         $PnLs = [];
         $latestPayout = getLatestPayout($data);
 
         foreach ($data['trading_account_credential']['history_v3'] as $tradeItem) {
-            if ($data['trading_account_credential']['current_phase'] === $tradeItem['status']) {
+            if ($data['trading_account_credential']['package']['current_phase'] === $tradeItem['status']) {
                 if ($latestPayout) {
                     if ($tradeItem['created_at'] > $latestPayout) {
                         $PnLs[] = (float) $tradeItem['latest_equity'] - (float) $tradeItem['starting_daily_equity'];
@@ -35,7 +32,7 @@ function getCalculatedConsistency($data)
         $highestPnL = max($PnLs);
 //        $totalPn = array_sum($PnLs);
 
-        $totalPn = (float) $data['latest_equity'] - (float) $data['trading_account_credential']['starting_balance'];
+        $totalPn = (float) $data['latest_equity'] - (float) $data['trading_account_credential']['package']['starting_balance'];
         $consis = ($highestPnL/$totalPn) * 100;
 //        $consis = round($consis, 2);
 //        !d($PnLs, $totalPn, max($PnLs));
@@ -53,7 +50,7 @@ function getHighestProfit($data)
         $latestPayout = getLatestPayout($data);
 
         foreach ($data['trading_account_credential']['history_v3'] as $tradeItem) {
-            if ($data['trading_account_credential']['current_phase'] === $tradeItem['status']) {
+            if ($data['trading_account_credential']['package']['current_phase'] === $tradeItem['status']) {
                 if ($latestPayout) {
                     if ($tradeItem['created_at'] > $latestPayout) {
                         $PnLs[] = (float) $tradeItem['latest_equity'] - (float) $tradeItem['starting_daily_equity'];
@@ -74,17 +71,16 @@ function getHighestProfit($data)
 
 function getCalculatedRdd($data)
 {
-    $currentPhase = str_replace('phase-', '', $data['trading_account_credential']['current_phase']);
     $highestBalArr = [];
 
-    $startingBal = (float) $data['trading_account_credential']['starting_balance'];
+    $startingBal = (float) $data['trading_account_credential']['package']['starting_balance'];
     $latestEqty = (float) $data['latest_equity'];
-    $maxDrawdown = (float) $data['trading_account_credential']['phase_'. $currentPhase .'_max_drawdown'];
+    $maxDrawdown = (float) $data['trading_account_credential']['package']['max_drawdown'];
 
-    if ($data['trading_account_credential']['drawdown_type'] === 'trailing_endofday') {
+    if ($data['trading_account_credential']['package']['drawdown_type'] === 'trailing_endofday') {
         if (!empty($data['trading_account_credential']['history_v3'])) {
             foreach ($data['trading_account_credential']['history_v3'] as $tradeItem) {
-                if ($tradeItem['status'] === $data['trading_account_credential']['current_phase']) {
+                if ($tradeItem['status'] === $data['trading_account_credential']['package']['current_phase']) {
                     $highestBalArr[] = (float) $tradeItem['highest_balance'];
                 }
             }
@@ -103,7 +99,7 @@ function getCalculatedRdd($data)
         return floor($latestEqty - $maxThreshold);
     }
 
-    if ($data['trading_account_credential']['drawdown_type'] === 'static') {
+    if ($data['trading_account_credential']['package']['drawdown_type'] === 'static') {
         $maxTreshold = $startingBal - $maxDrawdown;
         return $latestEqty - $maxTreshold;
     }
@@ -113,10 +109,10 @@ function getCalculatedRdd($data)
 
 function getCalculatedRdd_old($data)
 {
-    $currentPhase = str_replace('phase-', '', $data['trading_account_credential']['current_phase']);
+    $currentPhase = str_replace('phase-', '', $data['trading_account_credential']['package']['current_phase']);
 
-    if ($data['trading_account_credential']['drawdown_type'] === 'trailing_endofday') {
-        $highestBal = [$data['trading_account_credential']['starting_balance']];
+    if ($data['trading_account_credential']['package']['drawdown_type'] === 'trailing_endofday') {
+        $highestBal = [$data['trading_account_credential']['package']['starting_balance']];
 
         if (!empty($data['trading_account_credential']['history_v2'])) {
             foreach ($data['trading_account_credential']['history_v2'] as $tradeItem) {
@@ -125,14 +121,14 @@ function getCalculatedRdd_old($data)
         }
 
         $highestBal = max($highestBal);
-        $maxTreshold = (float) $highestBal - (float) $data['trading_account_credential']['phase_'. $currentPhase .'_max_drawdown'];
+        $maxTreshold = (float) $highestBal - (float) $data['trading_account_credential']['package']['max_drawdown'];
 
-        return ($highestBal >= $data['latest_equity'])? (float) $data['latest_equity'] - $maxTreshold : $data['trading_account_credential']['phase_'. $currentPhase .'_max_drawdown'];
+        return ($highestBal >= $data['latest_equity'])? (float) $data['latest_equity'] - $maxTreshold : $data['trading_account_credential']['package']['max_drawdown'];
     }
 
-    if ($data['trading_account_credential']['drawdown_type'] === 'static') {
+    if ($data['trading_account_credential']['package']['drawdown_type'] === 'static') {
         $latestEquity = (float) $data['latest_equity'];
-        $maxTreshold = (float) $data['trading_account_credential']['starting_balance'] - (float) $data['trading_account_credential']['phase_'. $currentPhase .'_max_drawdown'];
+        $maxTreshold = (float) $data['trading_account_credential']['package']['starting_balance'] - (float) $data['trading_account_credential']['package']['max_drawdown'];
 
         return $latestEquity - $maxTreshold;
     }
@@ -178,9 +174,8 @@ function getLatestPayout($item)
 
 function getRemainingTargetProfit($item)
 {
-    $currentPhase = str_replace('phase-', '', $item['trading_account_credential']['current_phase']);
-    $targetProfit = (float) $item['trading_account_credential']['phase_'. $currentPhase .'_total_target_profit'];
-    $totalPnL = (float) $item['latest_equity'] - (float) $item['trading_account_credential']['starting_balance'];
+    $targetProfit = (float) $item['trading_account_credential']['package']['total_target_profit'];
+    $totalPnL = (float) $item['latest_equity'] - (float) $item['trading_account_credential']['package']['starting_balance'];
     $remainingTP = $targetProfit - $totalPnL;
     $remainingTP = round($remainingTP, 2);
 
@@ -189,14 +184,7 @@ function getRemainingTargetProfit($item)
 
 function getRemainingTradingDays($item)
 {
-    //@todo add trading days to admin.
-    $requiredDays = 10;
-
-    if (($item['trading_account_credential']['funder']['alias'] === 'UPFT' && $item['trading_account_credential']['starting_balance'] === '50000') ||
-        ($item['trading_account_credential']['funder']['alias'] === 'UPFT' && $item['trading_account_credential']['starting_balance'] === '30000')) {
-        $requiredDays = 5;
-    }
-
+    $requiredDays = $item['trading_account_credential']['package']['minimum_trading_days'];
     $tradingDays = getTradingDays($item);
 
     return $requiredDays - $tradingDays;
@@ -210,20 +198,20 @@ function getTradingDays($item)
         return 0;
     }
 
-    $positiveTradingDaysFunders = [
-        'upft',
-        'gff'
-    ];
-
-    $positiveTradingDays = (in_array(strtolower($item['trading_account_credential']['funder']['alias']), $positiveTradingDaysFunders));
-    $current_phase = $item['trading_account_credential']['current_phase'];
+    $minimumTradingDays = $item['trading_account_credential']['package']['minimum_trading_days'];
+//    $positiveTradingDaysFunders = [
+//        'upft',
+//        'gff'
+//    ];
+//    $positiveTradingDays = (in_array(strtolower($item['trading_account_credential']['package']['funder']['alias']), $positiveTradingDaysFunders));
+    $current_phase = $item['trading_account_credential']['package']['current_phase'];
     $latestPayout = getLatestPayout($item);
 
     $history = collect($history);
 
-    $tradingDaysArr = $history->filter(function ($item) use ($latestPayout, $current_phase, $positiveTradingDays) {
+    $tradingDaysArr = $history->filter(function ($item) use ($latestPayout, $current_phase, $minimumTradingDays) {
         if ($item['status'] === $current_phase) {
-            if ($positiveTradingDays) {
+            if ($minimumTradingDays > 0) {
                 $pnl = (float) $item['latest_equity'] - (float) $item['starting_daily_equity'];
                 if ($pnl <= 0) {
                     return false;
@@ -303,7 +291,7 @@ function getTradingSymbols()
 
 function getTradeReportCalculations($data)
 {
-    $currentPhase = $data['trading_account_credential']['current_phase'];
+//    $currentPhase = $data['trading_account_credential']['package']['current_phase'];
 
     $targetProfit = 0;
     $funderDailyThreshold = 0;
@@ -315,23 +303,23 @@ function getTradeReportCalculations($data)
     $funderPhaseTwoTargetProfit = 0;
     $funderPhaseTwoTargetProfitType = 'fixed';
 
-    if ($currentPhase === 'phase-1') {
-        $funderDailyThreshold = (float) $data['trading_account_credential']['phase_1_daily_drawdown'];
-        $funderMaxDrawdown = (float) $data['trading_account_credential']['phase_1_max_drawdown'];
-        $targetProfit = (float) $data['trading_account_credential']['phase_1_daily_target_profit'];
-    } elseif ($currentPhase === 'phase-2') {
-        $funderDailyThreshold = (float) $data['trading_account_credential']['phase_2_daily_drawdown'];
-        $funderMaxDrawdown = (float) $data['trading_account_credential']['phase_2_max_drawdown'];
-        $targetProfit = (float) $data['trading_account_credential']['phase_2_daily_target_profit'];
-    } elseif ($currentPhase === 'phase-3') {
-        $funderDailyThreshold = (float) $data['trading_account_credential']['phase_3_daily_drawdown'];
-        $funderMaxDrawdown = (float) $data['trading_account_credential']['phase_3_max_drawdown'];
-        $targetProfit = (float) $data['trading_account_credential']['phase_3_daily_target_profit'];
-    }
+//    if ($currentPhase === 'phase-1') {
+        $funderDailyThreshold = (float) $data['trading_account_credential']['package']['daily_drawdown'];
+        $funderMaxDrawdown = (float) $data['trading_account_credential']['package']['max_drawdown'];
+        $targetProfit = (float) $data['trading_account_credential']['package']['daily_target_profit'];
+//    } elseif ($currentPhase === 'phase-2') {
+//        $funderDailyThreshold = (float) $data['trading_account_credential']['package']['daily_drawdown'];
+//        $funderMaxDrawdown = (float) $data['trading_account_credential']['phase_2_max_drawdown'];
+//        $targetProfit = (float) $data['trading_account_credential']['phase_2_daily_target_profit'];
+//    } elseif ($currentPhase === 'phase-3') {
+//        $funderDailyThreshold = (float) $data['trading_account_credential']['phase_3_daily_drawdown'];
+//        $funderMaxDrawdown = (float) $data['trading_account_credential']['phase_3_max_drawdown'];
+//        $targetProfit = (float) $data['trading_account_credential']['phase_3_daily_target_profit'];
+//    }
 
     $targetProfitStr = $targetProfit;
 
-//    $currentPhase = $data['trading_account_credential']['current_phase'];
+//    $currentPhase = $data['trading_account_credential']['package]['current_phase'];
 
 //    if ($currentPhase === 'phase-1') {
 //        $targetProfit = $funderPhaseOneTargetProfit;
@@ -348,18 +336,18 @@ function getTradeReportCalculations($data)
     $finalDailyThresholdAmount = floatval($data['latest_equity']) - floatval($dailyThresholdDeduction);
     $dailyThreshold = $finalDailyThresholdAmount;
 
-    $maxThresholdDeduction = ($funderMaxDrawdownType === 'percentage')? floatval($data['trading_account_credential']['starting_balance']) * (floatval($funderMaxDrawdown) / 100) : floatval($funderMaxDrawdown);
-    $finalMaxDrawdownAmount = floatval($data['trading_account_credential']['starting_balance']) - floatval($maxThresholdDeduction);
+    $maxThresholdDeduction = ($funderMaxDrawdownType === 'percentage')? floatval($data['trading_account_credential']['package']['starting_balance']) * (floatval($funderMaxDrawdown) / 100) : floatval($funderMaxDrawdown);
+    $finalMaxDrawdownAmount = floatval($data['trading_account_credential']['package']['starting_balance']) - floatval($maxThresholdDeduction);
     $maxThreshold = $finalMaxDrawdownAmount;
 
     $rdd = ($finalDailyThresholdAmount > $finalMaxDrawdownAmount)? floatval($data['latest_equity']) - $finalDailyThresholdAmount : floatval($data['latest_equity'] - $finalMaxDrawdownAmount);
 
-    $totalProfit = floatval($data['latest_equity']) - floatval($data['trading_account_credential']['starting_balance']);
-    $totalProfitPercent = ($totalProfit / floatval($data['trading_account_credential']['starting_balance'])) * 100;
+    $totalProfit = floatval($data['latest_equity']) - floatval($data['trading_account_credential']['package']['starting_balance']);
+    $totalProfitPercent = ($totalProfit / floatval($data['trading_account_credential']['package']['starting_balance'])) * 100;
     $dailyPL = floatval($data['latest_equity']) - floatval($data['starting_daily_equity']);
     $dailyPLPercent = $dailyPL / floatval($data['starting_daily_equity']);
 
-    $remainingTargetProfit = (floatval($data['trading_account_credential']['starting_balance']) * ($targetProfit / 100)) - $totalProfit;
+    $remainingTargetProfit = (floatval($data['trading_account_credential']['package']['starting_balance']) * ($targetProfit / 100)) - $totalProfit;
     $maxDrawdown = floatval($data['latest_equity'] - $finalMaxDrawdownAmount);
 
     return [
@@ -393,10 +381,10 @@ function getPnLHtml($data, $duration = 'daily')
 
 function getTakeProfitTicks($data)
 {
-    if ($data['trading_account_credential']['asset_type'] === 'futures') {
+    if ($data['trading_account_credential']['package']['asset_type'] === 'futures') {
         return \App\Http\Controllers\TradeController::$futuresTpPips;
     }
-    if ($data['trading_account_credential']['asset_type'] === 'forex') {
+    if ($data['trading_account_credential']['package']['asset_type'] === 'forex') {
         return \App\Http\Controllers\TradeController::$forexTpPips;
     }
 
@@ -405,10 +393,10 @@ function getTakeProfitTicks($data)
 
 function getStopLossTicks($data)
 {
-    if ($data['trading_account_credential']['asset_type'] === 'futures') {
+    if ($data['trading_account_credential']['package']['asset_type'] === 'futures') {
         return \App\Http\Controllers\TradeController::$futuresSlPips;
     }
-    if ($data['trading_account_credential']['asset_type'] === 'forex') {
+    if ($data['trading_account_credential']['package']['asset_type'] === 'forex') {
         return \App\Http\Controllers\TradeController::$forexSlPips;
     }
 
@@ -417,7 +405,7 @@ function getStopLossTicks($data)
 
 function getTotalPnLCalculation($data, $formatted = true)
 {
-    $startingBal = (float) $data['trading_account_credential']['starting_balance'];
+    $startingBal = (float) $data['trading_account_credential']['package']['starting_balance'];
     $latestEquity = (float) $data['latest_equity'];
     $pnl = $latestEquity - $startingBal;
 
@@ -448,10 +436,10 @@ function getCurrentRoutName()
 
 function getCalculatedOrderAmount($data, $orderType = 'futures', $outputType = 'pips')
 {
-    $currentPhase = str_replace('phase-', '', $data['trading_account_credential']['current_phase']);
+    $currentPhase = str_replace('phase-', '', $data['trading_account_credential']['package']['current_phase']);
 
     $consistencyRuleType = 'fixed';
-    $consistencyRule = (float) $data['trading_account_credential']['phase_'. $currentPhase .'_daily_target_profit'];
+    $consistencyRule = (float) $data['trading_account_credential']['package']['daily_target_profit'];
     $latestEquity = (float) $data['latest_equity'];
     $startingEquity = (float) $data['starting_daily_equity'];
 

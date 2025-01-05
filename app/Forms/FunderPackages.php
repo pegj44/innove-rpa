@@ -156,6 +156,33 @@ class FunderPackages extends Form
                 'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                 'default_value' => (!empty($data['daily_drawdown']))? $data['daily_drawdown'] : ''
             ])
+            ->add('minimum_trading_days', 'number', [
+                'wrapper' => ['class' => 'mb-5'],
+                'rules' => ['required'],
+                'label' => __('Minimum Trading Days'),
+                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
+                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+                'default_value' => (!empty($data['minimum_trading_days']))? $data['minimum_trading_days'] : 10
+            ])
+            ->add('positive_trading_days_amount', 'number', [
+                'wrapper' => ['class' => 'mb-5'],
+                'rules' => ['required'],
+                'label' => __('Positive Trading Days Amount'),
+                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
+                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+                'default_value' => (!empty($data['positive_trading_days_amount']))? $data['positive_trading_days_amount'] : 200
+            ])
+            ->add('consistency', 'number', [
+                'wrapper' => ['class' => 'mb-5'],
+                'rules' => ['required'],
+                'label' => __('Consistency %'),
+                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
+                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+                'default_value' => (!empty($data['consistency']))? $data['consistency'] : 0
+            ])
             ->add('platform_type', 'select', [
                 'wrapper' => ['class' => 'mb-5'],
                 'label' => __('Platform Type (Required)'),

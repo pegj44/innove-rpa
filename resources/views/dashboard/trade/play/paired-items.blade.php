@@ -313,6 +313,8 @@
                                         @include('dashboard.trade.play.components.initiate-trade-btn')
                                     @endif
                                 @endif
+
+                                    @include('dashboard.trade.play.components.initiate-trade-btn')
                             </div>
                         </form>
                     </div>

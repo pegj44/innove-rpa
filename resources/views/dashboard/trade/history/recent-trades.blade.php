@@ -31,15 +31,19 @@
             @foreach($recentTrades as $item)
                 @php
                     $dailyPnL1 = (float) $item['latest_equity'] - (float) $item['starting_daily_equity'];
-                    $totalProfit1 = (float) $item['latest_equity'] - (float) $item['trading_account_credential']['starting_balance'];
+                    $startingBalance = (isset($item['trading_account_credential']['package']['starting_balance']))? $item['trading_account_credential']['package']['starting_balance'] : $item['trading_account_credential']['starting_balance'];
+                    $totalProfit1 = (float) $item['latest_equity'] - (float) $startingBalance;
                     $totalProfit1 = ($totalProfit1 > 0)? $totalProfit1 : 0;
 
                     $date = \Carbon\Carbon::parse($item['created_at']);
                     $formattedDate = $date->format('M j, Y');
+
+                    $funder = (isset($item['trading_account_credential']['package']['funder']))? $item['trading_account_credential']['package']['funder'] : $item['trading_account_credential']['funder'];
+                    $funderAlias = (isset($item['trading_account_credential']['package']['funder']['alias']))? $item['trading_account_credential']['package']['funder']['alias'] : $item['trading_account_credential']['funder']['alias'];
                 @endphp
                 <tr class="border-b border-gray-700 bg-gray-800 hover:bg-gray-600">
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        <span class="bg-gray-900 border border-gray-700 px-2 py-1 rounded funder-alias" {!! renderFunderAliasAttr($item['trading_account_credential']['funder']) !!}>{{ $item['trading_account_credential']['funder']['alias'] }}</span> {{ $item['trading_account_credential']['funder_account_id'] }}
+                        <span class="bg-gray-900 border border-gray-700 px-2 py-1 rounded funder-alias" {!! renderFunderAliasAttr($funder) !!}>{{ $funderAlias }}</span> {{ $item['trading_account_credential']['funder_account_id'] }}
                     </td>
                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ number_format($item['starting_daily_equity'], 2) }}

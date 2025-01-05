@@ -53,17 +53,17 @@ class TradingAccountCredentialForm extends Form
                 'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                 'default_value' => (!empty($data['user_account_id']))? $data['user_account_id'] : ''
             ])
-            ->add('funder_id', 'select', [
-                'wrapper' => ['class' => 'mb-5'],
-                'label' => __('Funder (Required)'),
-                'rules' => ['required'],
-                'choices' => $funders,
-                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
-                'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
-                'empty_value' => __('-- Choose Funder --'),
-                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                'default_value' => (!empty($data['funder_id']))? $data['funder_id'] : ''
-            ])
+//            ->add('funder_id', 'select', [
+//                'wrapper' => ['class' => 'mb-5'],
+//                'label' => __('Funder (Required)'),
+//                'rules' => ['required'],
+//                'choices' => $funders,
+//                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+//                'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
+//                'empty_value' => __('-- Choose Funder --'),
+//                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+//                'default_value' => (!empty($data['funder_id']))? $data['funder_id'] : ''
+//            ])
             ->add('funder_account_id', 'text', [
                 'wrapper' => ['class' => 'mb-5'],
                 'label' => __('Account ID (Required)'),
@@ -84,32 +84,32 @@ class TradingAccountCredentialForm extends Form
                 'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                 'default_value' => (!empty($data['funder_package_id']))? $data['funder_package_id'] : ''
             ])
-            ->add('asset_type', 'select', [
-                'wrapper' => ['class' => 'mb-5'],
-                'label' => __('Asset Type (Required)'),
-                'rules' => ['required'],
-                'choices' => [
-                    'futures' => __('Futures'),
-                    'forex' => __('Forex'),
-                    'crypto' => __('Crypto')
-                ],
-                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
-                'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
-                'empty_value' => __('-- Choose Asset Type --'),
-                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                'default_value' => (!empty($data['asset_type']))? $data['asset_type'] : ''
-            ])
-            ->add('symbol', 'select', [
-                'wrapper' => ['class' => 'mb-5'],
-                'label' => __('Symbol (Required)'),
-                'rules' => ['required'],
-                'choices' => $symbols,
-                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
-                'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
-                'empty_value' => __('-- Choose Symbol --'),
-                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                'default_value' => (!empty($data['symbol']))? $data['symbol'] : ''
-            ])
+//            ->add('asset_type', 'select', [
+//                'wrapper' => ['class' => 'mb-5'],
+//                'label' => __('Asset Type (Required)'),
+//                'rules' => ['required'],
+//                'choices' => [
+//                    'futures' => __('Futures'),
+//                    'forex' => __('Forex'),
+//                    'crypto' => __('Crypto')
+//                ],
+//                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+//                'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
+//                'empty_value' => __('-- Choose Asset Type --'),
+//                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+//                'default_value' => (!empty($data['asset_type']))? $data['asset_type'] : ''
+//            ])
+//            ->add('symbol', 'select', [
+//                'wrapper' => ['class' => 'mb-5'],
+//                'label' => __('Symbol (Required)'),
+//                'rules' => ['required'],
+//                'choices' => $symbols,
+//                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+//                'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
+//                'empty_value' => __('-- Choose Symbol --'),
+//                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+//                'default_value' => (!empty($data['symbol']))? $data['symbol'] : ''
+//            ])
 //            ->add('account_type', 'select', [
 //                'wrapper' => ['class' => 'mb-5'],
 //                'label' => __('Account Type (Required)'),
@@ -125,202 +125,202 @@ class TradingAccountCredentialForm extends Form
 //                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
 //                'default_value' => (!empty($data['account_type']))? $data['account_type'] : ''
 //            ])
-            ->add('current_phase', 'select', [
-                'wrapper' => ['class' => 'mb-5'],
-                'label' => __('Current Phase (Required)'),
+//            ->add('current_phase', 'select', [
+//                'wrapper' => ['class' => 'mb-5'],
+//                'label' => __('Current Phase (Required)'),
+////                'rules' => ['required'],
+//                'choices' => [
+//                    'phase-1' => __('Phase 1'),
+//                    'phase-2' => __('Phase 2'),
+//                    'phase-3' => __('Live')
+//                ],
+//                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+//                'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
+//                'empty_value' => __('-- Choose Phase --'),
+//                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+//                'default_value' => (!empty($data['current_phase']))? $data['current_phase'] : ''
+//            ])
+//            ->add('starting_balance', 'number', [
+//                'wrapper' => ['class' => 'mb-5'],
+//                'label' => __('Starting Balance (Required)'),
 //                'rules' => ['required'],
-                'choices' => [
-                    'phase-1' => __('Phase 1'),
-                    'phase-2' => __('Phase 2'),
-                    'phase-3' => __('Live')
-                ],
-                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
-                'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
-                'empty_value' => __('-- Choose Phase --'),
-                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                'default_value' => (!empty($data['current_phase']))? $data['current_phase'] : ''
-            ])
-            ->add('starting_balance', 'number', [
-                'wrapper' => ['class' => 'mb-5'],
-                'label' => __('Starting Balance (Required)'),
-                'rules' => ['required'],
-                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
-                'attr' => ['min' => 0, 'class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                'default_value' => (!empty($data['starting_balance']))? $data['starting_balance'] : ''
-            ])
-            ->add('drawdown_type', 'select', [
-                'wrapper' => ['class' => 'mb-5'],
-                'label' => __('Drawdown Type (Required)'),
-                'choices' => [
-                    'static' => __('Static'),
-                    'trailing_intraday' => __('Trailing Intraday'),
-                    'trailing_endofday' => __('Trailing End of Day')
-                ],
-                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
-                'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
-                'empty_value' => __('-- Choose Drawdown Type --'),
-                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                'default_value' => (!empty($data['drawdown_type']))? $data['drawdown_type'] : ''
-            ])
-            ->add('phase_1_wrapper', 'wrapper', [
-                'label' => 'Phase 1',
-                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
-                'wrapper_class' => 'phase-1-wrapper border-gray-600 border-t form-group mb-4 pt-4',
-                'field_col_class' => 'mb-5',
-                'fields' => [
-                    $this->makeField('phase_1_wrapper', 'wrapper', [
-                        'label_show' => false,
-                        'label_attr' => ['class' => 'block mb-1 text-sm font-medium text-gray-900 dark:text-white'],
-                        'wrapper_class' => '',
-                        'field_col_class' => 'grid grid-cols-1 md:grid-cols-2 gap-4 mb-5',
-                        'fields' => [
-                            $this->makeField('phase_1_total_target_profit', 'number', [
-                                'label' => __('Total Target Profit'),
-                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
-                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                                'default_value' => (!empty($data['phase_1_total_target_profit']))? $data['phase_1_total_target_profit'] : ''
-                            ]),
-                            $this->makeField('phase_1_daily_target_profit', 'number', [
-                                'label' => __('Daily Target Profit'),
-                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
-                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                                'default_value' => (!empty($data['phase_1_daily_target_profit']))? $data['phase_1_daily_target_profit'] : ''
-                            ]),
-                        ]
-                    ]),
-                    $this->makeField('phase_1_drawdown_wrapper', 'wrapper', [
-                        'label_show' => false,
-                        'label_attr' => ['class' => 'block mb-1 text-sm font-medium text-gray-900 dark:text-white'],
-                        'wrapper_class' => '',
-                        'field_col_class' => 'grid grid-cols-1 md:grid-cols-2 gap-4 mb-5',
-                        'fields' => [
-                            $this->makeField('phase_1_max_drawdown', 'number', [
-                                'label' => __('Max Drawdown'),
-                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
-                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                                'default_value' => (!empty($data['phase_1_max_drawdown']))? $data['phase_1_max_drawdown'] : ''
-                            ]),
-                            $this->makeField('phase_1_daily_drawdown', 'number', [
-                                'label' => __('Daily Drawdown'),
-                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
-                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                                'default_value' => (!empty($data['phase_1_daily_drawdown']))? $data['phase_1_daily_drawdown'] : ''
-                            ]),
-                        ]
-                    ])
-                ]
-            ])
-
-            ->add('phase_2_wrapper', 'wrapper', [
-                'label' => 'Phase 2',
-                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
-                'wrapper_class' => 'phase-2-wrapper border-gray-600 border-t form-group mb-4 pt-4',
-                'field_col_class' => 'mb-5',
-                'fields' => [
-                    $this->makeField('phase_2_wrapper', 'wrapper', [
-                        'label_show' => false,
-                        'label_attr' => ['class' => 'block mb-1 text-sm font-medium text-gray-900 dark:text-white'],
-                        'wrapper_class' => '',
-                        'field_col_class' => 'grid grid-cols-1 md:grid-cols-2 gap-4 mb-5',
-                        'fields' => [
-                            $this->makeField('phase_2_total_target_profit', 'number', [
-                                'label' => __('Total Target Profit'),
-                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
-                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                                'default_value' => (!empty($data['phase_2_total_target_profit']))? $data['phase_2_total_target_profit'] : ''
-                            ]),
-                            $this->makeField('phase_2_daily_target_profit', 'number', [
-                                'label' => __('Daily Target Profit'),
-                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
-                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                                'default_value' => (!empty($data['phase_2_daily_target_profit']))? $data['phase_2_daily_target_profit'] : ''
-                            ]),
-                        ]
-                    ]),
-                    $this->makeField('phase_2_drawdown_wrapper', 'wrapper', [
-                        'label_show' => false,
-                        'label_attr' => ['class' => 'block mb-1 text-sm font-medium text-gray-900 dark:text-white'],
-                        'wrapper_class' => '',
-                        'field_col_class' => 'grid grid-cols-1 md:grid-cols-2 gap-4 mb-5',
-                        'fields' => [
-                            $this->makeField('phase_2_max_drawdown', 'number', [
-                                'label' => __('Max Drawdown'),
-                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
-                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                                'default_value' => (!empty($data['phase_2_max_drawdown']))? $data['phase_2_max_drawdown'] : ''
-                            ]),
-                            $this->makeField('phase_2_daily_drawdown', 'number', [
-                                'label' => __('Daily Drawdown'),
-                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
-                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                                'default_value' => (!empty($data['phase_2_daily_drawdown']))? $data['phase_2_daily_drawdown'] : ''
-                            ]),
-                        ]
-                    ])
-                ]
-            ])
-
-            ->add('phase_3_wrapper', 'wrapper', [
-                'label' => 'Live',
-                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
-                'wrapper_class' => 'phase-3-wrapper border-b border-gray-600 border-t form-group mb-4 pt-4',
-                'field_col_class' => 'mb-5',
-                'fields' => [
-                    $this->makeField('phase_3_wrapper', 'wrapper', [
-                        'label_show' => false,
-                        'label_attr' => ['class' => 'block mb-1 text-sm font-medium text-gray-900 dark:text-white'],
-                        'wrapper_class' => '',
-                        'field_col_class' => 'grid grid-cols-1 md:grid-cols-2 gap-4 mb-5',
-                        'fields' => [
-                            $this->makeField('phase_3_total_target_profit', 'number', [
-                                'label' => __('Total Target Profit'),
-                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
-                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                                'default_value' => (!empty($data['phase_3_total_target_profit']))? $data['phase_3_total_target_profit'] : ''
-                            ]),
-                            $this->makeField('phase_3_daily_target_profit', 'number', [
-                                'label' => __('Daily Target Profit'),
-                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
-                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                                'default_value' => (!empty($data['phase_3_daily_target_profit']))? $data['phase_3_daily_target_profit'] : ''
-                            ]),
-                        ]
-                    ]),
-                    $this->makeField('phase_3_drawdown_wrapper', 'wrapper', [
-                        'label_show' => false,
-                        'label_attr' => ['class' => 'block mb-1 text-sm font-medium text-gray-900 dark:text-white'],
-                        'wrapper_class' => '',
-                        'field_col_class' => 'grid grid-cols-1 md:grid-cols-2 gap-4 mb-5',
-                        'fields' => [
-                            $this->makeField('phase_3_max_drawdown', 'number', [
-                                'label' => __('Max Drawdown'),
-                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
-                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                                'default_value' => (!empty($data['phase_3_max_drawdown']))? $data['phase_3_max_drawdown'] : ''
-                            ]),
-                            $this->makeField('phase_3_daily_drawdown', 'number', [
-                                'label' => __('Daily Drawdown'),
-                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
-                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                                'default_value' => (!empty($data['phase_3_daily_drawdown']))? $data['phase_3_daily_drawdown'] : ''
-                            ]),
-                        ]
-                    ])
-                ]
-            ])
+//                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+//                'attr' => ['min' => 0, 'class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+//                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+//                'default_value' => (!empty($data['starting_balance']))? $data['starting_balance'] : ''
+//            ])
+//            ->add('drawdown_type', 'select', [
+//                'wrapper' => ['class' => 'mb-5'],
+//                'label' => __('Drawdown Type (Required)'),
+//                'choices' => [
+//                    'static' => __('Static'),
+//                    'trailing_intraday' => __('Trailing Intraday'),
+//                    'trailing_endofday' => __('Trailing End of Day')
+//                ],
+//                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+//                'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
+//                'empty_value' => __('-- Choose Drawdown Type --'),
+//                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+//                'default_value' => (!empty($data['drawdown_type']))? $data['drawdown_type'] : ''
+//            ])
+//            ->add('phase_1_wrapper', 'wrapper', [
+//                'label' => 'Phase 1',
+//                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+//                'wrapper_class' => 'phase-1-wrapper border-gray-600 border-t form-group mb-4 pt-4',
+//                'field_col_class' => 'mb-5',
+//                'fields' => [
+//                    $this->makeField('phase_1_wrapper', 'wrapper', [
+//                        'label_show' => false,
+//                        'label_attr' => ['class' => 'block mb-1 text-sm font-medium text-gray-900 dark:text-white'],
+//                        'wrapper_class' => '',
+//                        'field_col_class' => 'grid grid-cols-1 md:grid-cols-2 gap-4 mb-5',
+//                        'fields' => [
+//                            $this->makeField('phase_1_total_target_profit', 'number', [
+//                                'label' => __('Total Target Profit'),
+//                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
+//                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+//                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+//                                'default_value' => (!empty($data['phase_1_total_target_profit']))? $data['phase_1_total_target_profit'] : ''
+//                            ]),
+//                            $this->makeField('phase_1_daily_target_profit', 'number', [
+//                                'label' => __('Daily Target Profit'),
+//                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
+//                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+//                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+//                                'default_value' => (!empty($data['phase_1_daily_target_profit']))? $data['phase_1_daily_target_profit'] : ''
+//                            ]),
+//                        ]
+//                    ]),
+//                    $this->makeField('phase_1_drawdown_wrapper', 'wrapper', [
+//                        'label_show' => false,
+//                        'label_attr' => ['class' => 'block mb-1 text-sm font-medium text-gray-900 dark:text-white'],
+//                        'wrapper_class' => '',
+//                        'field_col_class' => 'grid grid-cols-1 md:grid-cols-2 gap-4 mb-5',
+//                        'fields' => [
+//                            $this->makeField('phase_1_max_drawdown', 'number', [
+//                                'label' => __('Max Drawdown'),
+//                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
+//                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+//                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+//                                'default_value' => (!empty($data['phase_1_max_drawdown']))? $data['phase_1_max_drawdown'] : ''
+//                            ]),
+//                            $this->makeField('phase_1_daily_drawdown', 'number', [
+//                                'label' => __('Daily Drawdown'),
+//                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
+//                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+//                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+//                                'default_value' => (!empty($data['phase_1_daily_drawdown']))? $data['phase_1_daily_drawdown'] : ''
+//                            ]),
+//                        ]
+//                    ])
+//                ]
+//            ])
+//
+//            ->add('phase_2_wrapper', 'wrapper', [
+//                'label' => 'Phase 2',
+//                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+//                'wrapper_class' => 'phase-2-wrapper border-gray-600 border-t form-group mb-4 pt-4',
+//                'field_col_class' => 'mb-5',
+//                'fields' => [
+//                    $this->makeField('phase_2_wrapper', 'wrapper', [
+//                        'label_show' => false,
+//                        'label_attr' => ['class' => 'block mb-1 text-sm font-medium text-gray-900 dark:text-white'],
+//                        'wrapper_class' => '',
+//                        'field_col_class' => 'grid grid-cols-1 md:grid-cols-2 gap-4 mb-5',
+//                        'fields' => [
+//                            $this->makeField('phase_2_total_target_profit', 'number', [
+//                                'label' => __('Total Target Profit'),
+//                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
+//                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+//                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+//                                'default_value' => (!empty($data['phase_2_total_target_profit']))? $data['phase_2_total_target_profit'] : ''
+//                            ]),
+//                            $this->makeField('phase_2_daily_target_profit', 'number', [
+//                                'label' => __('Daily Target Profit'),
+//                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
+//                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+//                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+//                                'default_value' => (!empty($data['phase_2_daily_target_profit']))? $data['phase_2_daily_target_profit'] : ''
+//                            ]),
+//                        ]
+//                    ]),
+//                    $this->makeField('phase_2_drawdown_wrapper', 'wrapper', [
+//                        'label_show' => false,
+//                        'label_attr' => ['class' => 'block mb-1 text-sm font-medium text-gray-900 dark:text-white'],
+//                        'wrapper_class' => '',
+//                        'field_col_class' => 'grid grid-cols-1 md:grid-cols-2 gap-4 mb-5',
+//                        'fields' => [
+//                            $this->makeField('phase_2_max_drawdown', 'number', [
+//                                'label' => __('Max Drawdown'),
+//                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
+//                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+//                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+//                                'default_value' => (!empty($data['phase_2_max_drawdown']))? $data['phase_2_max_drawdown'] : ''
+//                            ]),
+//                            $this->makeField('phase_2_daily_drawdown', 'number', [
+//                                'label' => __('Daily Drawdown'),
+//                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
+//                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+//                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+//                                'default_value' => (!empty($data['phase_2_daily_drawdown']))? $data['phase_2_daily_drawdown'] : ''
+//                            ]),
+//                        ]
+//                    ])
+//                ]
+//            ])
+//
+//            ->add('phase_3_wrapper', 'wrapper', [
+//                'label' => 'Live',
+//                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+//                'wrapper_class' => 'phase-3-wrapper border-b border-gray-600 border-t form-group mb-4 pt-4',
+//                'field_col_class' => 'mb-5',
+//                'fields' => [
+//                    $this->makeField('phase_3_wrapper', 'wrapper', [
+//                        'label_show' => false,
+//                        'label_attr' => ['class' => 'block mb-1 text-sm font-medium text-gray-900 dark:text-white'],
+//                        'wrapper_class' => '',
+//                        'field_col_class' => 'grid grid-cols-1 md:grid-cols-2 gap-4 mb-5',
+//                        'fields' => [
+//                            $this->makeField('phase_3_total_target_profit', 'number', [
+//                                'label' => __('Total Target Profit'),
+//                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
+//                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+//                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+//                                'default_value' => (!empty($data['phase_3_total_target_profit']))? $data['phase_3_total_target_profit'] : ''
+//                            ]),
+//                            $this->makeField('phase_3_daily_target_profit', 'number', [
+//                                'label' => __('Daily Target Profit'),
+//                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
+//                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+//                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+//                                'default_value' => (!empty($data['phase_3_daily_target_profit']))? $data['phase_3_daily_target_profit'] : ''
+//                            ]),
+//                        ]
+//                    ]),
+//                    $this->makeField('phase_3_drawdown_wrapper', 'wrapper', [
+//                        'label_show' => false,
+//                        'label_attr' => ['class' => 'block mb-1 text-sm font-medium text-gray-900 dark:text-white'],
+//                        'wrapper_class' => '',
+//                        'field_col_class' => 'grid grid-cols-1 md:grid-cols-2 gap-4 mb-5',
+//                        'fields' => [
+//                            $this->makeField('phase_3_max_drawdown', 'number', [
+//                                'label' => __('Max Drawdown'),
+//                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
+//                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+//                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+//                                'default_value' => (!empty($data['phase_3_max_drawdown']))? $data['phase_3_max_drawdown'] : ''
+//                            ]),
+//                            $this->makeField('phase_3_daily_drawdown', 'number', [
+//                                'label' => __('Daily Drawdown'),
+//                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
+//                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+//                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+//                                'default_value' => (!empty($data['phase_3_daily_drawdown']))? $data['phase_3_daily_drawdown'] : ''
+//                            ]),
+//                        ]
+//                    ])
+//                ]
+//            ])
             ->add('status', 'select', [
                 'wrapper' => ['class' => 'mb-5'],
                 'label' => __('Status (Required)'),
@@ -349,26 +349,26 @@ class TradingAccountCredentialForm extends Form
                 'empty_value' => __('-- Choose Priority --'),
                 'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                 'default_value' => (!empty($data['priority']))? $data['priority'] : ''
-            ])
-            ->add('platform_type', 'select', [
-                'wrapper' => ['class' => 'mb-5'],
-                'label' => __('Platform Type (Required)'),
-                'choices' => FunderController::$platforms,
-                'rules' => ['required'],
-                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
-                'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
-                'empty_value' => __('-- Choose Platform Type --'),
-                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                'default_value' => (!empty($data['platform_type']))? $data['platform_type'] : 0
-            ])
-            ->add('platform_url', 'text', [
-                'wrapper' => ['class' => 'mb-5 platform-url'],
-                'label' => __('Platform URL'),
-                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
-                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                'default_value' => (!empty($data['platform_url']))? $data['platform_url'] : ''
             ]);
+//            ->add('platform_type', 'select', [
+//                'wrapper' => ['class' => 'mb-5'],
+//                'label' => __('Platform Type (Required)'),
+//                'choices' => FunderController::$platforms,
+//                'rules' => ['required'],
+//                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+//                'attr' => ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'],
+//                'empty_value' => __('-- Choose Platform Type --'),
+//                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+//                'default_value' => (!empty($data['platform_type']))? $data['platform_type'] : 0
+//            ])
+//            ->add('platform_url', 'text', [
+//                'wrapper' => ['class' => 'mb-5 platform-url'],
+//                'label' => __('Platform URL'),
+//                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+//                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+//                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+//                'default_value' => (!empty($data['platform_url']))? $data['platform_url'] : ''
+//            ]);
 
 //            ->add('platform_login_wrapper', 'wrapper', [
 //                'label' => 'Platform Login',

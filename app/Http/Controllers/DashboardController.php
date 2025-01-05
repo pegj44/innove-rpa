@@ -65,9 +65,9 @@ class DashboardController extends Controller
         }
 
         foreach ($recentTrades as $tradeHistory) {
-            if ($tradeHistory['trading_account_credential']['funder']['name'] === 'LiteFinance') {
-                continue; // Exclude lite finance
-            }
+//            if ($tradeHistory['trading_account_credential']['package']['funder']['name'] === 'LiteFinance') {
+//                continue; // Exclude lite finance
+//            }
 
             $totalEquity[] = (float) $tradeHistory['latest_equity'];
 
@@ -116,7 +116,7 @@ class DashboardController extends Controller
 
             $date = Carbon::parse($historyItem['created_at']);
             $dailyProfit = (float) $historyItem['latest_equity'] - (float) $historyItem['starting_daily_equity'];
-            $totalProfit = (float) $historyItem['trading_account_credential']['trade_reports']['latest_equity'] - (float) $historyItem['trading_account_credential']['starting_balance'];
+            $totalProfit = (float) $historyItem['trading_account_credential']['trade_reports']['latest_equity'] - (float) $historyItem['trading_account_credential']['package']['starting_balance'];
 
             if ($dailyProfit > 0 && $date->isToday() && !isset($totalDailyProfit[$historyItem['trade_account_credential_id']])) {
                 $totalDailyProfit[$historyItem['trade_account_credential_id']] = $dailyProfit;
@@ -170,7 +170,7 @@ class DashboardController extends Controller
 
         // Step 3: Calculate the total profit
         $totalProfit = $groupedRecords->flatten(1)->sum(function ($record) {
-            $startingBalance = $record['trading_account_credential']['starting_balance'];
+            $startingBalance = $record['trading_account_credential']['package']['starting_balance'];
             $latestEquity = $record['trading_account_credential']['trade_reports']['latest_equity'];
             $profit = $latestEquity - $startingBalance;
 
