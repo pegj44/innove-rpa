@@ -7,6 +7,13 @@ use Kris\LaravelFormBuilder\Form;
 
 class TradingAccountCredentialForm extends Form
 {
+    public function simplifyEquity($number) {
+        if ($number >= 1000) {
+            return round($number / 1000) . 'k';
+        }
+        return $number;
+    }
+
     public function buildForm()
     {
         $data = $this->getData('data');
@@ -37,8 +44,10 @@ class TradingAccountCredentialForm extends Form
 
         if (!empty($packages)) {
             $packages = collect($packages)->mapWithKeys(function ($item) {
-                return [$item['id'] => $item['funder']['alias'] .' - '. $item['name']];
+                return [$item['id'] => $item['funder']['alias'] .' - '. $item['name'] .' - '. $this->simplifyEquity($item['starting_balance']) .' - '. getPhaseName($item['current_phase'])];
             })->toArray();
+
+            asort($packages);
         }
 
         $this

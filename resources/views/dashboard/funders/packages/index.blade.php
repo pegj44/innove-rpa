@@ -26,13 +26,13 @@
                                 {{ __('Funder') }}
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                {{ __('Package') }}
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                {{ __('Phase') }}
+                                {{ __('Package Name') }}
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 {{ __('Balance') }}
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                {{ __('Phase') }}
                             </th>
                             <th scope="col" class="px-6 py-3"></th>
                         </tr>
@@ -54,10 +54,10 @@
                                         {{ $package['name'] }}
                                     </td>
                                     <td class="px-6 py-4 text-left border-r border-gray-600">
-                                        {{ getPhaseName($package['current_phase']) }}
+                                        {{ number_format($package['starting_balance'], 0) }}
                                     </td>
                                     <td class="px-6 py-4 text-left border-r border-gray-600">
-                                        {{ number_format($package['starting_balance'], 0) }}
+                                        {{ getPhaseName($package['current_phase']) }}
                                     </td>
                                     <td class="pr-3 py-4 text-center border-gray-600">
                                         <form id="delete-item-{{ $package['id'] }}" method="POST" action="{{ route('funders.packages.delete', $package['id']) }}" class="flex flex-col justify-center" x-data="">
