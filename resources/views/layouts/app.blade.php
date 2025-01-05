@@ -234,6 +234,9 @@
                         }
                     }, pairFormWrap);
 
+                    const pairFooterWrap = document.querySelector('[data-queueItemId="'+ event.detail.arguments.queue_db_id +'"] .remove-pair');
+                    pairFooterWrap.classList.remove('hidden');
+
                     const queueItemWrap = document.querySelector('.status-handler[data-itemid="'+ event.detail.arguments.itemId +'"]');
                     queueItemWrap.innerHTML = '';
                 }

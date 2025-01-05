@@ -18,6 +18,12 @@
                 if (count($keysIntersect) === 2) {
                     $canStartTrade = true;
                 }
+
+                $canCloseTrade = false;
+
+                if ($canStartTrade && $pairedItemData['status'] !== 'error') {
+                    $canCloseTrade = true;
+                }
             @endphp
             <h2 id="accordion-paired-collapse-heading-{{$index}}" data-queueItemId="{{ $pairedItemData['queue_db_id'] }}" class="flex">
                 <button type="button" class="flex items-center justify-between w-full p-0 font-medium rtl:text-right text-white border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 text-white hover:bg-gray-{{$index}}00 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-paired-collapse-body-{{$index}}" aria-expanded="false" aria-controls="accordion-paired-collapse-body-{{$index}}">
@@ -86,7 +92,7 @@
                         </div>
                     </div>
                 </button>
-                <div class="border border-gray-700 border-l-0 flex items-center p-3 remove-pair">
+                <div class="border border-gray-700 border-l-0 flex items-center p-3 remove-pair {{ (!$canCloseTrade)? 'hidden' : '' }}">
                     <form method="post" action="{{ route('trade.remove-pair', $pairedItemData['queue_db_id']) }}" style="height: 24px;">
                         @csrf
                         @method('DELETE')
@@ -313,8 +319,6 @@
                                         @include('dashboard.trade.play.components.initiate-trade-btn')
                                     @endif
                                 @endif
-
-                                    @include('dashboard.trade.play.components.initiate-trade-btn')
                             </div>
                         </form>
                     </div>
