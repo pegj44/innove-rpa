@@ -21,7 +21,7 @@
 
                 $canCloseTrade = false;
 
-                if ($canStartTrade && $pairedItemData['status'] !== 'error') {
+                if ($canStartTrade || $pairedItemData['status'] === 'error') {
                     $canCloseTrade = true;
                 }
             @endphp
