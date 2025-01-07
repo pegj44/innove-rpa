@@ -69,6 +69,13 @@ function getHighestProfit($data)
     }
 }
 
+function simplifyEquity($number) {
+    if ($number >= 1000) {
+        return round($number / 1000) . 'k';
+    }
+    return $number;
+}
+
 function getCalculatedRdd($data)
 {
     $highestBalArr = [];

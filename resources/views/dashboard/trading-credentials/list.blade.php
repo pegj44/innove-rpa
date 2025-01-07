@@ -11,19 +11,10 @@
                 {{ __('Name') }}
             </th>
             <th scope="col" class="px-6 py-3">
-                {{ __('Funder') }}
-            </th>
-            <th scope="col" class="px-6 py-3">
                 {{ __('Account ID') }}
             </th>
             <th scope="col" class="px-6 py-3">
-                {{ __('Phase') }}
-            </th>
-            <th scope="col" class="px-6 py-3">
-                {{ __('Asset Type') }}
-            </th>
-            <th scope="col" class="px-6 py-3">
-                {{ __('Symbol') }}
+                {{ __('Package') }}
             </th>
             <th scope="col" class="px-6 py-3">
                 {{ __('Status') }}
@@ -55,19 +46,17 @@
                     {{ $personName }}
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ $item['funder']['name'] }}
-                </td>
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{ $item['funder_account_id'] }}
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ getPhaseName($item['current_phase']) }}
-                </td>
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ ucfirst($item['asset_type']) }}
-                </td>
-                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{ $item['symbol'] }}
+                    @php
+                        $package = '';
+
+                        if(isset($item['package']['funder'])) {
+                            $package = $item['package']['funder']['alias'] .' - '. $item['package']['name'] .' - '. simplifyEquity($item['package']['starting_balance']) .' - '. getPhaseName($item['package']['current_phase']);
+                        }
+                    @endphp
+                    {{ $package }}
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{ ucfirst($item['status']) }}
