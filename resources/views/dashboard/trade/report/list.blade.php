@@ -223,7 +223,7 @@
                                 $trHtmlClass = '-red-500';
                             break;
                             case 'waiting':
-                                $trHtmlClass = '-green-500';
+                                $trHtmlClass = '-green-500 status-waiting';
                             break;
                             case 'onhold':
                                 $trHtmlClass = '-orange-400';
