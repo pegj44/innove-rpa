@@ -222,6 +222,9 @@
                             case 'breached':
                                 $trHtmlClass = '-red-500';
                             break;
+                            case 'waiting':
+                                $trHtmlClass = '-green-500';
+                            break;
                             case 'onhold':
                                 $trHtmlClass = '-orange-400';
                             break;

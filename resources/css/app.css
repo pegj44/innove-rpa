@@ -709,10 +709,12 @@ div.dt-container .dt-paging .dt-paging-button.disabled, div.dt-container .dt-pag
 .status-onhold .dot {
     background: orange
 }
-.status-payout {
+.status-payout,
+.status-waiting {
     color: #46dd2c !important;
 }
-.status-payout .dot {
+.status-payout .dot,
+.status-waiting .dot{
     background: #46dd2c
 }
 .status-kyc,

@@ -15,6 +15,7 @@ class TradeReportController extends Controller
         'pairing' => 'Paired',
         'abstained' => 'ABS',
         'breached' => 'BRC',
+        'waiting' => 'WAITING',
         'onhold' => 'OH',
         'kyc' => 'KYC',
         'payout' => 'FOR PAYOUT'
