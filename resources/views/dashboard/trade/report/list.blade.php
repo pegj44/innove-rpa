@@ -424,6 +424,7 @@
                                         <div>
                                             <span class="bg-gray-900 rounded font-black funder-alias font-normal text-md" data-pair_val="funder"></span>
                                             <span class="mb-3 font-normal text-gray-700 dark:text-white" data-pair_val="funder_account_id_short"></span>
+                                            <span class="package-tag pair-tag" data-pair_val="package_tag"></span>
                                         </div>
                                         <h5 class="dark:text-white font-bold text-gray-900 text-md tracking-tight" data-pair_val="unit_name"></h5>
                                     </div>
@@ -431,6 +432,7 @@
                                         <div>
                                             <span class="bg-gray-900 rounded font-black funder-alias font-normal text-md" data-pair_val="funder"></span>
                                             <span class="mb-3 font-normal text-gray-700 dark:text-white" data-pair_val="funder_account_id_short"></span>
+                                            <span class="package-tag pair-tag" data-pair_val="package_tag"></span>
                                         </div>
                                         <h5 class="dark:text-white font-bold text-gray-900 text-md tracking-tight" data-pair_val="unit_name"></h5>
                                     </div>
@@ -508,6 +510,7 @@
                                         <input type="hidden" data-pair_val="login_password">
                                         <input type="hidden" data-pair_val="funder_account_id_long">
                                         <input type="hidden" data-pair_val="funder_account_id_short">
+                                        <input type="hidden" data-pair_val="package_tag">
                                         <input type="hidden" data-pair_val="funder">
                                         <input type="hidden" data-pair_val="funder_theme">
                                         <input type="hidden" data-pair_val="unit_name">
@@ -589,6 +592,7 @@
                                         <input type="hidden" data-pair_val="login_password">
                                         <input type="hidden" data-pair_val="funder_account_id_long">
                                         <input type="hidden" data-pair_val="funder_account_id_short">
+                                        <input type="hidden" data-pair_val="package_tag">
                                         <input type="hidden" data-pair_val="funder">
                                         <input type="hidden" data-pair_val="funder_theme">
                                         <input type="hidden" data-pair_val="unit_name">
@@ -749,11 +753,18 @@
                     if (contentType === 'text') {
                         let element = wrapper.querySelector('[data-pair_val="'+ key +'"]');
                         element.textContent = item[key];
-                    } else {
+                    }
+
+                    if (contentType === 'value') {
                         let element = wrapper.querySelector('select[data-pair_val="'+ key +'"], input[data-pair_val="'+ key +'"]');
-                        // console.log(element);
                         element.value = item[key];
                         element.setAttribute('name', 'data['+ [item.id] +']['+ key +']');
+                    }
+
+                    if (contentType === 'class') {
+                        let element = wrapper.querySelector('[data-pair_val="'+ key +'"]');
+                        let packageTag = item.funder.toLowerCase() +'-'+ item[key].toLowerCase().replace(' ', '-');
+                        element.classList.add(packageTag);
                     }
                 }
 
@@ -842,6 +853,8 @@
                         };
 
                         populatePairModalField(pairHeader, item, 'funder_account_id_short');
+                        populatePairModalField(pairHeader, item, 'package_tag');
+                        populatePairModalField(pairHeader, item, 'package_tag', 'class');
                         populatePairModalField(pairHeader, item, 'unit_name');
 
                         populatePairModalField(pairBody, item, 'starting_balance');
@@ -874,7 +887,7 @@
                     const minRandom = 46;
                     const maxRandom = 52;
                     const baseStopLoss = Math.floor(Math.random() * (maxRandom - minRandom + 1)) + minRandom;
-console.log(lowestPossibleTargetProfit);
+
                     let lowestKey = Math.min(...Object.keys(lowestPossibleTargetProfit).map(Number));
                     let lowestDrawdown = {[lowestKey]: lowestPossibleTargetProfit[lowestKey]};
                     const lowestDrawdownItemId = Object.values(lowestDrawdown)[0];

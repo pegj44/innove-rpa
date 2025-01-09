@@ -826,3 +826,9 @@ span.package-tag.fpro-fast-track {
 span.package-tag.gff-instant {
     color: #00faff;
 }
+.package-tag.pair-tag {
+    background: #1f2937;
+    padding: 3px 5px;
+    margin-left: 5px;
+    border-radius: 3px;
+}
