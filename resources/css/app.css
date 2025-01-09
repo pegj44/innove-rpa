@@ -810,3 +810,19 @@ table tr:hover .table-row-edit {
 .remaining-sl {
     color: red;
 }
+.package-tag {
+    line-height: 10px;
+    font-size: 12px;
+}
+.package-tag.gff-standard {
+    color: #2438f7;
+}
+span.package-tag.upft-zero-day {
+    color: #dde213;
+}
+span.package-tag.fpro-fast-track {
+    color: #f44949;
+}
+span.package-tag.gff-instant {
+    color: #00faff;
+}

@@ -337,6 +337,7 @@
                                         @endif
                                     </span>
                                     <span>{{ getFunderAccountShortName($item['trading_account_credential']['funder_account_id']) }}</span>
+                                    <span class="package-tag {{ strtolower($item['trading_account_credential']['package']['funder']['alias']) .'-'. strtolower(str_replace(' ', '-', $item['trading_account_credential']['package']['name'])) }}">{{ $item['trading_account_credential']['package']['name'] }}</span>
                                 </span>
                             </span>
 
