@@ -776,13 +776,13 @@
 
                 function populatePairModalData(data) {
 
-                    const lowestPossibleTargetProfit = {};
-                    const remainingTpSl = {};
-                    let forexOrderAmount = 0;
-                    let rangedTp = 0;
-                    let rangedSl = 0;
-                    let rangeVal = 20;
-                    let tradeChargeAllowance = 50;
+                    // const lowestPossibleTargetProfit = {};
+                    // const remainingTpSl = {};
+                    // let forexOrderAmount = 0;
+                    // let rangedTp = 0;
+                    // let rangedSl = 0;
+                    // let rangeVal = 20;
+                    // let tradeChargeAllowance = 50;
 
                     Object.entries(data).forEach(([itemId, item]) => {
 
@@ -795,62 +795,62 @@
                         funder.textContent = item.funder;
                         funder.style.cssText = 'background: '+ funderTheme[0] +'; color:'+ funderTheme[1] +';';
 
-                        const dailyDrawDown = item.daily_draw_down;
-                        const drawDownHandler = item.starting_balance - item.max_draw_down;
-                        const maxDrawDown = item.latest_equity - drawDownHandler;
-                        const lowestDrawdown = (maxDrawDown < dailyDrawDown)? maxDrawDown : dailyDrawDown;
-
-                        let maxDrawDownPercentage = 1.5;
-
-                        if (item.funder.toLowerCase() === 'gff') {
-                            if (item.starting_balance === 50000) {
-                                if (item.phase === 'phase-2') {
-                                    maxDrawDownPercentage = 1.6;
-                                }
-                                // if (item.phase === 'phase-3') {
-                                //     maxDrawDownPercentage = 1.2;
-                                // }
-                            }
-                            if (item.starting_balance === 100000) {
-                                maxDrawDownPercentage = 1.2;
-                            }
-                        }
-
-                        if (item.funder.toLowerCase() === 'fpro') {
-
-                            if (item.starting_balance === 50000) {
-                                maxDrawDownPercentage = 3.4;
-                            }
-                            if (item.starting_balance === 100000) {
-                                maxDrawDownPercentage = 3;
-                            }
-                        }
-
-                        if (item.phase === 'phase-3') {
-                            if (item.starting_balance === 50000) {
-                                maxDrawDownPercentage = 1;
-                            }
-                            if (item.starting_balance === 100000) {
-                                maxDrawDownPercentage = 0.5;
-                            }
-                        }
-
-                        maxDrawDownPercentage = parseInt(item.starting_balance) * (maxDrawDownPercentage / 100);
-                        // maxDrawDownPercentage = maxDrawDownPercentage - 30; // allowance for trade charge
-
-                        const pnl = item.pnl.replace(/,/g, "");
-                        const remainingDailyTargetProfit = item.daily_target_profit - parseFloat(pnl);
-
-                        lowestPossibleTargetProfit[lowestDrawdown] = item.id;
-                        lowestPossibleTargetProfit[item.remaining_target_profit] = item.id;
-                        lowestPossibleTargetProfit[maxDrawDownPercentage] = item.id;
-                        lowestPossibleTargetProfit[remainingDailyTargetProfit] = item.id;
-                        lowestPossibleTargetProfit[item.rdd] = item.id;
-
-                        remainingTpSl[item.id] = {
-                            'tp': remainingDailyTargetProfit,
-                            'sl': lowestDrawdown
-                        };
+                        // const dailyDrawDown = item.daily_draw_down;
+                        // const drawDownHandler = item.starting_balance - item.max_draw_down;
+                        // const maxDrawDown = item.latest_equity - drawDownHandler;
+                        // const lowestDrawdown = (maxDrawDown < dailyDrawDown)? maxDrawDown : dailyDrawDown;
+                        //
+                        // let maxDrawDownPercentage = 1.5;
+                        //
+                        // if (item.funder.toLowerCase() === 'gff') {
+                        //     if (item.starting_balance === 50000) {
+                        //         if (item.phase === 'phase-2') {
+                        //             maxDrawDownPercentage = 1.6;
+                        //         }
+                        //         // if (item.phase === 'phase-3') {
+                        //         //     maxDrawDownPercentage = 1.2;
+                        //         // }
+                        //     }
+                        //     if (item.starting_balance === 100000) {
+                        //         maxDrawDownPercentage = 1.2;
+                        //     }
+                        // }
+                        //
+                        // if (item.funder.toLowerCase() === 'fpro') {
+                        //
+                        //     if (item.starting_balance === 50000) {
+                        //         maxDrawDownPercentage = 3.4;
+                        //     }
+                        //     if (item.starting_balance === 100000) {
+                        //         maxDrawDownPercentage = 3;
+                        //     }
+                        // }
+                        //
+                        // if (item.phase === 'phase-3') {
+                        //     if (item.starting_balance === 50000) {
+                        //         maxDrawDownPercentage = 1;
+                        //     }
+                        //     if (item.starting_balance === 100000) {
+                        //         maxDrawDownPercentage = 0.5;
+                        //     }
+                        // }
+                        //
+                        // maxDrawDownPercentage = parseInt(item.starting_balance) * (maxDrawDownPercentage / 100);
+                        // // maxDrawDownPercentage = maxDrawDownPercentage - 30; // allowance for trade charge
+                        //
+                        // const pnl = item.pnl.replace(/,/g, "");
+                        // const remainingDailyTargetProfit = item.daily_target_profit - parseFloat(pnl);
+                        //
+                        // lowestPossibleTargetProfit[lowestDrawdown] = item.id;
+                        // lowestPossibleTargetProfit[item.remaining_target_profit] = item.id;
+                        // lowestPossibleTargetProfit[maxDrawDownPercentage] = item.id;
+                        // lowestPossibleTargetProfit[remainingDailyTargetProfit] = item.id;
+                        // lowestPossibleTargetProfit[item.rdd] = item.id;
+                        //
+                        // remainingTpSl[item.id] = {
+                        //     'tp': remainingDailyTargetProfit,
+                        //     'sl': lowestDrawdown
+                        // };
 
                         populatePairModalField(pairHeader, item, 'funder_account_id_short');
                         populatePairModalField(pairHeader, item, 'package_tag');
@@ -884,80 +884,82 @@
                         pairBody.querySelector('[data-pair_val="purchase_type"]').setAttribute('name', 'data['+ [itemId] +'][purchase_type]');
                     });
 
-                    const minRandom = 46;
-                    const maxRandom = 52;
-                    const baseStopLoss = Math.floor(Math.random() * (maxRandom - minRandom + 1)) + minRandom;
-
-                    let lowestKey = Math.min(...Object.keys(lowestPossibleTargetProfit).map(Number));
-                    let lowestDrawdown = {[lowestKey]: lowestPossibleTargetProfit[lowestKey]};
-                    const lowestDrawdownItemId = Object.values(lowestDrawdown)[0];
-
-                    lowestDrawdown = Object.keys(lowestDrawdown)[0];
-                    lowestDrawdown = lowestDrawdown - 10;
+                    // const minRandom = 46;
+                    // const maxRandom = 52;
+                    // const baseStopLoss = Math.floor(Math.random() * (maxRandom - minRandom + 1)) + minRandom;
+                    //
+                    // let lowestKey = Math.min(...Object.keys(lowestPossibleTargetProfit).map(Number));
+                    // let lowestDrawdown = {[lowestKey]: lowestPossibleTargetProfit[lowestKey]};
+                    // const lowestDrawdownItemId = Object.values(lowestDrawdown)[0];
+                    //
+                    // lowestDrawdown = Object.keys(lowestDrawdown)[0];
+                    // lowestDrawdown = lowestDrawdown - 10;
 
                     Object.entries(data).forEach(([itemId, item]) => {
                         const pairBody = document.querySelector('[data-pair_item_body="'+ itemId +'"]');
-                        let orderAmount = Math.floor(lowestDrawdown / baseStopLoss);
-                        let sl = baseStopLoss;
-                        let tp = sl - 1;
+                        // let orderAmount = Math.floor(lowestDrawdown / baseStopLoss);
+                        // let sl = baseStopLoss;
+                        // let tp = sl - 1;
+                        //
+                        // if (item.id !== lowestDrawdownItemId) {
+                        //     tp = sl - 2
+                        //     sl = tp + 3;
+                        // }
 
-                        if (item.id !== lowestDrawdownItemId) {
-                            tp = sl - 2
-                            sl = tp + 3;
-                        }
+                        // let remainingTp = remainingTpSl[itemId]['tp'];
+                        // let remainingSl = remainingTpSl[itemId]['sl'];
 
-                        let remainingTp = remainingTpSl[itemId]['tp'];
-                        let remainingSl = remainingTpSl[itemId]['sl'];
 
-                        let convertedTp = tp * orderAmount;
-                        let convertedSl = sl * orderAmount;
 
-                        if (item.asset_type === 'forex') {
-                            if (forexOrderAmount === 0) {
-                                if (parseInt(item.starting_balance) === 10000) {
-                                    forexOrderAmount = 0.3;
-                                }
-                                if (parseInt(item.starting_balance) === 50000) {
-                                    forexOrderAmount = Math.random() * (1.5 - 1.3) + 1.3;
-                                }
-                                if (parseInt(item.starting_balance) === 100000) {
-                                    forexOrderAmount = Math.random() * (2.3 - 2.5) + 2.5;
-                                }
-                            }
-
-                            tp = orderAmount * tp;
-                            sl = orderAmount * sl;
-
-                            sl = sl - tradeChargeAllowance;
-
-                            orderAmount = forexOrderAmount.toFixed(1);
-
-                            if (rangedTp === 0) {
-                                tp = tp / orderAmount;
-                                tp = tp.toFixed(0);
-                                rangedTp = tp;
-                            } else {
-                                tp = parseInt(rangedSl) - parseInt(rangeVal);
-                            }
-
-                            if (rangedSl === 0) {
-                                sl = sl / orderAmount;
-                                sl = sl.toFixed(0);
-                                rangedSl = sl;
-                            } else {
-                                sl = parseInt(rangedTp) + parseInt(rangeVal);
-                            }
-
-                            convertedTp = tp * orderAmount;
-                            convertedSl = sl * orderAmount;
-                            // console.log(tp, sl);
-                        }
+                        // if (item.asset_type === 'forex') {
+                        //     if (forexOrderAmount === 0) {
+                        //         if (parseInt(item.starting_balance) === 10000) {
+                        //             forexOrderAmount = 0.3;
+                        //         }
+                        //         if (parseInt(item.starting_balance) === 50000) {
+                        //             forexOrderAmount = Math.random() * (1.5 - 1.3) + 1.3;
+                        //         }
+                        //         if (parseInt(item.starting_balance) === 100000) {
+                        //             forexOrderAmount = Math.random() * (2.3 - 2.5) + 2.5;
+                        //         }
+                        //     }
+                        //
+                        //     tp = orderAmount * tp;
+                        //     sl = orderAmount * sl;
+                        //
+                        //     sl = sl - tradeChargeAllowance;
+                        //
+                        //     orderAmount = forexOrderAmount.toFixed(1);
+                        //
+                        //     if (rangedTp === 0) {
+                        //         tp = tp / orderAmount;
+                        //         tp = tp.toFixed(0);
+                        //         rangedTp = tp;
+                        //     } else {
+                        //         tp = parseInt(rangedSl) - parseInt(rangeVal);
+                        //     }
+                        //
+                        //     if (rangedSl === 0) {
+                        //         sl = sl / orderAmount;
+                        //         sl = sl.toFixed(0);
+                        //         rangedSl = sl;
+                        //     } else {
+                        //         sl = parseInt(rangedTp) + parseInt(rangeVal);
+                        //     }
+                        //
+                        //     convertedTp = tp * orderAmount;
+                        //     convertedSl = sl * orderAmount;
+                        //     // console.log(tp, sl);
+                        // }
 
                         const remainingTpHtml = pairBody.querySelector('.remaining-tp');
-                        remainingTpHtml.textContent = '$'+ remainingTp.toFixed(0);
+                        remainingTpHtml.textContent = '$'+ item.daily_target_profit.toFixed(0);
 
                         const remainingSlHtml = pairBody.querySelector('.remaining-sl');
-                        remainingSlHtml.textContent = '$'+ remainingSl.toFixed(0);
+                        remainingSlHtml.textContent = '$'+ item.daily_draw_down.toFixed(0);
+
+                        let convertedTp = item.tp * item.order_amount;
+                        let convertedSl = item.sl * item.order_amount;
 
                         const convertedTpHtml = pairBody.querySelector('.converted-tp');
                         convertedTpHtml.textContent = '$'+ convertedTp.toFixed(0);
@@ -965,9 +967,9 @@
                         const convertedSlHtml = pairBody.querySelector('.converted-sl');
                         convertedSlHtml.textContent = '$'+ convertedSl.toFixed(0);
 
-                        populateMarketFields(pairBody, item, 'order_amount', orderAmount);
-                        populateMarketFields(pairBody, item, 'tp', tp);
-                        populateMarketFields(pairBody, item, 'sl', sl);
+                        populateMarketFields(pairBody, item, 'order_amount', item.order_amount);
+                        populateMarketFields(pairBody, item, 'tp', item.tp);
+                        populateMarketFields(pairBody, item, 'sl', item.sl);
                     });
                 }
 
