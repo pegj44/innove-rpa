@@ -814,18 +814,26 @@ table tr:hover .table-row-edit {
     line-height: 10px;
     font-size: 12px;
 }
+[data-package_tag="gff-standard"],
 .package-tag.gff-standard {
     color: #2438f7;
 }
+
+[data-package_tag="upft-zero-day"],
 span.package-tag.upft-zero-day {
     color: #dde213;
 }
+
+[data-package_tag="fpro-fast-track"],
 span.package-tag.fpro-fast-track {
     color: #f44949;
 }
+
+[data-package_tag="gff-instant"],
 span.package-tag.gff-instant {
     color: #00faff;
 }
+
 .package-tag.pair-tag {
     background: #1f2937;
     padding: 3px 5px;

@@ -764,7 +764,8 @@
                     if (contentType === 'class') {
                         let element = wrapper.querySelector('[data-pair_val="'+ key +'"]');
                         let packageTag = item.funder.toLowerCase() +'-'+ item[key].toLowerCase().replace(' ', '-');
-                        element.classList.add(packageTag);
+                        element.setAttribute('data-package_tag', packageTag);
+                        // element.classList.add(packageTag);
                     }
                 }
 
