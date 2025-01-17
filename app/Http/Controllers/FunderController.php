@@ -17,6 +17,7 @@ class FunderController extends Controller
         'CTrader_1' => 'CTrader',
         'Tradoverse_1' => 'Tradoverse',
         'ProjectX_1' => 'ProjectX',
+        'TradeLocker_1' => 'TradeLocker',
         'NinjaTrader' => 'Ninja Trader',
         'TradingView_1' => 'TradingView'
     ];
