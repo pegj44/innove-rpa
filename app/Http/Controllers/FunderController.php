@@ -14,7 +14,7 @@ class FunderController extends Controller
     public static $platforms = [
         'MT5_Web' => 'MT5-Web',
         'Rtrader_base' => 'Rithmic Trader',
-        'CTrader_1' => 'CTrader',
+        'CTrader_2' => 'CTrader',
         'Tradoverse_1' => 'Tradoverse',
         'ProjectX_1' => 'ProjectX',
         'TradeLocker_1' => 'TradeLocker',
