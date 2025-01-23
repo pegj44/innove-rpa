@@ -15,6 +15,24 @@ class TradeController extends Controller
     public static $forexTpPips = 4.9;
     public static $forexSlPips = 5.1;
 
+    public function magicPair(Request $request)
+    {
+//        $tradeStart = requestApi('post', 'trade/start', $request->except('_token'));
+
+        return response()->json(['test' => 1, 'data' => $request->all()]);
+    }
+
+    public function recoverTrade(Request $request)
+    {
+        $tradeRecover = requestApi('post', 'trade/recover', $request->except('_token'));
+
+        if (!empty($tradeRecover['errors'])) {
+            return redirect()->back()->with('error', $tradeRecover['errors']);
+        }
+
+        return redirect()->back()->with('success', 'Recovering trade...');
+    }
+
     public function startTrade(Request $request)
     {
         $tradeStart = requestApi('post', 'trade/start', $request->except('_token'));

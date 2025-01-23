@@ -840,3 +840,14 @@ span.package-tag.gff-instant {
     margin-left: 5px;
     border-radius: 3px;
 }
+#auto-pair-btn {
+    display: none;
+    /*display: flex;*/
+    flex-direction: row;
+    background: #8f12dd;
+    padding: 12px 18px;
+    position: fixed;
+    z-index: 99999;
+    right: 40px;
+    bottom: 15px;
+}

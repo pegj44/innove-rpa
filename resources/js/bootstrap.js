@@ -63,3 +63,6 @@ window.Echo1.private('unit.'+ accountId).listen('UnitResponse', (data) => {
 
     }
 });
+
+const loaderEvent = new CustomEvent('openLoader');
+document.dispatchEvent(loaderEvent);

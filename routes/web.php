@@ -252,6 +252,10 @@ Route::middleware(['auth_api', 'admin'])->group(function () {
            Route::delete('pair/{id}/remove', 'removePair')->name('remove-pair');
 
            Route::post('pair-units', 'getPairData')->name('pair-units');
+
+           Route::post('magic-pair', 'magicPair')->name('magic-pair');
+
+           Route::post('recover', 'recoverTrade')->name('recover');
        });
 
         Route::controller(TradeReportController::class)->group(function()
