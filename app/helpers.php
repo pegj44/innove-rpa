@@ -3,6 +3,16 @@
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 
+function getErrorMessage($code)
+{
+    switch ($code) {
+        case 'pairing_':
+            break;
+        case '':
+            break;
+    }
+}
+
 function getCalculatedConsistency($data)
 {
     if (empty($data['trading_account_credential']['package']['consistency'])) {

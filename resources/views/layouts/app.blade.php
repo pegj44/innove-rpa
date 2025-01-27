@@ -237,6 +237,9 @@
                     const pairFooterWrap = document.querySelector('[data-queueItemId="'+ event.detail.arguments.queue_db_id +'"] .remove-pair');
                     pairFooterWrap.classList.remove('hidden');
 
+                    const pairWrapper = document.querySelector('[data-queueitemid="'+ event.detail.arguments.queue_db_id +'"]');
+                    pairWrapper.parentElement.querySelector('.pair-form-wrap').classList.remove('hidden');
+
                     const queueItemWrap = document.querySelector('.status-handler[data-itemid="'+ event.detail.arguments.itemId +'"]');
                     queueItemWrap.innerHTML = '';
                 }
@@ -270,6 +273,9 @@
                     pairForm.setAttribute('action', route);
 
                     console.log(event.detail);
+
+                    const pairWrapper = document.querySelector('[data-queueitemid="'+ event.detail.arguments.queue_db_id +'"]');
+                    pairWrapper.parentElement.querySelector('.pair-form-wrap').classList.add('hidden');
 
                     const statusHandler = document.querySelector('.status-handler[data-itemid="'+ event.detail.arguments.itemId +'"]');
                     const msgHtml = '<span class="bg-red-600 font-normal ml-2 px-2 py-1 rounded text-sm">'+ event.detail.arguments.message +'</span>';
