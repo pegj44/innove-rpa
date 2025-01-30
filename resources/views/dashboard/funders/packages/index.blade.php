@@ -34,6 +34,9 @@
                             <th scope="col" class="px-6 py-3">
                                 {{ __('Phase') }}
                             </th>
+                            <th scope="col" class="px-6 py-3">
+                                {{ __('Instrument') }}
+                            </th>
                             <th scope="col" class="px-6 py-3"></th>
                         </tr>
                         </thead>
@@ -58,6 +61,9 @@
                                     </td>
                                     <td class="px-6 py-4 text-left border-r border-gray-600">
                                         {{ getPhaseName($package['current_phase']) }}
+                                    </td>
+                                    <td class="px-6 py-4 text-left border-r border-gray-600">
+                                        {{ $package['symbol'] }}
                                     </td>
                                     <td class="pr-3 py-4 text-center border-gray-600">
                                         <form id="delete-item-{{ $package['id'] }}" method="POST" action="{{ route('funders.packages.delete', $package['id']) }}" class="flex flex-col justify-center" x-data="">
