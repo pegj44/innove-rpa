@@ -22,12 +22,14 @@ function getCalculatedConsistency($data)
     if (!empty($data['trading_account_credential']['history_v3'])) {
         $PnLs = [];
         $latestPayout = getLatestPayout($data);
+        $equities = [];
 
         foreach ($data['trading_account_credential']['history_v3'] as $tradeItem) {
             if ($data['trading_account_credential']['package']['current_phase'] === $tradeItem['status']) {
                 if ($latestPayout) {
                     if ($tradeItem['created_at'] > $latestPayout) {
                         $PnLs[] = (float) $tradeItem['latest_equity'] - (float) $tradeItem['starting_daily_equity'];
+                        $equities[] = (float) $tradeItem['starting_daily_equity'];
                     }
                 } else {
                     $PnLs[] = (float) $tradeItem['latest_equity'] - (float) $tradeItem['starting_daily_equity'];
@@ -42,10 +44,14 @@ function getCalculatedConsistency($data)
         $highestPnL = max($PnLs);
 //        $totalPn = array_sum($PnLs);
 
-        $totalPn = (float) $data['latest_equity'] - (float) $data['trading_account_credential']['package']['starting_balance'];
+        if (!empty($equities[0])) {
+            $totalPn = (float) $data['latest_equity'] - $equities[0];
+        } else {
+            $totalPn = (float) $data['latest_equity'] - (float) $data['trading_account_credential']['package']['starting_balance'];
+        }
+
         $consis = ($highestPnL/$totalPn) * 100;
 //        $consis = round($consis, 2);
-//        !d($PnLs, $totalPn, max($PnLs));
         return ($consis >= 100)? '100+' : round($consis, 2);
     }
 
