@@ -27,3 +27,5 @@
         @include('components.notification-warning', ['message' => session('warning'), 'index' => 1])
     @endif
 @endif
+
+<div class="ajax-notification"></div>

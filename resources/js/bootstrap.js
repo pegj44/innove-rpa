@@ -5,6 +5,7 @@
  */
 
 import { Tabs } from 'flowbite';
+import { Accordion } from 'flowbite';
 import axios from 'axios';
 window.axios = axios;
 
@@ -44,24 +45,18 @@ window.Echo1.connector.pusher.connection.bind('error', (err) => {
 });
 
 window.Echo1.private('unit.'+ accountId).listen('UnitResponse', (data) => {
-
     const customEvent = new CustomEvent('pusherNotificationEvent', {
         'eventTest': true,
         detail: data
     });
     document.dispatchEvent(customEvent);
+});
 
-    if (data.action === 'pair_accounts-failed') {
-
-    }
-
-    if (data.action === 'trade-closed') {
-
-    }
-
-    if (data.action === 'no-pairable-accounts') {
-
-    }
+window.Echo1.private('unit.'+ accountId).listen('WebPush', (data) => {
+    const customEvent = new CustomEvent('pusherWebPush', {
+        detail: data
+    });
+    document.dispatchEvent(customEvent);
 });
 
 const loaderEvent = new CustomEvent('openLoader');

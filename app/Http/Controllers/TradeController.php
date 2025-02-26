@@ -227,10 +227,15 @@ class TradeController extends Controller
         $response = requestApi('post', 'trade/initiate-v2', $request->except('_token'));
 
         if (isset($response['error'])) {
-            return redirect()->back()->with('error', $response['error']);
+            return response()->json([
+                'error' => $response['error'],
+                'message' => view('components.notification-error', ['message' => $response['error'], 'index' => 1])->render()
+            ]);
         }
 
-        return redirect()->back()->with('success', $response['message']);
+        return response()->json([
+            'message' => view('components.notification-error', ['message' => $response['message'], 'index' => 1])->render()
+        ]);
     }
 
     public function initiateTrade(Request $request)

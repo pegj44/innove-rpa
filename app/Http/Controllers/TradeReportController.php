@@ -39,6 +39,36 @@ class TradeReportController extends Controller
         ]);
     }
 
+    public function getReports(Request $request)
+    {
+        $pairingItemsList = requestApi('get', 'trade/reports', $request->except('_token'));
+        $queueItems = requestApi('get', 'trade/queue');
+
+        $htmlList = [];
+
+        foreach ($pairingItemsList as $item) {
+            $htmlList[$item['id']] = view('dashboard.trade.report.item', [
+                'item' => $item,
+                'controls' => true,
+                'pairingUnitsHandler' => [$item['trading_account_credential']['user_account']['trading_unit']['unit_id']]
+            ])->render();
+        }
+
+        $htmlPairedItems = [];
+
+        foreach ($queueItems['pairedItems'] as $index => $pairedItem) {
+            $htmlPairedItems[] = view('dashboard.trade.play.paired-item', [
+                'pairedItemData' => $pairedItem,
+                'index' => $index
+            ])->render();
+        }
+
+        return response()->json([
+            'list' => $htmlList,
+            'pairedItems' => $htmlPairedItems
+        ]);
+    }
+
     public function create(FormBuilder $formBuilder)
     {
         $form = $formBuilder->create(TradeReportForm::class, [

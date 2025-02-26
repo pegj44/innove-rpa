@@ -19,7 +19,9 @@ class PayoutForm extends Form
         $accountCreds = [];
 
         foreach ($tradingAccounts as $accCred) {
-            $accountCreds[$accCred['id']] = $accCred['funder']['alias'] .' | '. $accCred['funder_account_id'];
+            if (!empty($accCred['package']['funder']['alias'])) {
+                $accountCreds[$accCred['id']] = $accCred['package']['funder']['alias'] .' | '. $accCred['funder_account_id'];
+            }
         }
 
         $this

@@ -49,11 +49,9 @@
                         <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M6 4v10m0 0a2 2 0 1 0 0 4m0-4a2 2 0 1 1 0 4m0 0v2m6-16v2m0 0a2 2 0 1 0 0 4m0-4a2 2 0 1 1 0 4m0 0v10m6-16v10m0 0a2 2 0 1 0 0 4m0-4a2 2 0 1 1 0 4m0 0v2"/>
                     </svg>
                     {{ __('Paired Accounts') }}
-                    @if(!empty($pairedItems))
-                        <span class="bg-red-600 inline-block ml-2 rounded-full text-sm text-white" style="min-width: 20px;font-size: 11px;">
-                            {{ count($pairedItems) }}
-                        </span>
-                    @endif
+                    <span class="paired-count bg-red-600 inline-block ml-2 rounded-full text-sm text-white {{ ((empty($pairedItems))? 'hidden' : '') }}" style="min-width: 20px;font-size: 11px;">
+                        {{ count($pairedItems) }}
+                    </span>
                 </a>
             </li>
         </ul>
@@ -126,28 +124,75 @@
         const tabs = new Tabs(tabsElement, tabElements, options, instanceOptions);
     });
 
+    document.addEventListener('pusherWebPush', function(event) {
+        if(event.detail.action === 'pair-units') {
 
-    // document.addEventListener('pusherNotificationEvent', function(event) {
-    //     console.log('event triggered: ', event.detail);
-    //     if(event.detail.action === 'trade-closed') {
-    //         location.reload();
-    //     }
-    // });
+            $.ajax({
+                url: "{{ route('trade.reports') }}",
+                type: "GET",
+                headers: {
+                    "X-CSRF-TOKEN": csrfToken,
+                },
+                data: {
+                    ids: event.detail.arguments.ids
+                },
+                success: function(response) {
+                    const loader = document.querySelector('.global-loader-wrap');
+                    const pairedItemsCounter = document.querySelector('.paired-count');
 
-    //
-    // document.addEventListener('DOMContentLoaded', function() {
-    //     // Select all .update-trade-report-settings forms
-    //     const forms = document.querySelectorAll('.update-trade-report-settings');
-    //
-    //     forms.forEach(form => {
-    //         // Select the purchase-type select element within each form
-    //         const select = form.querySelector('.purchase-type');
-    //
-    //         // Add change event listener to the select element
-    //         select.addEventListener('change', function() {
-    //             form.submit();
-    //         });
-    //     });
-    // });
+                    const htmlList = response.list;
+
+                    Object.entries(htmlList).forEach(([key, value]) => {
+                        const itemTd = document.querySelector('tr[data-id="'+ key +'"]');
+                        itemTd.classList.remove('pair-select');
+                        itemTd.innerHTML = value;
+                        resetPair();
+                    });
+
+                    pairedItemsCounter.innerHTML = response.pairedItems.length;
+                    pairedItemsCounter.classList.remove('hidden');
+
+                    const pairedItemsHtml = response.pairedItems;
+                    // const parentDiv = document.getElementById("pairing-accounts-tab-content");
+                    const paredItemsWrap = document.getElementById('accordion-pairing-items');
+
+                    paredItemsWrap.innerHTML = '';
+
+                    const accordionItems = [];
+
+                    Object.entries(pairedItemsHtml).forEach(([key, value]) => {
+                        paredItemsWrap.insertAdjacentHTML("beforeend", value);
+
+                        accordionItems.push({
+                            id: 'accordion-paired-collapse-heading-'+ key,
+                            triggerEl: document.querySelector('#accordion-paired-collapse-heading-'+ key),
+                            targetEl: document.querySelector('#accordion-paired-collapse-body-'+ key),
+                            active: false
+                        });
+                    });
+
+                    const options = {
+                        alwaysOpen: false
+                    };
+
+                    const instanceOptions = {
+                        id: 'accordion-pairing-items',
+                        override: true
+                    };
+
+                    const accordion = new Accordion(paredItemsWrap, accordionItems, options, instanceOptions);
+
+
+
+
+                    loader.classList.add('hidden');
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", error);
+                }
+            });
+
+        }
+    });
 
 </script>
