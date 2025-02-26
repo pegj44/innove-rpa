@@ -88,8 +88,8 @@
             </div>
         </div>
     </button>
-    <div class="border border-gray-700 border-l-0 flex items-center p-3 remove-pair">
-{{--    <div class="border border-gray-700 border-l-0 flex items-center p-3 remove-pair {{ (!$canCloseTrade)? 'hidden' : '' }}">--}}
+{{--    <div class="border border-gray-700 border-l-0 flex items-center p-3 remove-pair">--}}
+    <div class="border border-gray-700 border-l-0 flex items-center p-3 remove-pair {{ (!$canCloseTrade)? 'hidden' : '' }}">
         <form method="post" action="{{ route('trade.remove-pair', $pairedItemData['queue_db_id']) }}" style="height: 24px;">
             @csrf
             @method('DELETE')

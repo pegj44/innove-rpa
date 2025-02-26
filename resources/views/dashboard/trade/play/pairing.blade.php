@@ -153,8 +153,11 @@
                     pairedItemsCounter.classList.remove('hidden');
 
                     const pairedItemsHtml = response.pairedItems;
-                    // const parentDiv = document.getElementById("pairing-accounts-tab-content");
-                    const paredItemsWrap = document.getElementById('accordion-pairing-items');
+                    let paredItemsWrap = document.getElementById("pairing-accounts-tab-content");
+
+                    if(!paredItemsWrap) {
+                        paredItemsWrap = document.getElementById('accordion-pairing-items');
+                    }
 
                     paredItemsWrap.innerHTML = '';
 
