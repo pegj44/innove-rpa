@@ -295,6 +295,16 @@
                 }
             });
 
+            document.addEventListener("DOMContentLoaded", function() {
+                let inputs = document.querySelectorAll('input[autocomplete="off"]');
+
+                inputs.forEach(function(input) {
+                    input.setAttribute("readonly", true); // Disable typing initially
+                    input.onfocus = function() {
+                        this.removeAttribute("readonly"); // Enable typing when clicked
+                    };
+                });
+            });
 
         </script>
     </body>
