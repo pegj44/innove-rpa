@@ -402,14 +402,14 @@ class TradingAccountCredentialForm extends Form
                             $this->makeField('platform_login_username', 'text', [
                                 'label' => __('Username'),
                                 'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
-                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+                                'attr' => ['autocomplete' => 'off', 'class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
                                 'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                                 'default_value' => (!empty($data['platform_login_username']))? $data['platform_login_username'] : ''
                             ]),
                             $this->makeField('platform_login_password', 'password', [
                                 'label' => __('Password'),
                                 'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
-                                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+                                'attr' => ['autocomplete' => 'off', 'class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
                                 'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                                 'default_value' => (!empty($data['platform_login_password']))? $data['platform_login_password'] : ''
                             ]),

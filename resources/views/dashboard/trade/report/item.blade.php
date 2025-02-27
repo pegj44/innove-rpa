@@ -12,6 +12,9 @@
         case 'breached':
             $trHtmlClass = '-red-500';
         break;
+        case 'breachedcheck':
+            $trHtmlClass = '-status-breachedcheck';
+        break;
         case 'waiting':
             $trHtmlClass = '-green-500 status-waiting';
         break;

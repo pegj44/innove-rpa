@@ -712,6 +712,14 @@ div.dt-container .dt-paging .dt-paging-button.disabled, div.dt-container .dt-pag
 .status-breached .dot {
     background: #f05252
 }
+.status-breachedcheck,
+.dark\:text-breachedcheck {
+    color: #adadad !important;
+}
+.status-breachedcheck .dot,
+.bg-status-breachedcheck{
+    background: #adadad
+}
 .status-onhold {
     color: orange !important;
 }
