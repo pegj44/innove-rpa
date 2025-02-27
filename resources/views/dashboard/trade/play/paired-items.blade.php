@@ -32,37 +32,6 @@
                });
             });
 
-            const pairItemAccordion = document.querySelectorAll('.pair-item-accordion');
-
-            pairItemAccordion.forEach(function(item) {
-
-                const pair1PurchaseType = item.querySelector('#pair1_purchase_type');
-                const pair2PurchaseType = item.querySelector('#pair2_purchase_type');
-
-                const pair1PurchaseTypeOverride = item.querySelector('input#pair1_purchase_type');
-                const pair2PurchaseTypeOverride = item.querySelector('input#pair2_purchase_type');
-
-                pair1PurchaseType.addEventListener('change', function(e) {
-                    if (pair1PurchaseType.value === 'buy') {
-                        pair2PurchaseType.value = 'sell';
-                    } else {
-                        pair2PurchaseType.value = 'buy';
-                    }
-
-                    pair1PurchaseTypeOverride.value = pair1PurchaseType.value;
-                    pair2PurchaseTypeOverride.value = pair2PurchaseType.value;
-                });
-
-                pair2PurchaseType.addEventListener('change', function(e) {
-                    if (pair2PurchaseType.value === 'buy') {
-                        pair1PurchaseType.value = 'sell';
-                    } else {
-                        pair1PurchaseType.value = 'buy';
-                    }
-                    pair1PurchaseTypeOverride.value = pair1PurchaseType.value;
-                    pair2PurchaseTypeOverride.value = pair2PurchaseType.value;
-                });
-            });
         });
 
     </script>

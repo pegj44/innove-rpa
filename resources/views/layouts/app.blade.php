@@ -268,9 +268,12 @@
 
                     const pairForm = document.getElementById('trade-item-status-'+ event.detail.arguments.queue_db_id);
                     const pairFormWrap = pairForm.querySelector('.pair-form-wrap');
+                    const pairHeader = document.querySelector('h2[data-queueitemid="'+ event.detail.arguments.queue_db_id +'"] .remove-pair');
+
                     const route = '{{ route("trade.re-initialize") }}';
 
                     pairForm.setAttribute('action', route);
+                    pairHeader.classList.remove('hidden');
 
                     console.log(event.detail);
 
