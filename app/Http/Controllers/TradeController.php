@@ -181,6 +181,8 @@ class TradeController extends Controller
     {
         $removePair = requestApi('delete', 'trade/pair/'. $id .'/remove', $request->except('_token'));
 
+        sleep(15);
+
         return redirect()->route('trade.play');
 
 //        if (empty($removePair) || isset($removePair['error'])) {
