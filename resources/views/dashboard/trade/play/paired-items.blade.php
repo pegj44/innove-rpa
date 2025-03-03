@@ -35,6 +35,6 @@
         });
 
     </script>
-@else
-<p id="no-paired-items">No paired items.</p>
 @endif
+
+<p id="no-paired-items" {{ (!empty($pairedItems)? 'hidden' : '') }}>No paired items.</p>

@@ -161,6 +161,60 @@
 
     initializePurchaseTypeSwitch();
 
+    function cancelPairing(event, id)
+    {
+        event.preventDefault();
+
+        let ajaxUrl = "{{ route('trade.remove-pair', 'pair_item_id') }}";
+
+        const loader = document.querySelector('.global-loader-wrap');
+        loader.classList.remove('hidden');
+
+        $.ajax({
+            url: ajaxUrl.replace('pair_item_id', id),
+            type: "DELETE",
+            headers: {
+                "X-CSRF-TOKEN": csrfToken,
+            },
+            data: {
+                type: 'cancel'
+            },
+            success: function(response) {
+
+            },
+            error: function(xhr, status, error) {
+                console.error("Error:", error);
+            }
+        });
+    }
+
+    document.addEventListener('pusherWebPush', function(event) {
+        if(event.detail.action === 'cancel-pairing') {
+            const pairWrap = document.getElementById("pairing-accounts-tab-content");
+            const pairGroup = document.querySelectorAll('[data-queue_group_id="'+ event.detail.arguments.id +'"]');
+            const pairCount = document.querySelector('.paired-count');
+            const loader = document.querySelector('.global-loader-wrap');
+
+            pairGroup.forEach(function(item) {
+                item.remove();
+            });
+
+            const queueItems = document.querySelectorAll('h2[data-queueitemid]');
+
+            if(queueItems.length < 1) {
+                const noPairNotice = document.createElement("p");
+                pairCount.innerHTML = '';
+                noPairNotice.id = 'no-paired-items';
+                noPairNotice.textContent = 'No paired items.';
+                pairWrap.appendChild(noPairNotice);
+            } else {
+                pairCount.innerHTML = queueItems.length;
+            }
+
+            loader.classList.add('hidden');
+        }
+    });
+
     document.addEventListener('pusherWebPush', function(event) {
         if(event.detail.action === 'pair-units') {
 
