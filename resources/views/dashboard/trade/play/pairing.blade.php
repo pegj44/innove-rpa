@@ -735,7 +735,10 @@
                     const accordion = new Accordion(paredItemsWrap, accordionItems, options, instanceOptions);
 
                     loader.classList.add('hidden');
-                    pairUnitsTxt.remove();
+
+                    if(pairUnitsTxt) {
+                        pairUnitsTxt.remove();
+                    }
 
                     initializePurchaseTypeSwitch();
                 },
