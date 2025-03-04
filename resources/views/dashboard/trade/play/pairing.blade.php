@@ -686,6 +686,7 @@
                 },
                 success: function(response) {
                     const loader = document.querySelector('.global-loader-wrap');
+                    const pairUnitsTxt = document.getElementById('no-paired-items');
                     const pairedItemsCounter = document.querySelector('.paired-count');
 
                     const htmlList = response.list;
@@ -734,6 +735,7 @@
                     const accordion = new Accordion(paredItemsWrap, accordionItems, options, instanceOptions);
 
                     loader.classList.add('hidden');
+                    pairUnitsTxt.remove();
 
                     initializePurchaseTypeSwitch();
                 },
