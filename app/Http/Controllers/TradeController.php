@@ -181,21 +181,17 @@ class TradeController extends Controller
     {
         $removePair = requestApi('delete', 'trade/pair/'. $id .'/remove', $request->except('_token'));
 
-        sleep(15);
+        if (isset($removePair['error'])) {
+            return response()->json([
+                'success' => false,
+                'error' => $removePair['error']
+            ]);
+        }
 
-        return redirect()->route('trade.play');
-
-//        if (empty($removePair) || isset($removePair['error'])) {
-//            return response()->json([
-//                'success' => false,
-//                'error' => $removePair['error']
-//            ]);
-//        }
-//
-//        return response()->json([
-//            'success' => true,
-//            'message' => __('Successfully cancelled pairing')
-//        ]);
+        return response()->json([
+            'success' => true,
+            'message' => __('Successfully cancelled pairing')
+        ]);
     }
 
     public function pairManual(Request $request)

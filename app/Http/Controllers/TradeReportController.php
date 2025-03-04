@@ -45,22 +45,32 @@ class TradeReportController extends Controller
         $pairingItemsList = requestApi('get', 'trade/reports', $request->except('_token'));
         $queueItems = requestApi('get', 'trade/queue');
 
+        $htmlPairedItems = [];
+        $pairingUnitsHandler = [];
+        $workingItemsHandler = [];
+
+        foreach ($queueItems['pairedItems'] as $index => $pairedItem) {
+            $htmlPairedItems[] = view('dashboard.trade.play.paired-item', [
+                'pairedItemData' => $pairedItem,
+                'index' => $index
+            ])->render();
+
+            foreach ($pairedItem['data'] as $pairedItemData) {
+                $itemFunder = str_replace(' ', '_', $pairedItemData['funder']);
+                $workingItemsHandler[] = strtolower($itemFunder) .'_'. $pairedItemData['unit_id'];
+                $pairingUnitsHandler[] = $pairedItemData['unit_id'];
+            }
+        }
+
         $htmlList = [];
 
         foreach ($pairingItemsList as $item) {
             $htmlList[$item['id']] = view('dashboard.trade.report.item', [
                 'item' => $item,
                 'controls' => true,
-                'pairingUnitsHandler' => [$item['trading_account_credential']['user_account']['trading_unit']['unit_id']]
-            ])->render();
-        }
-
-        $htmlPairedItems = [];
-
-        foreach ($queueItems['pairedItems'] as $index => $pairedItem) {
-            $htmlPairedItems[] = view('dashboard.trade.play.paired-item', [
-                'pairedItemData' => $pairedItem,
-                'index' => $index
+//                'pairingUnitsHandler' => [$item['trading_account_credential']['user_account']['trading_unit']['unit_id']],
+                'pairingUnitsHandler' => $pairingUnitsHandler,
+                'workingItemsHandler' => $workingItemsHandler
             ])->render();
         }
 

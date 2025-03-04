@@ -32,6 +32,7 @@
     $itemFunder = str_replace(' ', '_', $item['trading_account_credential']['package']['funder']['alias']);
     $itemPairHandler = strtolower($itemFunder) .'_'. $item['trading_account_credential']['user_account']['trading_unit']['unit_id'];
     $remainingNTrades = 10 - $item['n_trades'];
+    $workingItemsHandler = (!empty($workingItemsHandler))? $workingItemsHandler : [];
 @endphp
 
 @if(!empty($controls))
