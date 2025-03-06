@@ -28,7 +28,26 @@
                        field.value = handler.value;
                    });
 
-                   form.submit();
+                   // form.submit();
+
+                   const loader = document.querySelector('.global-loader-wrap');
+                   let formData = $(this).serialize();
+
+                   loader.classList.remove('hidden');
+
+                   $.ajax({
+                       url: $(this).attr('action'), // Get action URL from form
+                       type: 'POST', // Get method from form or default to POST
+                       data: formData,
+                       dataType: 'json',
+                       success: function (response) {
+                           console.log('Success:', response);
+                       },
+                       error: function (xhr, status, error) {
+                           console.error('Error:', error);
+                       }
+                   });
+
                });
             });
 

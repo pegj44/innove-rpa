@@ -199,6 +199,10 @@
                     });
 
                     console.log('trade-started');
+
+                    setTimeout(function() {
+                        location.reload();
+                    }, 3000);
                 }
             });
 

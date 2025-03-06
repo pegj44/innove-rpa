@@ -621,53 +621,54 @@
 
     document.addEventListener('pusherWebPush', function(event) {
         if(event.detail.action === 'cancel-pairing') {
-            $.ajax({
-                url: "{{ route('trade.reports') }}",
-                type: "GET",
-                headers: {
-                    "X-CSRF-TOKEN": csrfToken,
-                },
-                data: {
-                    ids: event.detail.arguments.ids
-                },
-                success: function(response) {
+            location.reload();
+            {{--$.ajax({--}}
+            {{--    url: "{{ route('trade.reports') }}",--}}
+            {{--    type: "GET",--}}
+            {{--    headers: {--}}
+            {{--        "X-CSRF-TOKEN": csrfToken,--}}
+            {{--    },--}}
+            {{--    data: {--}}
+            {{--        ids: event.detail.arguments.ids--}}
+            {{--    },--}}
+            {{--    success: function(response) {--}}
 
-                    const pairWrap = document.getElementById("pairing-accounts-tab-content");
-                    const pairGroup = document.querySelectorAll('[data-queue_group_id="'+ event.detail.arguments.id +'"]');
-                    const pairCount = document.querySelector('.paired-count');
-                    const loader = document.querySelector('.global-loader-wrap');
+            {{--        const pairWrap = document.getElementById("pairing-accounts-tab-content");--}}
+            {{--        const pairGroup = document.querySelectorAll('[data-queue_group_id="'+ event.detail.arguments.id +'"]');--}}
+            {{--        const pairCount = document.querySelector('.paired-count');--}}
+            {{--        const loader = document.querySelector('.global-loader-wrap');--}}
 
-                    pairGroup.forEach(function(item) {
-                        item.remove();
-                    });
+            {{--        pairGroup.forEach(function(item) {--}}
+            {{--            item.remove();--}}
+            {{--        });--}}
 
-                    const queueItems = document.querySelectorAll('h2[data-queueitemid]');
+            {{--        const queueItems = document.querySelectorAll('h2[data-queueitemid]');--}}
 
-                    if(queueItems.length < 1) {
-                        const noPairNotice = document.createElement("p");
-                        pairCount.innerHTML = '';
-                        noPairNotice.id = 'no-paired-items';
-                        noPairNotice.textContent = 'No paired items.';
-                        pairWrap.appendChild(noPairNotice);
-                    } else {
-                        pairCount.innerHTML = queueItems.length;
-                    }
+            {{--        if(queueItems.length < 1) {--}}
+            {{--            const noPairNotice = document.createElement("p");--}}
+            {{--            pairCount.innerHTML = '';--}}
+            {{--            noPairNotice.id = 'no-paired-items';--}}
+            {{--            noPairNotice.textContent = 'No paired items.';--}}
+            {{--            pairWrap.appendChild(noPairNotice);--}}
+            {{--        } else {--}}
+            {{--            pairCount.innerHTML = queueItems.length;--}}
+            {{--        }--}}
 
-                    const htmlList = response.list;
+            {{--        const htmlList = response.list;--}}
 
-                    Object.entries(htmlList).forEach(([key, value]) => {
-                        const itemTd = document.querySelector('tr[data-id="'+ key +'"]');
-                        itemTd.classList.remove('pair-select');
-                        itemTd.innerHTML = value;
-                        resetPair();
-                    });
+            {{--        Object.entries(htmlList).forEach(([key, value]) => {--}}
+            {{--            const itemTd = document.querySelector('tr[data-id="'+ key +'"]');--}}
+            {{--            itemTd.classList.remove('pair-select');--}}
+            {{--            itemTd.innerHTML = value;--}}
+            {{--            resetPair();--}}
+            {{--        });--}}
 
-                    loader.classList.add('hidden');
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error:", error);
-                }
-            });
+            {{--        loader.classList.add('hidden');--}}
+            {{--    },--}}
+            {{--    error: function(xhr, status, error) {--}}
+            {{--        console.error("Error:", error);--}}
+            {{--    }--}}
+            {{--});--}}
 
         }
     });
@@ -675,77 +676,78 @@
     document.addEventListener('pusherWebPush', function(event) {
         if(event.detail.action === 'pair-units') {
 
-            $.ajax({
-                url: "{{ route('trade.reports') }}",
-                type: "GET",
-                headers: {
-                    "X-CSRF-TOKEN": csrfToken,
-                },
-                data: {
-                    ids: event.detail.arguments.ids
-                },
-                success: function(response) {
-                    const loader = document.querySelector('.global-loader-wrap');
-                    const pairUnitsTxt = document.getElementById('no-paired-items');
-                    const pairedItemsCounter = document.querySelector('.paired-count');
+            location.reload();
+            {{--$.ajax({--}}
+            {{--    url: "{{ route('trade.reports') }}",--}}
+            {{--    type: "GET",--}}
+            {{--    headers: {--}}
+            {{--        "X-CSRF-TOKEN": csrfToken,--}}
+            {{--    },--}}
+            {{--    data: {--}}
+            {{--        ids: event.detail.arguments.ids--}}
+            {{--    },--}}
+            {{--    success: function(response) {--}}
+            {{--        const loader = document.querySelector('.global-loader-wrap');--}}
+            {{--        const pairUnitsTxt = document.getElementById('no-paired-items');--}}
+            {{--        const pairedItemsCounter = document.querySelector('.paired-count');--}}
 
-                    const htmlList = response.list;
+            {{--        const htmlList = response.list;--}}
 
-                    Object.entries(htmlList).forEach(([key, value]) => {
-                        const itemTd = document.querySelector('tr[data-id="'+ key +'"]');
-                        itemTd.classList.remove('pair-select');
-                        itemTd.innerHTML = value;
-                        resetPair();
-                    });
+            {{--        Object.entries(htmlList).forEach(([key, value]) => {--}}
+            {{--            const itemTd = document.querySelector('tr[data-id="'+ key +'"]');--}}
+            {{--            itemTd.classList.remove('pair-select');--}}
+            {{--            itemTd.innerHTML = value;--}}
+            {{--            resetPair();--}}
+            {{--        });--}}
 
-                    pairedItemsCounter.innerHTML = response.pairedItems.length;
-                    pairedItemsCounter.classList.remove('hidden');
+            {{--        pairedItemsCounter.innerHTML = response.pairedItems.length;--}}
+            {{--        pairedItemsCounter.classList.remove('hidden');--}}
 
-                    const pairedItemsHtml = response.pairedItems;
-                    let paredItemsWrap = document.getElementById('accordion-pairing-items');
+            {{--        const pairedItemsHtml = response.pairedItems;--}}
+            {{--        let paredItemsWrap = document.getElementById('accordion-pairing-items');--}}
 
-                    if(!paredItemsWrap) {
-                        paredItemsWrap = document.getElementById("pairing-accounts-tab-content");
-                    }
+            {{--        if(!paredItemsWrap) {--}}
+            {{--            paredItemsWrap = document.getElementById("pairing-accounts-tab-content");--}}
+            {{--        }--}}
 
-                    paredItemsWrap.innerHTML = '';
+            {{--        paredItemsWrap.innerHTML = '';--}}
 
-                    const accordionItems = [];
+            {{--        const accordionItems = [];--}}
 
-                    Object.entries(pairedItemsHtml).forEach(([key, value]) => {
-                        paredItemsWrap.insertAdjacentHTML("beforeend", value);
+            {{--        Object.entries(pairedItemsHtml).forEach(([key, value]) => {--}}
+            {{--            paredItemsWrap.insertAdjacentHTML("beforeend", value);--}}
 
-                        accordionItems.push({
-                            id: 'accordion-paired-collapse-heading-'+ key,
-                            triggerEl: document.querySelector('#accordion-paired-collapse-heading-'+ key),
-                            targetEl: document.querySelector('#accordion-paired-collapse-body-'+ key),
-                            active: false
-                        });
-                    });
+            {{--            accordionItems.push({--}}
+            {{--                id: 'accordion-paired-collapse-heading-'+ key,--}}
+            {{--                triggerEl: document.querySelector('#accordion-paired-collapse-heading-'+ key),--}}
+            {{--                targetEl: document.querySelector('#accordion-paired-collapse-body-'+ key),--}}
+            {{--                active: false--}}
+            {{--            });--}}
+            {{--        });--}}
 
-                    const options = {
-                        alwaysOpen: false
-                    };
+            {{--        const options = {--}}
+            {{--            alwaysOpen: false--}}
+            {{--        };--}}
 
-                    const instanceOptions = {
-                        id: 'accordion-pairing-items',
-                        override: true
-                    };
+            {{--        const instanceOptions = {--}}
+            {{--            id: 'accordion-pairing-items',--}}
+            {{--            override: true--}}
+            {{--        };--}}
 
-                    const accordion = new Accordion(paredItemsWrap, accordionItems, options, instanceOptions);
+            {{--        const accordion = new Accordion(paredItemsWrap, accordionItems, options, instanceOptions);--}}
 
-                    loader.classList.add('hidden');
+            {{--        loader.classList.add('hidden');--}}
 
-                    if(pairUnitsTxt) {
-                        pairUnitsTxt.remove();
-                    }
+            {{--        if(pairUnitsTxt) {--}}
+            {{--            pairUnitsTxt.remove();--}}
+            {{--        }--}}
 
-                    initializePurchaseTypeSwitch();
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error:", error);
-                }
-            });
+            {{--        initializePurchaseTypeSwitch();--}}
+            {{--    },--}}
+            {{--    error: function(xhr, status, error) {--}}
+            {{--        console.error("Error:", error);--}}
+            {{--    }--}}
+            {{--});--}}
 
         }
     });
