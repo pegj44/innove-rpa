@@ -16,6 +16,7 @@ class FunderController extends Controller
         'Rtrader_base' => 'Rithmic Trader',
         'CTrader_2' => 'CTrader',
         'Tradoverse_3' => 'Tradoverse',
+        'Tradoverse_4' => 'Tradoverse4',
         'ProjectX_1' => 'ProjectX',
         'TradeLocker_1' => 'TradeLocker (Demo)',
         'TradeLocker_Live_1' => 'TradeLocker (Live)',
