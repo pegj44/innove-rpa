@@ -36,12 +36,12 @@
                         <tbody>
                             @foreach($tradeHistory as $itemIndex => $pairItems)
                                 @php
-                                    $counter = 0;
-                                    $date = \Carbon\Carbon::parse($pairItems['updated_at'])->setTimezone('Asia/Manila');
-                                    $formattedDate = $date->format('M j, Y h:i a');
+                                        $counter = 0;
+                                        $date = \Carbon\Carbon::parse($pairItems['updated_at'])->setTimezone('Asia/Manila');
+                                        $formattedDate = $date->format('M j, Y h:i a');
 
-                                    $pData = array_values($pairItems['data']);
-                                    //$pnl1 = $pData['']
+                                        $pData = array_values($pairItems['data']);
+                                        //$pnl1 = $pData['']
                                 @endphp
                                 @foreach($pairItems['data'] as $item)
                                     @php
@@ -57,12 +57,17 @@
                                     @if($counter === 1)
                                         <tr class="border-b border-gray-700 bg-gray-800">
                                             <td colspan="5">
-                                                <span>
-                                                    @php
-                                                        $pnlDiff = '';
-                                                    @endphp
-                                                    <span></span>
-                                                    <span>{{ $formattedDate }}</span>
+                                                <span class="flex flex-row justify-between items-center">
+                                                    <span>
+                                                        @php
+                                                            $pnlDiff = '';
+                                                        @endphp
+                                                        <span></span>
+                                                        <span>{{ $formattedDate }}</span>
+                                                    </span>
+                                                    <span>
+                                                        #{{ $pairItems['id'] }}
+                                                    </span>
                                                 </span>
                                             </td>
                                         </tr>
