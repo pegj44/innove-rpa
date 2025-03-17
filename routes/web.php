@@ -271,6 +271,7 @@ Route::middleware(['auth_api', 'admin'])->group(function () {
 
             Route::post('update-trade-report-settings', 'updateTradeSettings')->name('update-trade-report-settings');
 
+            Route::post('history/{id}/update-item/{itemId}', 'updateQueueReport')->name('history.update-item');
         });
     });
 });
