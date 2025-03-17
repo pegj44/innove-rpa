@@ -40,6 +40,17 @@ class TradeReportController extends Controller
         ]);
     }
 
+    public function updateQueueReport(string $queueId, string $itemId)
+    {
+        $response = requestApi('post', 'history/'. $queueId .'/update-item/'. $itemId);
+
+        if (!empty($item['error'])) {
+            return redirect()->route('trade.report.latest')->with('error', $response['error']);
+        }
+
+        return redirect()->route('trade.report.latest')->with('success', $response['message']);
+    }
+
     public function getReports(Request $request)
     {
         $pairingItemsList = requestApi('get', 'trade/reports', $request->except('_token'));
