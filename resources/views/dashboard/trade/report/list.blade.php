@@ -2,6 +2,7 @@
 
 @php
     $symbols = getTradingSymbols();
+$enableTradeControls = !empty($enableTradeControls)?  $enableTradeControls : true;
 @endphp
     <div class="flex filters">
         @if(!empty($controls))
