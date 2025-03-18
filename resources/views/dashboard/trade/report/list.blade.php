@@ -281,7 +281,7 @@
                                         <div class="border-b border-gray-900 flex flex-row">
                                             <div class="label px-3 py-2 w-1/2">Symbol</div>
                                             <div class="bg-gray-700 w-1/2">
-                                                <select data-pair_val="symbol" class="border-2 border-gray-600 bg-gray-900 text-gray-300 text-sm block w-full p-2.5">
+                                                <select {{ ((!$enableTradeControls)? 'disabled=disabled' : '') }} data-pair_val="symbol" class="border-2 border-gray-600 bg-gray-900 text-gray-300 text-sm block w-full p-2.5">
                                                     @foreach($symbols as $symbol)
                                                         <option value="{{ $symbol }}">{{ $symbol }}</option>
                                                     @endforeach
@@ -291,7 +291,7 @@
                                         <div class="border-b border-gray-900 flex flex-row">
                                             <div class="label px-3 py-2 w-1/2">Order Amount</div>
                                             <div class="bg-gray-700 w-1/2">
-                                                <input type="number" data-pair_val="order_amount" step="0.01" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
+                                                <input {{ ((!$enableTradeControls)? 'disabled=disabled' : '') }} type="number" data-pair_val="order_amount" step="0.01" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
                                             </div>
                                         </div>
                                         <div class="border-b border-gray-900 flex flex-row">
@@ -300,7 +300,7 @@
                                                 <span class="remaining-tp"></span>
                                             </div>
                                             <div class="bg-gray-700 w-1/2 relative">
-                                                <input type="number" data-pair_val="tp" step="1" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
+                                                <input type="number" {{ ((!$enableTradeControls)? 'disabled=disabled' : '') }} data-pair_val="tp" step="1" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
                                                 <span class="converted-tp"></span>
                                             </div>
                                         </div>
@@ -310,7 +310,7 @@
                                                 <span class="remaining-sl"></span>
                                             </div>
                                             <div class="bg-gray-700 w-1/2 relative">
-                                                <input type="number" step="1" data-pair_val="sl" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
+                                                <input {{ ((!$enableTradeControls)? 'disabled=disabled' : '') }} type="number" step="1" data-pair_val="sl" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
                                                 <span class="converted-sl"></span>
                                             </div>
                                         </div>
@@ -363,7 +363,7 @@
                                         <div class="border-b border-gray-900 flex flex-row">
                                             <div class="label px-3 py-2 w-1/2">Symbol</div>
                                             <div class="bg-gray-700 w-1/2">
-                                                <select data-pair_val="symbol" class="border-2 border-gray-600 bg-gray-900 text-gray-300 text-sm block w-full p-2.5">
+                                                <select {{ ((!$enableTradeControls)? 'disabled=disabled' : '') }} data-pair_val="symbol" class="border-2 border-gray-600 bg-gray-900 text-gray-300 text-sm block w-full p-2.5">
                                                     @foreach($symbols as $symbol)
                                                         <option value="{{ $symbol }}">{{ $symbol }}</option>
                                                     @endforeach
@@ -373,7 +373,7 @@
                                         <div class="border-b border-gray-900 flex flex-row">
                                             <div class="label px-3 py-2 w-1/2">Order Amount</div>
                                             <div class="bg-gray-700 w-1/2">
-                                                <input type="number" data-pair_val="order_amount" step="0.01" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
+                                                <input {{ ((!$enableTradeControls)? 'disabled=disabled' : '') }} type="number" data-pair_val="order_amount" step="0.01" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
                                             </div>
                                         </div>
                                         <div class="border-b border-gray-900 flex flex-row">
@@ -382,7 +382,7 @@
                                                 <span class="remaining-tp"></span>
                                             </div>
                                             <div class="bg-gray-700 w-1/2 relative">
-                                                <input type="number" data-pair_val="tp" step="1" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
+                                                <input {{ ((!$enableTradeControls)? 'disabled=disabled' : '') }} type="number" data-pair_val="tp" step="1" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
                                                 <span class="converted-tp"></span>
                                             </div>
                                         </div>
@@ -392,7 +392,7 @@
                                                 <span class="remaining-sl"></span>
                                             </div>
                                             <div class="bg-gray-700 w-1/2 relative">
-                                                <input type="number" step="1" data-pair_val="sl" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
+                                                <input {{ ((!$enableTradeControls)? 'disabled=disabled' : '') }} type="number" step="1" data-pair_val="sl" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
                                                 <span class="converted-sl"></span>
                                             </div>
                                         </div>

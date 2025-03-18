@@ -144,9 +144,10 @@ class TradeController extends Controller
         $queueItems = requestApi('get', 'trade/queue');
         $tradingAccounts = requestApi('get', 'trade/reports');
         $funders = requestApi('get', 'funders');
-        $filterSettings = requestApi('get', 'user/settings', [
-            'key' => 'trading_filters'
-        ]);
+        $userSettings = requestApi('get', 'user/settings');
+
+        $filterSettings = (!empty($userSettings['trading_filters']['value']))? $userSettings['trading_filters']['value'] : [];
+        $enableTradeControls = (!empty($userSettings['allow_trading_inputs_control']))? (bool) $userSettings['allow_trading_inputs_control']['value'] : true;
 
         $workingItemsHandler = [];
         $pairingUnitsHandler = [];
@@ -173,7 +174,8 @@ class TradeController extends Controller
             'pairingUnitsHandler' => $pairingUnitsHandler,
             'tradingAccounts' => $tradingAccounts,
             'funders' => $funders,
-            'filterSettings' => (!empty($filterSettings))? $filterSettings['value'] : []
+            'enableTradeControls' => $enableTradeControls,
+            'filterSettings' => $filterSettings
         ]);
     }
 
