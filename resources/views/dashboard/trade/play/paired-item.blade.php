@@ -15,15 +15,19 @@
         $canStartTrade = true;
     }
 
-    $canCloseTrade = true;
+    //$canCloseTrade = true;
 
-    /**
+
     if ($canStartTrade || $pairedItemData['status'] === 'error') {
         $canCloseTrade = true;
-    }*/
+    }
+
+    if (isset($enableTradeControls) && !$enableTradeControls) {
+        $canCloseTrade = false;
+    }
 
     if (isset($_GET['controls'])) {
-        //$canCloseTrade = true;
+        $canCloseTrade = true;
     }
 @endphp
 <h2 id="accordion-paired-collapse-heading-{{$index}}" data-queue_group_id="{{ $pairedItemData['queue_db_id'] }}" data-queueItemId="{{ $pairedItemData['queue_db_id'] }}" class="flex pair-group">
