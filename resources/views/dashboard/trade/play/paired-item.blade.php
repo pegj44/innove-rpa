@@ -15,7 +15,7 @@
         $canStartTrade = true;
     }
 
-    //$canCloseTrade = true;
+    $canCloseTrade = false;
 
 
     if ($canStartTrade || $pairedItemData['status'] === 'error') {
