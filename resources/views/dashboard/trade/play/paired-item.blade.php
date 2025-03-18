@@ -15,10 +15,15 @@
         $canStartTrade = true;
     }
 
-    $canCloseTrade = false;
+    $canCloseTrade = true;
 
+    /**
     if ($canStartTrade || $pairedItemData['status'] === 'error') {
         $canCloseTrade = true;
+    }*/
+
+    if (isset($_GET['controls'])) {
+        //$canCloseTrade = true;
     }
 @endphp
 <h2 id="accordion-paired-collapse-heading-{{$index}}" data-queue_group_id="{{ $pairedItemData['queue_db_id'] }}" data-queueItemId="{{ $pairedItemData['queue_db_id'] }}" class="flex pair-group">
@@ -176,7 +181,7 @@
                                     Order Amount
                                 </th>
                                 <td class="px-6 py-4 w-1/2 dark:bg-gray-900">
-                                    {{ $pairItem1['order_amount'] }}
+                                    {{ (isset($pairItem1['order_amount'])? $pairItem1['order_amount'] : '') }}
                                 </td>
                             </tr>
                             <tr class="border-b border-gray-200 dark:border-gray-700">
@@ -184,7 +189,7 @@
                                     {{ __('Take Profit (Ticks)') }}
                                 </th>
                                 <td class="px-6 py-4 w-1/2 dark:bg-gray-900">
-                                    {{ $pairItem1['tp'] }}
+                                    {{ (isset($pairItem1['tp'])? $pairItem1['tp'] : '') }}
                                 </td>
                             </tr>
                             <tr class="border-b border-gray-200 dark:border-gray-700">
@@ -192,7 +197,7 @@
                                     {{ __('Stop Loss (Ticks)') }}
                                 </th>
                                 <td class="px-6 py-4 w-1/2 dark:bg-gray-900">
-                                    {{ $pairItem1['sl'] }}
+                                    {{ (isset($pairItem1['sl'])? $pairItem1['sl'] : '') }}
                                 </td>
                             </tr>
                             <tr class="border-b border-gray-200 dark:border-gray-700">
@@ -200,6 +205,11 @@
                                     {{ __('Purchase Type') }}
                                 </th>
                                 <td class="px-6 py-4 w-1/2 dark:bg-gray-900">
+                                    @php
+                                        if (!isset($pairItem1['purchase_type'])) {
+                                            $pairItem1['purchase_type'] = '';
+                                        }
+                                    @endphp
                                     <select id="pair1_purchase_type" class="border-2 border-gray-600 bg-gray-900 text-gray-300 text-sm block w-full p-2.5">
                                         <option value="buy" {{ ($pairItem1['purchase_type'] === 'buy')? 'selected' : '' }}>Buy</option>
                                         <option value="sell" {{ ($pairItem1['purchase_type'] === 'sell')? 'selected' : '' }}>Sell</option>
@@ -270,7 +280,7 @@
                                     Order Amount
                                 </th>
                                 <td class="px-6 py-4 w-1/2 dark:bg-gray-900">
-                                    {{ $pairItem2['order_amount'] }}
+                                    {{ (isset($pairItem2['order_amount'])? $pairItem2['order_amount'] : '') }}
                                 </td>
                             </tr>
                             <tr class="border-b border-gray-200 dark:border-gray-700">
@@ -278,7 +288,7 @@
                                     {{ __('Take Profit (Ticks)') }}
                                 </th>
                                 <td class="px-6 py-4 w-1/2 dark:bg-gray-900">
-                                    {{ $pairItem2['tp'] }}
+                                    {{ (isset($pairItem2['tp'])? $pairItem2['tp'] : '') }}
                                 </td>
                             </tr>
                             <tr class="border-b border-gray-200 dark:border-gray-700">
@@ -286,13 +296,18 @@
                                     {{ __('Stop Loss (Ticks)') }}
                                 </th>
                                 <td class="px-6 py-4 w-1/2 dark:bg-gray-900">
-                                    {{ $pairItem2['sl'] }}
+                                    {{ (isset($pairItem2['sl'])? $pairItem2['sl'] : '') }}
                                 </td>
                             </tr>
                             <tr class="border-b border-gray-200 dark:border-gray-700">
                                 <th scope="row" class="bg-gray-50 dark:bg-gray-800 dark:text-white font-medium px-6 py-4 text-gray-900 whitespace-nowrap">
                                     {{ __('Purchase Type') }}
                                 </th>
+                                @php
+                                    if (!isset($pairItem2['purchase_type'])) {
+                                        $pairItem2['purchase_type'] = '';
+                                    }
+                                @endphp
                                 <td class="px-6 py-4 w-1/2 dark:bg-gray-900">
                                     <select id="pair2_purchase_type" class="border-2 border-gray-600 bg-gray-900 text-gray-300 text-sm block w-full p-2.5">
                                         <option value="buy" {{ ($pairItem2['purchase_type'] === 'buy')? 'selected' : '' }}>Buy</option>
