@@ -44,43 +44,55 @@
             </div>
         @endif
 
-        @if(!hasFunderAccountCredential($item['trading_account_credential']['user_account']['funder_account_credential'], $item['trading_account_credential']['package']['funder']['id']))
-            <svg class="w-6 h-6 text-orange-400" data-tooltip-target="tooltip-right-{{ $item['id'] }}" data-tooltip-placement="right" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13V8m0 8h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+
+        @if($item['trading_account_credential']['user_account']['trading_unit']['status'])
+            @if(!hasFunderAccountCredential($item['trading_account_credential'], $item['trading_account_credential']['package']['funder']['id']))
+                <svg class="w-6 h-6 text-orange-400" data-tooltip-target="tooltip-right-{{ $item['id'] }}" data-tooltip-placement="right" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13V8m0 8h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                </svg>
+
+                <div id="tooltip-right-{{ $item['id'] }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                    No platform credentials detected.
+                    <div class="tooltip-arrow" data-popper-arrow></div>
+                </div>
+            @else
+                @if($item['status'] === 'idle' && !in_array($itemPairHandler, $workingItemsHandler) && $remainingNTrades > 0 && !in_array($item['trading_account_credential']['user_account']['trading_unit']['unit_id'], $pairingUnitsHandler))
+                    <a href="#" x-on:click="requestPair({{$item['id']}}, event, $event.target)" class="flex flex-row gap-1 pair-item-btn font-medium text-blue-600 dark:text-blue-50">
+                        <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16 10 3-3m0 0-3-3m3 3H5v3m3 4-3 3m0 0 3 3m-3-3h14v-3"/>
+                        </svg>
+                        @if($remainingNTrades > 1)
+                            <span class="text-green-500">{{ $remainingNTrades }}</span>
+                        @else
+                            <span class="text-red-500">{{ $remainingNTrades }}</span>
+                        @endif
+                    </a>
+                    <a href="#" x-on:click="requestCancelPair({{$item['id']}}, event, $event.target)" class="cancel-pair-item-btn font-medium text-blue-600 dark:text-blue-50">
+                        <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/>
+                        </svg>
+                    </a>
+                @endif
+
+                @if(in_array($item['trading_account_credential']['user_account']['trading_unit']['unit_id'], $pairingUnitsHandler))
+                    <svg class="w-6 h-6 text-yellow-400" data-tooltip-target="tooltip-right-{{ $item['id'] }}" data-tooltip-placement="right" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                    </svg>
+                    <div id="tooltip-right-{{ $item['id'] }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                        Waiting for another platform to complete the initialization.
+                        <div class="tooltip-arrow" data-popper-arrow></div>
+                    </div>
+                @endif
+            @endif
+        @else
+            <svg class="w-6 h-6 text-gray-400" data-tooltip-target="tooltip-right-{{ $item['id'] }}" data-tooltip-placement="right" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path fill-rule="evenodd" d="M8 10V7a4 4 0 1 1 8 0v3h1a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h1Zm2-3a2 2 0 1 1 4 0v3h-4V7Zm2 6a1 1 0 0 1 1 1v3a1 1 0 1 1-2 0v-3a1 1 0 0 1 1-1Z" clip-rule="evenodd"/>
             </svg>
 
             <div id="tooltip-right-{{ $item['id'] }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                No platform credentials detected.
+                Someone is using this PC unit for account management purposes.
                 <div class="tooltip-arrow" data-popper-arrow></div>
             </div>
-        @else
-            @if($item['status'] === 'idle' && !in_array($itemPairHandler, $workingItemsHandler) && $remainingNTrades > 0 && !in_array($item['trading_account_credential']['user_account']['trading_unit']['unit_id'], $pairingUnitsHandler))
-                <a href="#" x-on:click="requestPair({{$item['id']}}, event, $event.target)" class="flex flex-row gap-1 pair-item-btn font-medium text-blue-600 dark:text-blue-50">
-                    <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16 10 3-3m0 0-3-3m3 3H5v3m3 4-3 3m0 0 3 3m-3-3h14v-3"/>
-                    </svg>
-                    @if($remainingNTrades > 1)
-                        <span class="text-green-500">{{ $remainingNTrades }}</span>
-                    @else
-                        <span class="text-red-500">{{ $remainingNTrades }}</span>
-                    @endif
-                </a>
-                <a href="#" x-on:click="requestCancelPair({{$item['id']}}, event, $event.target)" class="cancel-pair-item-btn font-medium text-blue-600 dark:text-blue-50">
-                    <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/>
-                    </svg>
-                </a>
-            @endif
-
-            @if(in_array($item['trading_account_credential']['user_account']['trading_unit']['unit_id'], $pairingUnitsHandler))
-                <svg class="w-6 h-6 text-yellow-400" data-tooltip-target="tooltip-right-{{ $item['id'] }}" data-tooltip-placement="right" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                </svg>
-                <div id="tooltip-right-{{ $item['id'] }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                    Waiting for another platform to complete the initialization.
-                    <div class="tooltip-arrow" data-popper-arrow></div>
-                </div>
-            @endif
         @endif
     </td>
 @endif

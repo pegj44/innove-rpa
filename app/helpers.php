@@ -287,8 +287,12 @@ function renderFunderAliasAttr($funder)
 
 function hasFunderAccountCredential($credentials, $funderId)
 {
+    if (!empty($credentials['platform_login_username']) && !empty($credentials['platform_login_password'])) {
+        return true;
+    }
+
     $funderIds = [];
-    foreach ($credentials as $item) {
+    foreach ($credentials['user_account']['funder_account_credential'] as $item) {
         $funderIds[] = $item['funder_id'];
     }
 

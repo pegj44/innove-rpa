@@ -752,4 +752,10 @@
         }
     });
 
+    document.addEventListener('pusherWebPush', function(event) {
+        if(event.detail.action === 'unit-updated') {
+            location.reload();
+        }
+    });
+
 </script>

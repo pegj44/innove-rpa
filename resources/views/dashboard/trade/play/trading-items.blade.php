@@ -1,5 +1,16 @@
 @if(!empty($tradingItems))
 
+    @php
+        $canCloseTrade = true;
+
+        if (isset($enableTradeControls) && !$enableTradeControls) {
+            $canCloseTrade = false;
+        }
+
+        if (isset($_GET['controls'])) {
+            $canCloseTrade = true;
+        }
+    @endphp
     <div id="accordion-traded-items" data-accordion="collapse">
 
         @foreach($tradingItems as $index => $tradedItem)
@@ -61,7 +72,7 @@
                         </div>
                     </div>
                 </button>
-                <div class="border border-gray-700 border-l-0 flex items-center p-3 remove-pair">
+                <div class="border border-gray-700 border-l-0 flex items-center p-3 remove-pair {{ (!$canCloseTrade)? 'hidden' : '' }}">
                     <form method="post" action="{{ route('trade.remove-pair', $tradedItem['queue_db_id']) }}" style="height: 24px;">
                         @csrf
                         @method('DELETE')

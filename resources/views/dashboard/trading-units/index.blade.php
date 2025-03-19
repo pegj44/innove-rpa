@@ -265,10 +265,29 @@
 
             let disableInput = document.getElementById('disable-unit-'+ id);
             let form = document.getElementById('update-status-'+ id);
+            const loader = document.querySelector('.global-loader-wrap');
 
             disableInput.value = status;
 
-            form.submit();
+            loader.classList.remove('hidden');
+
+            $.ajax({
+                url: form.getAttribute('action'),
+                type: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": csrfToken,
+                },
+                data: JSON.stringify({
+                    status: status
+                }),
+                success: function(response) {
+
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", error);
+                }
+            });
         }
 
         function deleteUnit(unitId)
@@ -294,6 +313,11 @@
             form.setAttribute('action', action.replace(/trading-unit\/\d+/, 'trading-unit/' + unitId));
         }
 
+        document.addEventListener('pusherWebPush', function(event) {
+            if(event.detail.action === 'unit-updated') {
+                location.reload();
+            }
+        });
     </script>
 
 
