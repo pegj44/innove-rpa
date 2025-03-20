@@ -48,7 +48,7 @@
                                                 </span>
                                             </span>
                                             <span class="font-normal text-gray-700 dark:text-white"> {{ getFunderAccountShortName($pairItem1['funder_account_id_long']) }}</span>
-                                            <span class="dot dot-unit-trading waiting {{ (empty($isUnitTrading1)? 'hidden' : '') }}" data-timestamp="{{ $isUnitTrading1 }}"></span>
+                                            <span class="dot dot-unit-trading waiting {{ (empty($isUnitTrading1 || !empty($isUnitTradeClosed1))? 'hidden' : '') }}" data-timestamp="{{ $isUnitTrading1 }}"></span>
                                             <span class="dot dot-unit-closed waiting {{ (empty($isUnitTradeClosed1)? 'hidden' : '') }}" data-timestamp="{{ $isUnitTradeClosed1 }}"></span>
                                         </span>
                                     </h5>
@@ -70,7 +70,7 @@
                                                 </span>
                                             </span>
                                             <span class="font-normal text-gray-700 dark:text-white"> {{ getFunderAccountShortName($pairItem2['funder_account_id_long']) }}</span>
-                                            <span class="dot dot-unit-trading waiting {{ (empty($isUnitTrading2)? 'hidden' : '') }}" data-timestamp="{{ $isUnitTrading2 }}"></span>
+                                            <span class="dot dot-unit-trading waiting {{ (empty($isUnitTrading2 || !empty($isUnitTradeClosed2))? 'hidden' : '') }}" data-timestamp="{{ $isUnitTrading2 }}"></span>
                                             <span class="dot dot-unit-closed waiting {{ (empty($isUnitTradeClosed2)? 'hidden' : '') }}" data-timestamp="{{ $isUnitTradeClosed2 }}"></span>
                                         </span>
                                     </h5>
