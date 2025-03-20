@@ -383,7 +383,9 @@
                 const tradingItem = document.querySelector('[data-pair_item_id="'+ event.detail.arguments.unitId +'"] .dot-unit-trading');
                 item.setAttribute('data-timestamp', event.detail.arguments.dateTime);
                 item.classList.remove('hidden');
-                tradingItem.classList.add('hidden');
+                if(tradingItem) {
+                    tradingItem.classList.add('hidden');
+                }
                 startUnitsClosedCheck();
             }
         });
