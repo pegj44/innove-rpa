@@ -220,6 +220,7 @@
             });
 
             document.addEventListener('pusherNotificationEvent', function(event) {
+                console.log(event.detail);
                 if(event.detail.action === 'initialize-complete') {
                     const audio = new Audio("{{ asset('media/trade-ready.mp3') }}");
                     audio.play().catch(error => {
