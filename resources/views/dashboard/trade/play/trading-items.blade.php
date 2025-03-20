@@ -313,7 +313,6 @@
         let unitsClosedInterval;
 
         function checkUnitsTrading() {
-            console.log('trade checking');
             const spans = document.querySelectorAll(".dot-unit-trading.waiting:not(.hidden)"); // Only check elements still having `.waiting`
             const now = new Date().getTime(); // Current time in milliseconds
 
@@ -373,7 +372,6 @@
         });
 
         document.addEventListener('pusherWebPush', function(event) {
-            console.log(event.detail);
             if(event.detail.action === 'unit-trade-started') {
                 const item = document.querySelector('[data-pair_item_id="'+ event.detail.arguments.unitId +'"] .dot-unit-trading');
                 item.setAttribute('data-timestamp', event.detail.arguments.dateTime);
