@@ -730,9 +730,31 @@ div.dt-container .dt-paging .dt-paging-button.disabled, div.dt-container .dt-pag
 .status-waiting {
     color: #46dd2c !important;
 }
+.dot.hidden {
+    display: none;
+}
+.dot.dot-unit-trading,
+.dot.dot-unit-trading-init,
+.dot.dot-unit-closed-init,
+.dot.dot-unit-closed {
+    width: 12px;
+    height: 12px;
+}
 .status-payout .dot,
-.status-waiting .dot{
+.status-waiting .dot {
     background: #46dd2c
+}
+.dot.dot-unit-trading {
+    background: #3b82f6;
+}
+.dot.dot-unit-closed {
+    background: #46dd2c
+}
+.dot.dot-unit-trading.waiting {
+    background: #ff0;
+}
+.dot.dot-unit-closed.waiting {
+    background: orange;
 }
 .status-kyc,
 .dark\:text-status-kyc {

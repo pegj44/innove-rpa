@@ -21,16 +21,22 @@
 
                 $unitReady = (!empty($tradedItem['unit_ready']))? $tradedItem['unit_ready'] : [];
                 $keysIntersect = array_intersect($unitReady, $pairedItemKeys);
+
+                $isUnitTrading1 = (isset($tradedItem['units_trading'][$pairedItemKeys[0]]))? $tradedItem['units_trading'][$pairedItemKeys[0]] : '';
+                $isUnitTrading2 = (isset($tradedItem['units_trading'][$pairedItemKeys[1]]))? $tradedItem['units_trading'][$pairedItemKeys[1]] : '';
+
+                $isUnitTradeClosed1 = (isset($tradedItem['closed_items'][$pairedItemKeys[0]]))? $tradedItem['closed_items'][$pairedItemKeys[0]] : '';
+                $isUnitTradeClosed2 = (isset($tradedItem['closed_items'][$pairedItemKeys[1]]))? $tradedItem['closed_items'][$pairedItemKeys[1]] : '';
             @endphp
-            <h2 id="accordion-trading-collapse-heading-{{$index}}" class="flex">
+            <h2 id="accordion-trading-collapse-heading-{{$index}}" class="flex" data-queue_id="{{ $tradedItem['queue_db_id'] }}">
                 <button type="button" class="flex items-center justify-between w-full p-0 font-medium rtl:text-right text-white border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 text-white hover:bg-gray-{{$index}}00 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-trading-collapse-body-{{$index}}" aria-expanded="false" aria-controls="accordion-trading-collapse-body-{{$index}}">
                     <div class="flex items-center w-full" style="padding-left: 17px;">
                         <svg data-accordion-icon class="mr-5 w-3 h-3 rotate-{{$index}}80 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
                         </svg>
                         <div class="border-gray-700 border-l flex items-center justify-between w-full">
-                            <div class="w-1/2 p-5 bg-gray-900">
-                                <div class="dark:border-gray-600 flex justify-between">
+                            <div class="w-1/2 p-5 bg-gray-900" data-pair_item_id="{{ $pairedItemKeys[0] }}">
+                                <div class="dark:border-gray-600 flex justify-between {{ (!empty($isUnitTrading1)? 'unit-trading' : '') }} {{ (!empty($isUnitTradeClosed1)? 'unit-trade-closed' : '') }}">
                                     <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
                                         <span class="flex flex-row gap-3 items-center">
                                             <span class="flex flex-col">
@@ -42,6 +48,8 @@
                                                 </span>
                                             </span>
                                             <span class="font-normal text-gray-700 dark:text-white"> {{ getFunderAccountShortName($pairItem1['funder_account_id_long']) }}</span>
+                                            <span class="dot dot-unit-trading waiting {{ (empty($isUnitTrading1)? 'hidden' : '') }}" data-timestamp="{{ $isUnitTrading1 }}"></span>
+                                            <span class="dot dot-unit-closed waiting {{ (empty($isUnitTradeClosed1)? 'hidden' : '') }}" data-timestamp="{{ $isUnitTradeClosed1 }}"></span>
                                         </span>
                                     </h5>
                                     <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
@@ -49,8 +57,8 @@
                                     </h5>
                                 </div>
                             </div>
-                            <div class="w-1/2 p-5 bg-gray-800">
-                                <div class="dark:border-gray-600 flex justify-between">
+                            <div class="w-1/2 p-5 bg-gray-800" data-pair_item_id="{{ $pairedItemKeys[1] }}">
+                                <div class="dark:border-gray-600 flex justify-between {{ (!empty($isUnitTrading2)? 'unit-trading' : '') }} {{ (!empty($isUnitTradeClosed2)? 'unit-trade-closed' : '') }}">
                                     <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
                                         <span class="flex flex-row gap-3 items-center">
                                             <span class="flex flex-col">
@@ -62,6 +70,8 @@
                                                 </span>
                                             </span>
                                             <span class="font-normal text-gray-700 dark:text-white"> {{ getFunderAccountShortName($pairItem2['funder_account_id_long']) }}</span>
+                                            <span class="dot dot-unit-trading waiting {{ (empty($isUnitTrading2)? 'hidden' : '') }}" data-timestamp="{{ $isUnitTrading2 }}"></span>
+                                            <span class="dot dot-unit-closed waiting {{ (empty($isUnitTradeClosed2)? 'hidden' : '') }}" data-timestamp="{{ $isUnitTradeClosed2 }}"></span>
                                         </span>
                                     </h5>
                                     <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
@@ -296,6 +306,90 @@
             </div>
         @endforeach
     </div>
+
+    <script>
+
+        let unitsTradingInterval;
+        let unitsClosedInterval;
+
+        function checkUnitsTrading() {
+            console.log('trade checking');
+            const spans = document.querySelectorAll(".dot-unit-trading.waiting:not(.hidden)"); // Only check elements still having `.waiting`
+            const now = new Date().getTime(); // Current time in milliseconds
+
+            spans.forEach(span => {
+                const timestamp = parseInt(span.getAttribute("data-timestamp"), 10) * 1000; // Convert to milliseconds
+
+                // If more than 10 seconds have passed, remove the class and stop checking this element
+                if (now - timestamp > 10000) {
+                    span.classList.remove("waiting");
+                }
+            });
+
+            // If no more elements with `.waiting`, stop the unitsTradingInterval
+            if (document.querySelectorAll(".dot-unit-trading.waiting").length === 0) {
+                clearInterval(unitsTradingInterval);
+            }
+        }
+
+        function checkUnitsClosed() {
+            const spans = document.querySelectorAll(".dot-unit-closed.waiting:not(.hidden)"); // Only check elements still having `.waiting`
+            const now = new Date().getTime(); // Current time in milliseconds
+
+            spans.forEach(span => {
+                const timestamp = parseInt(span.getAttribute("data-timestamp"), 10) * 1000; // Convert to milliseconds
+
+                // If more than 10 seconds have passed, remove the class and stop checking this element
+                if (now - timestamp > 10000) {
+                    span.classList.remove("waiting");
+                }
+            });
+
+            // If no more elements with `.waiting`, stop the unitsClosedInterval
+            if (document.querySelectorAll(".dot-unit-closed.waiting").length === 0) {
+                clearInterval(unitsClosedInterval);
+            }
+        }
+
+
+        function startUnitsTradingCheck() {
+            if (!unitsTradingInterval) {
+                checkUnitsTrading();
+                unitsTradingInterval = setInterval(checkUnitsTrading, 1000);
+            }
+        }
+
+        function startUnitsClosedCheck() {
+            if (!unitsClosedInterval) {
+                checkUnitsClosed();
+                unitsClosedInterval = setInterval(checkUnitsClosed, 1000);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function ()
+        {
+            startUnitsTradingCheck();
+            startUnitsClosedCheck();
+        });
+
+        document.addEventListener('pusherWebPush', function(event) {
+            console.log(event.detail);
+            if(event.detail.action === 'unit-trade-started') {
+                const item = document.querySelector('[data-pair_item_id="'+ event.detail.arguments.unitId +'"] .dot-unit-trading');
+                item.setAttribute('data-timestamp', event.detail.arguments.dateTime);
+                item.classList.remove('hidden');
+                startUnitsTradingCheck();
+            }
+            if(event.detail.action === 'unit-trade-closed') {
+                const item = document.querySelector('[data-pair_item_id="'+ event.detail.arguments.unitId +'"] .dot-unit-closed');
+                const tradingItem = document.querySelector('[data-pair_item_id="'+ event.detail.arguments.unitId +'"] .dot-unit-trading');
+                item.setAttribute('data-timestamp', event.detail.arguments.dateTime);
+                item.classList.remove('hidden');
+                tradingItem.classList.add('hidden');
+                startUnitsClosedCheck();
+            }
+        });
+    </script>
 @else
     <p>No ongoing trades.</p>
 @endif

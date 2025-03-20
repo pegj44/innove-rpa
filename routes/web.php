@@ -290,4 +290,6 @@ Route::get('/profile-images/{filename}', function ($filename) {
     return response($file, 200)->header("Content-Type", $type);
 });
 
+Route::get('/test/trading-news', [\App\Http\Controllers\TestController::class, 'tradingNews']);
+
 require __DIR__.'/auth.php';
