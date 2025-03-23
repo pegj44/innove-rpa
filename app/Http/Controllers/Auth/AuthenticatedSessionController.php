@@ -34,14 +34,14 @@ class AuthenticatedSessionController extends Controller
 
         $responseBody = json_decode($response->body(), true);
 
-        info(print_r([
-            'authtest' => [
-                '$responseBody' => $responseBody,
-                '$request' => [$request->email, $request->password],
-                'env' => env('RPA_API_URL'),
-                '$response' => $response
-            ]
-        ], true));
+//        info(print_r([
+//            'authtest' => [
+//                '$responseBody' => $responseBody,
+//                '$request' => [$request->email, $request->password],
+//                'env' => env('RPA_API_URL'),
+//                '$response' => $response
+//            ]
+//        ], true));
 
         if ($response->successful() && !empty($responseBody['token'])) {
 

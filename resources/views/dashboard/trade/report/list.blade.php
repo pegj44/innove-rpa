@@ -211,6 +211,24 @@
                 @foreach($tradingAccounts as $item)
                     @php
                         $isShining = ($item['status'] === 'payout')? 'shining-gold-bg1' : '';
+                        $renewableFunders = [
+                            'UPFT',
+                            'GFF'
+                        ];
+                        $startingBal = (float) $item['trading_account_credential']['package']['starting_balance'];
+                        $latestEq = (float) $item['latest_equity'];
+                        $rdd = getCalculatedRdd($item);
+                        $forRenew = false;
+
+                        if ($item['trading_account_credential']['package']['current_phase'] !== 'phase-3' &&
+                            in_array($item['trading_account_credential']['package']['funder']['alias'], $renewableFunders) &&
+                            ($item['status'] === 'idle' || $item['status'] === 'abstained'))
+                        {
+                            $createdDate = \Carbon\Carbon::parse($item['created_at'])->timezone('Asia/Manila');
+                            $cutoff = \Carbon\Carbon::now('Asia/Manila')->subDays(25);
+                            $forRenew = $createdDate->lte($cutoff);
+
+                        }
                     @endphp
 
                     <tr class="account-item border-b border-gray-700 bg-gray-800 hover:bg-gray-600 {{ $isShining }} {{ ($item['status'] === 'idle')? 'item-pairable' : 'item-not-pairable' }}"
@@ -221,6 +239,7 @@
                         data-funder="{{ $item['trading_account_credential']['package']['funder']['id'] }}"
                         data-funder-alias="{{ $item['trading_account_credential']['package']['funder']['alias'] }}"
                         data-status="{{ $item['status'] }}"
+                        {{ (($forRenew)? 'data-for_renew="1"' : '') }}
                     >
                         @include('dashboard.trade.report.item')
                     </tr>

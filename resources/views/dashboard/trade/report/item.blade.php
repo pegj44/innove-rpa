@@ -157,7 +157,6 @@
 </td>
 <td class="relative px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-right">
     @php
-        $rdd = getCalculatedRdd($item);
         $rdd = (is_numeric($rdd))? round($rdd, 0) : $rdd;
     @endphp
     @if($rdd < 100)
