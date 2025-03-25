@@ -7,56 +7,6 @@
 
                 <div class="">
 
-                    @if(!empty($pairedItems))
-                        @php
-                            $waitingPairedItems = [];
-                            $tradedItems = [];
-                        @endphp
-                        @foreach($pairedItems as $index => $item)
-                            @php
-                                if (empty($item['trade_report_pair1']) || empty($item['trade_report_pair2'])) {
-                                    continue;
-                                }
-
-                                $pair1 = $item['trade_report_pair1'];
-                                $pair2 = $item['trade_report_pair2'];
-
-                                $reportInfo = [
-                                    'pair1' => getTradeReportCalculations($pair1),
-                                    'pair2' => getTradeReportCalculations($pair2)
-                                ];
-
-                                $pair1FunderMetadata = [];
-                                foreach($pair1['trading_account_credential']['funder']['metadata'] as $funderMeta1) {
-                                    $pair1FunderMetadata[$funderMeta1['key']] = $funderMeta1['value'];
-                                }
-
-                                $pair2FunderMetadata = [];
-                                foreach($pair2['trading_account_credential']['funder']['metadata'] as $funderMeta2) {
-                                    $pair2FunderMetadata[$funderMeta2['key']] = $funderMeta2['value'];
-                                }
-
-                                if ($item['status'] === 'pairing') {
-                                    $waitingPairedItems[$item['id']] = [
-                                        'pair1' => $pair1,
-                                        'pair2' => $pair2,
-                                        'pair1FunderMetadata' => $pair1FunderMetadata,
-                                        'pair2FunderMetadata' => $pair2FunderMetadata
-                                    ];
-                                }
-
-                                if ($item['status'] === 'trading') {
-                                    $tradedItems[$item['id']] = [
-                                        'pair1' => $pair1,
-                                        'pair2' => $pair2,
-                                        'pair1FunderMetadata' => $pair1FunderMetadata,
-                                        'pair2FunderMetadata' => $pair2FunderMetadata
-                                    ];
-                                }
-                            @endphp
-                        @endforeach
-                    @endif
-
                     <div class="mb-6">
                         <ul id="pairing-tabs" role="tablist" class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
                             <li class="me-2">
@@ -74,9 +24,9 @@
                                     </svg>
 
                                     {{ __('Ongoing Trades') }}
-                                    @if(!empty($tradedItems))
+                                    @if(!empty($tradingItems))
                                         <span class="bg-red-600 inline-block ml-2 rounded-full text-sm text-white" style="min-width: 20px;font-size: 11px;">
-                                            {{ count($tradedItems) }}
+                                            {{ count($tradingItems) }}
                                         </span>
                                     @endif
                                 </a>

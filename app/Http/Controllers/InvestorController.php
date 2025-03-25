@@ -8,12 +8,13 @@ class InvestorController extends Controller
 {
     public function tradeAccounts()
     {
-        $pairedItems = requestApi('get', 'trade/paired-items');
-        $tradingAccounts = requestApi('get', 'trade/reports');;
+        $queueItems = requestApi('get', 'trade/queue');
+        $tradingAccounts = requestApi('get', 'trade/reports');
 
         return view('dashboard.trade.investor.trade-accounts')->with([
-            'pairedItems' => $pairedItems,
-            'tradingAccounts' => $tradingAccounts
+            'tradingItems' => $queueItems['tradingItems'],
+            'tradingAccounts' => $tradingAccounts,
+            'enableTradeControls' => false
         ]);
     }
 
