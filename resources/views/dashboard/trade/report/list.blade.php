@@ -501,7 +501,7 @@
                     columnDefs: [
                         {
                             orderable: false,
-                            targets: [0, 9]
+                            targets: [0, 10]
                         }
                     ]
                 });

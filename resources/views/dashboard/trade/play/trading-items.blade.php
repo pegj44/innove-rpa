@@ -39,6 +39,8 @@
                                 <div class="dark:border-gray-600 flex justify-between {{ (!empty($isUnitTrading1)? 'unit-trading' : '') }} {{ (!empty($isUnitTradeClosed1)? 'unit-trade-closed' : '') }}">
                                     <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
                                         <span class="flex flex-row gap-3 items-center">
+                                            <span class="dot dot-unit-trading waiting {{ (empty($isUnitTrading1)? 'hidden' : '') }}" data-timestamp="{{ $isUnitTrading1 }}"></span>
+                                            <span class="dot dot-unit-closed waiting {{ (empty($isUnitTradeClosed1)? 'hidden' : '') }}" data-timestamp="{{ $isUnitTradeClosed1 }}"></span>
                                             <span class="flex flex-col">
                                                 <span class="bg-gray-900 font-black font-bold funder-alias text-sm" {!! renderFunderAliasAttr(['theme' => $pairItem1['funder_theme']]) !!}>
                                                     {{ $pairItem1['funder'] }}
@@ -48,8 +50,6 @@
                                                 </span>
                                             </span>
                                             <span class="font-normal text-gray-700 dark:text-white"> {{ getFunderAccountShortName($pairItem1['funder_account_id_long']) }}</span>
-                                            <span class="dot dot-unit-trading waiting {{ (empty($isUnitTrading1 || !empty($isUnitTradeClosed1))? 'hidden' : '') }}" data-timestamp="{{ $isUnitTrading1 }}"></span>
-                                            <span class="dot dot-unit-closed waiting {{ (empty($isUnitTradeClosed1)? 'hidden' : '') }}" data-timestamp="{{ $isUnitTradeClosed1 }}"></span>
                                         </span>
                                     </h5>
                                     <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
@@ -61,6 +61,8 @@
                                 <div class="dark:border-gray-600 flex justify-between {{ (!empty($isUnitTrading2)? 'unit-trading' : '') }} {{ (!empty($isUnitTradeClosed2)? 'unit-trade-closed' : '') }}">
                                     <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
                                         <span class="flex flex-row gap-3 items-center">
+                                            <span class="dot dot-unit-trading waiting {{ (empty($isUnitTrading2)? 'hidden' : '') }}" data-timestamp="{{ $isUnitTrading2 }}"></span>
+                                            <span class="dot dot-unit-closed waiting {{ (empty($isUnitTradeClosed2)? 'hidden' : '') }}" data-timestamp="{{ $isUnitTradeClosed2 }}"></span>
                                             <span class="flex flex-col">
                                                 <span class="bg-gray-900 font-black font-bold funder-alias text-sm" {!! renderFunderAliasAttr(['theme' => $pairItem2['funder_theme']]) !!}>
                                                     {{ $pairItem2['funder'] }}
@@ -70,8 +72,6 @@
                                                 </span>
                                             </span>
                                             <span class="font-normal text-gray-700 dark:text-white"> {{ getFunderAccountShortName($pairItem2['funder_account_id_long']) }}</span>
-                                            <span class="dot dot-unit-trading waiting {{ (empty($isUnitTrading2 || !empty($isUnitTradeClosed2))? 'hidden' : '') }}" data-timestamp="{{ $isUnitTrading2 }}"></span>
-                                            <span class="dot dot-unit-closed waiting {{ (empty($isUnitTradeClosed2)? 'hidden' : '') }}" data-timestamp="{{ $isUnitTradeClosed2 }}"></span>
                                         </span>
                                     </h5>
                                     <h5 class="dark:text-white font-bold text-gray-900 text-lg tracking-tight">
