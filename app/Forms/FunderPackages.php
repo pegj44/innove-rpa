@@ -111,14 +111,38 @@ class FunderPackages extends Form
                 'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                 'default_value' => (!empty($data['total_target_profit']))? $data['total_target_profit'] : ''
             ])
-            ->add('per_trade_target_profit', 'number', [
-                'wrapper' => ['class' => 'mb-5'],
-                'rules' => ['required'],
-                'label' => __('Per Trade Target Profit'),
-                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
-                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                'default_value' => (!empty($data['per_trade_target_profit']))? $data['per_trade_target_profit'] : ''
+            ->add('per_trade_target_profit_wrapper', 'wrapper', [
+                'label' => 'Per Trade Target Profit',
+                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+                'wrapper_class' => '',
+                'field_col_class' => 'mb-5',
+                'fields' => [
+                    $this->makeField('per_trade_target_profit_wrapper', 'wrapper', [
+                        'label_show' => false,
+                        'label_attr' => ['class' => 'block mb-1 text-sm font-medium text-gray-900 dark:text-white'],
+                        'wrapper_class' => '',
+                        'field_col_class' => 'grid grid-cols-1 md:grid-cols-2 gap-4 mb-5',
+                        'fields' => [
+                            $this->makeField('per_trade_target_profit', 'number', [
+                                'wrapper' => ['class' => 'mb-5'],
+                                'rules' => ['required'],
+                                'label' => __('MIN. Per Trade Target Profit'),
+                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
+                                'attr' => ['autocomplete' => 'off', 'class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+                                'default_value' => (!empty($data['per_trade_target_profit']))? $data['per_trade_target_profit'] : ''
+                            ]),
+                            $this->makeField('max_per_trade_target_profit', 'number', [
+                                'wrapper' => ['class' => 'mb-5'],
+                                'label' => __('MAX. Per Trade Target Profit (Optional)'),
+                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
+                                'attr' => ['autocomplete' => 'off', 'class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+                                'default_value' => (!empty($data['max_per_trade_target_profit']))? $data['max_per_trade_target_profit'] : ''
+                            ]),
+                        ]
+                    ])
+                ]
             ])
             ->add('daily_target_profit', 'number', [
                 'wrapper' => ['class' => 'mb-5'],
@@ -138,14 +162,38 @@ class FunderPackages extends Form
                 'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
                 'default_value' => (!empty($data['max_drawdown']))? $data['max_drawdown'] : ''
             ])
-            ->add('per_trade_drawdown', 'number', [
-                'wrapper' => ['class' => 'mb-5'],
-                'rules' => ['required'],
-                'label' => __('Per Trade Drawdown'),
-                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
-                'attr' => ['class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
-                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
-                'default_value' => (!empty($data['per_trade_drawdown']))? $data['per_trade_drawdown'] : ''
+            ->add('per_trade_drawdown_wrapper', 'wrapper', [
+                'label' => 'Per Trade Drawdown',
+                'label_attr' => ['class' => 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'],
+                'wrapper_class' => '',
+                'field_col_class' => 'mb-5',
+                'fields' => [
+                    $this->makeField('per_trade_drawdown_wrapper', 'wrapper', [
+                        'label_show' => false,
+                        'label_attr' => ['class' => 'block mb-1 text-sm font-medium text-gray-900 dark:text-white'],
+                        'wrapper_class' => '',
+                        'field_col_class' => 'grid grid-cols-1 md:grid-cols-2 gap-4 mb-5',
+                        'fields' => [
+                            $this->makeField('per_trade_drawdown', 'number', [
+                                'wrapper' => ['class' => 'mb-5'],
+                                'rules' => ['required'],
+                                'label' => __('MIN. Per Trade Drawdown'),
+                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
+                                'attr' => ['autocomplete' => 'off', 'class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+                                'default_value' => (!empty($data['per_trade_drawdown']))? $data['per_trade_drawdown'] : ''
+                            ]),
+                            $this->makeField('max_per_trade_drawdown', 'number', [
+                                'wrapper' => ['class' => 'mb-5'],
+                                'label' => __('MAX. Per Trade Drawdown (Optional)'),
+                                'label_attr' => ['class' => 'block mb-2 text-sm text-gray-500 dark:text-gray-400'],
+                                'attr' => ['autocomplete' => 'off', 'class' => 'border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1 block w-full'],
+                                'errors' => ['class' => 'mt-1 text-red-400 text-sm'],
+                                'default_value' => (!empty($data['max_per_trade_drawdown']))? $data['max_per_trade_drawdown'] : ''
+                            ]),
+                        ]
+                    ])
+                ]
             ])
             ->add('daily_drawdown', 'number', [
                 'wrapper' => ['class' => 'mb-5'],
