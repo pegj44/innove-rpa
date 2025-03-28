@@ -1,6 +1,6 @@
 
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-4">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <table id="trading-accounts" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr>
             <th scope="col" class="px-6 py-3"></th>
@@ -19,12 +19,16 @@
             <th scope="col" class="px-6 py-3">
                 {{ __('Status') }}
             </th>
+            <th scope="col" class="px-6 py-3">
+                {{ __('Date') }}
+            </th>
             <th scope="col" class="px-6 py-3"></th>
         </tr>
         </thead>
         <tbody>
         @foreach($items as $item)
             @php
+                $date = \Carbon\Carbon::parse($item['created_at'])->format('M. j, Y g:ia');
                 $personName = implode(' ', [
                     trim($item['user_account']['first_name']),
                     trim($item['user_account']['middle_name']),
@@ -60,6 +64,9 @@
                 </td>
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{ ucfirst($item['status']) }}
+                </td>
+                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{ $date }}
                 </td>
                 <td class="px-6 py-4 text-right border-l border-gray-600">
                     <form id="delete-item-{{ $item['id'] }}" method="POST" action="{{ route('trading-account.credential.delete', $item['id']) }}" class="flex flex-col justify-center" x-data="">
@@ -107,6 +114,19 @@
 </div>
 
 <script>
+
+    jQuery('#trading-accounts').DataTable( {
+        paging: false,
+        info: false,
+        searching: false,
+        columnDefs: [
+            {
+                orderable: false,
+                targets: [0, 7]
+            }
+        ]
+    });
+
     document.addEventListener('DOMContentLoaded', function() {
         const confirmDeleteModalBtn = document.getElementById('confirm-delete-item-modal-btn');
 
