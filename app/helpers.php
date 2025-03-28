@@ -49,6 +49,9 @@ function getCalculatedConsistency($data)
         } else {
             $totalPn = (float) $data['latest_equity'] - (float) $data['trading_account_credential']['package']['starting_balance'];
         }
+        if ($totalPn < 1) {
+            return '???';
+        }
 
         $consis = ($highestPnL/$totalPn) * 100;
 //        $consis = round($consis, 2);
