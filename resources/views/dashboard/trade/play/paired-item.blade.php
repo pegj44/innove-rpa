@@ -22,9 +22,9 @@
         $canCloseTrade = true;
     }
 
-    if (isset($enableTradeControls) && !$enableTradeControls) {
-        $canCloseTrade = false;
-    }
+    //if (isset($enableTradeControls) && !$enableTradeControls) {
+    //    $canCloseTrade = false;
+    //}
 
     if (isset($_GET['controls'])) {
         $canCloseTrade = true;
