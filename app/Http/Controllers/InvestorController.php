@@ -9,7 +9,9 @@ class InvestorController extends Controller
     public function tradeAccounts()
     {
         $queueItems = requestApi('get', 'trade/queue');
-        $tradingAccounts = requestApi('get', 'trade/reports');
+        $tradingAccounts = requestApi('get', 'trade/reports', [
+            'statusNotIn' => ['breachedcheck', 'breached']
+        ]);
 
         return view('dashboard.trade.investor.trade-accounts')->with([
             'tradingItems' => $queueItems['tradingItems'],
