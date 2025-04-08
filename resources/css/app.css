@@ -65,7 +65,10 @@ table.dataTable thead>tr>th.dt-ordering-asc span.dt-column-order:before, table.d
 }
 .dot.phase-1,
 .acc-status.phase-1 {
-    background: yellow;
+    background: #e9e92e;
+}
+.acc-status.phase-1 {
+    color: #000;
 }
 .dot.phase-2,
 .acc-status.phase-2 {
