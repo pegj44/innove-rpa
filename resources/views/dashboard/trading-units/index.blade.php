@@ -19,42 +19,73 @@
 
                         @php
                             $isConnected = true;
-                            $isEnabled = ($unit['status'])? 'checked' : ''
+                            $isEnabled = ($unit['status'])? 'checked' : '';
+                            $hasActivity = (isset($activityCount[$unit['unit_id']]));
                         @endphp
-                        <div class="block max-w-full min-w-[145px] p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-
-                            <div class="flex justify-center gap-1">
-                                @if($isEnabled)
-                                    @if($isConnected)
-                                        <svg class="w-[15px] h-[15px] text-green-400 dark:text-green-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                            <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm13.707-1.293a1 1 0 0 0-1.414-1.414L11 12.586l-1.793-1.793a1 1 0 0 0-1.414 1.414l2.5 2.5a1 1 0 0 0 1.414 0l4-4Z" clip-rule="evenodd"/>
-                                        </svg>
-                                        <div class="text-center text-xs text-green-400 dark:text-green-400">Connected</div>
+                        <div class="flex flex-col justify-between block max-w-full min-w-[145px] p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                            <div>
+                                <div class="flex justify-center gap-1">
+                                    @if($isEnabled)
+                                        @if($isConnected)
+                                            <svg class="w-[15px] h-[15px] text-green-400 dark:text-green-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                                <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm13.707-1.293a1 1 0 0 0-1.414-1.414L11 12.586l-1.793-1.793a1 1 0 0 0-1.414 1.414l2.5 2.5a1 1 0 0 0 1.414 0l4-4Z" clip-rule="evenodd"/>
+                                            </svg>
+                                            <div class="text-center text-xs text-green-400 dark:text-green-400">Connected</div>
+                                        @else
+                                            <svg class="w-[15px] h-[15px] text-red-400 dark:text-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                                <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v5a1 1 0 1 0 2 0V8Zm-1 7a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H12Z" clip-rule="evenodd"/>
+                                            </svg>
+                                            <div class="text-center text-xs text-red-400 dark:text-red-400">Disconnected</div>
+                                        @endif
                                     @else
-                                        <svg class="w-[15px] h-[15px] text-red-400 dark:text-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                            <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v5a1 1 0 1 0 2 0V8Zm-1 7a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H12Z" clip-rule="evenodd"/>
+                                        <svg class="w-[15px] h-[15px] text-gray-300 dark:text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                            <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm5.757-1a1 1 0 1 0 0 2h8.486a1 1 0 1 0 0-2H7.757Z" clip-rule="evenodd"/>
                                         </svg>
-                                        <div class="text-center text-xs text-red-400 dark:text-red-400">Disconnected</div>
+                                        <div class="text-center text-xs text-gray-300 dark:text-gray-300">Disabled</div>
                                     @endif
-                                @else
-                                    <svg class="w-[15px] h-[15px] text-gray-300 dark:text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                        <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm5.757-1a1 1 0 1 0 0 2h8.486a1 1 0 1 0 0-2H7.757Z" clip-rule="evenodd"/>
-                                    </svg>
-                                    <div class="text-center text-xs text-gray-300 dark:text-gray-300">Disabled</div>
+                                </div>
+
+                                <h5 class="text-xl text-center font-bold tracking-tight text-gray-900 dark:text-white mt-1">{{ $unit['name'] }}</h5>
+                                <p class="font-normal text-center text-gray-700 dark:text-gray-400">{{ $unit['unit_id'] }}</p>
+                                @if($hasActivity)
+                                    <p class="text-center text-sm mt-1 flex flex-row justify-center items-center">
+                                        <span class="bg-red-600 inline-block rounded-full text-sm text-white mr-1" style="min-width: 20px;font-size: 11px;">
+                                            {{ $activityCount[$unit['unit_id']] }}
+                                        </span>
+                                        Activities
+                                    </p>
                                 @endif
+    {{--                            <div class="flex justify-center mt-4">--}}
+    {{--                                <button type="button" class="px-3 py-2 text-sm font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-md hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">--}}
+    {{--                                    <svg class="w-[18px] h-[18px] text-gray-800 dark:text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">--}}
+    {{--                                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M6 4v10m0 0a2 2 0 1 0 0 4m0-4a2 2 0 1 1 0 4m0 0v2m6-16v2m0 0a2 2 0 1 0 0 4m0-4a2 2 0 1 1 0 4m0 0v10m6-16v10m0 0a2 2 0 1 0 0 4m0-4a2 2 0 1 1 0 4m0 0v2"/>--}}
+    {{--                                    </svg>--}}
+    {{--                                    {{ __("Initialize") }}--}}
+    {{--                                </button>--}}
+    {{--                            </div>--}}
                             </div>
 
-                            <h5 class="mb-2 text-xl text-center font-bold tracking-tight text-gray-900 dark:text-white mt-3">{{ $unit['name'] }}</h5>
-                            <p class="font-normal text-center text-gray-700 dark:text-gray-400">{{ $unit['unit_id'] }}</p>
+                            @if(isset($fundersCount['funderCounts'][$unit['unit_id']]))
+                                <div class="mt-5 pt-5 border-t border-gray-600">
+                                    @foreach($fundersCount['funderCounts'][$unit['unit_id']] as $funderCountAlias => $funderCount)
+                                        <div class="flex flex-row justify-center items-center">
+                                            @php
+                                                $funderCountPhase = $fundersCount['themes'][$funderCountAlias]['current_phase'];
+                                            @endphp
+                                            <div class="mr-2">
 
-{{--                            <div class="flex justify-center mt-4">--}}
-{{--                                <button type="button" class="px-3 py-2 text-sm font-medium text-center inline-flex items-center text-white bg-blue-700 rounded-md hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">--}}
-{{--                                    <svg class="w-[18px] h-[18px] text-gray-800 dark:text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">--}}
-{{--                                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M6 4v10m0 0a2 2 0 1 0 0 4m0-4a2 2 0 1 1 0 4m0 0v2m6-16v2m0 0a2 2 0 1 0 0 4m0-4a2 2 0 1 1 0 4m0 0v10m6-16v10m0 0a2 2 0 1 0 0 4m0-4a2 2 0 1 1 0 4m0 0v2"/>--}}
-{{--                                    </svg>--}}
-{{--                                    {{ __("Initialize") }}--}}
-{{--                                </button>--}}
-{{--                            </div>--}}
+                                                <span class="flex flex-row" style="line-height: 18px">
+                                                    <span class="bg-gray-900 font-black funder-alias rounded-b" {!! renderFunderAliasAttr($fundersCount['themes'][$funderCountAlias]) !!}> <span style="font-size:11px">{{ $funderCountAlias }}</span></span>
+{{--                                                    <span class="acc-status {{ $funderCountPhase }}">--}}
+{{--                                                        {{ $funderCountPhase }}--}}
+{{--                                                    </span>--}}
+                                                </span>
+                                            </div>
+                                            <div>{{ count($funderCount) }}</div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
 
                             <div class="mt-5 pt-5 flex justify-between border-t border-gray-600">
                                 <form id="update-status-{{ $unit['id'] }}" method="POST" action="{{ route('trading-unit.update', $unit['id']) }}" x-data="">
@@ -62,7 +93,7 @@
                                     <label class="relative inline-flex items-center cursor-pointer">
                                         <input id="disable-unit-{{ $unit['id'] }}" type="hidden" name="status" value="">
                                         <input id="checkbox-{{ $unit['id'] }}" {{$isEnabled}} type="checkbox" value="1" class="sr-only peer">
-                                        <div x-on:click="requestUpdateUnitStatus({{$unit['id']}}, event)" class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-900 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                        <div x-on:click="requestUpdateUnitStatus({{$unit['id']}}, event, {{ $hasActivity }})" class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-900 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
                                     </label>
                                 </form>
 
@@ -109,7 +140,11 @@
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                     </svg>
                     <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400 text-center">
-                        <p class="mb-0 me-auto ms-auto w-3/4">Are you sure you want to disable this unit?</p>
+                        <p class="leading-5 mb-0 me-auto ms-auto w-3/4">Are you sure you want to disable this unit?
+                            <span class="warning-has-activity">
+{{--                                <br><br><span class="text-red-500">Ongoing trades and pairing will be stopped.</span>--}}
+                            </span>
+                        </p>
                     </h3>
                     <button id="confirm-disable-unit-modal-btn" data-modal-hide="disable-unit-modal" type="button" class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center me-2">
                         Confirm
@@ -233,10 +268,17 @@
             });
         });
 
-        function requestUpdateUnitStatus(unitId, event)
+        function requestUpdateUnitStatus(unitId, event, hasActivity)
         {
             let checkbox = event.target.previousElementSibling;
             let status = !checkbox.checked;
+            const warningHasActivity = document.querySelector('.warning-has-activity');
+
+            if(hasActivity === 1) {
+                warningHasActivity.classList.remove('hidden');
+            } else {
+                warningHasActivity.classList.add('hidden');
+            }
 
             if (!status) {
 

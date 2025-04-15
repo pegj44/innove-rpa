@@ -12,9 +12,13 @@ class TradingUnitController extends Controller
     public function index()
     {
         $units = requestApi( 'get','trading-units');
+        $activityCount = requestApi('get', 'trade/activity-count');
+        $fundersCount = requestApi('get', 'units/funders-count');
 
         return view('dashboard.trading-units.index')->with([
-            'tradingUnits' => $units
+            'tradingUnits' => $units,
+            'activityCount' => $activityCount,
+            'fundersCount' => $fundersCount
         ]);
     }
 

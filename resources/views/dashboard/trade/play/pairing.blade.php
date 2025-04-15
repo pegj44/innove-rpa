@@ -619,6 +619,29 @@
         });
     }
 
+    function getTemplate(template, data, wrapperHtml = null) {
+        $.ajax({
+            url: "{{ route('template') }}",
+            type: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": csrfToken,
+            },
+            data: JSON.stringify({
+                template: template,
+                data: data
+            }),
+            success: function(response) {
+                if (wrapperHtml) {
+                    wrapperHtml.innerHTML = response.template;
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error:", error);
+            }
+        });
+    }
+
     document.addEventListener('pusherWebPush', function(event) {
         if(event.detail.action === 'cancel-pairing') {
             location.reload();
@@ -758,4 +781,119 @@
         }
     });
 
+    document.addEventListener('pusherNotificationEvent', function(event) {
+        console.log(event.detail);
+        if(event.detail.action === 'initialize-complete') {
+
+        }
+    });
+
+    document.addEventListener('pusherNotificationEvent', function(event) {
+        if(event.detail.action === 'trade-started') {
+            const audio = new Audio("{{ asset('media/trade-started2.mp3') }}");
+            audio.play().catch(error => {
+                console.error("Playback failed:", error);
+            });
+
+            console.log('trade-started');
+
+            setTimeout(function() {
+                location.reload();
+            }, 3000);
+        }
+    });
+
+    document.addEventListener('pusherNotificationEvent', function(event) {
+        if(event.detail.action === 'trade-closed') {
+            const audio = new Audio("{{ asset('media/trade-closed2.mp3') }}");
+            audio.play().catch(error => {
+                console.error("Playback failed:", error);
+            });
+
+            setTimeout(function() {
+                location.reload();
+            }, 4000);
+        }
+    });
+
+    document.addEventListener('pusherNotificationEvent', function(event) {
+        console.log(event.detail);
+        if(event.detail.action === 'initialize-complete') {
+            const audio = new Audio("{{ asset('media/trade-ready.mp3') }}");
+            audio.play().catch(error => {
+                console.error("Playback failed:", error);
+            });
+
+            const pairForm = document.getElementById('trade-item-status-'+ event.detail.arguments.queue_db_id);
+            const pairFormWrap = pairForm.querySelector('.pair-form-wrap');
+            const route = '{{ route("trade.start") }}';
+
+            pairForm.setAttribute('action', route);
+
+            getTemplate('dashboard.trade.play.components.initiate-trade-btn', {
+                'pairedItemData': {
+                    "queue_db_id": event.detail.arguments.queue_db_id
+                }
+            }, pairFormWrap);
+
+            const pairFooterWrap = document.querySelector('[data-queueItemId="'+ event.detail.arguments.queue_db_id +'"] .remove-pair');
+            pairFooterWrap.classList.remove('hidden');
+
+            const pairWrapper = document.querySelector('[data-queueitemid="'+ event.detail.arguments.queue_db_id +'"]');
+            pairWrapper.parentElement.querySelector('.pair-form-wrap').classList.remove('hidden');
+
+            const queueItemWrap = document.querySelector('.status-handler[data-itemid="'+ event.detail.arguments.itemId +'"]');
+            queueItemWrap.innerHTML = '';
+        }
+    });
+
+    document.addEventListener('pusherNotificationEvent', function(event) {
+        if (event.detail.action === 'trade-initialize-error') {
+            const audio = new Audio("{{ asset('media/pairing-failed2.mp3') }}");
+            let playCount = 0;
+            const maxPlays = 3;
+
+            if (event.detail.arguments.sound) {
+                const playAudio = () => {
+                    if (playCount < maxPlays) {
+                        audio.play().then(() => {
+                            playCount++;
+                        }).catch(error => {
+                            console.error("Playback failed:", error);
+                        });
+                    }
+                };
+
+                playAudio();
+                audio.addEventListener('ended', playAudio);
+            }
+
+            const pairForm = document.getElementById('trade-item-status-'+ event.detail.arguments.queue_db_id);
+            const pairFormWrap = pairForm.querySelector('.pair-form-wrap');
+            const pairHeader = document.querySelector('h2[data-queueitemid="'+ event.detail.arguments.queue_db_id +'"] .remove-pair');
+
+            const route = '{{ route("trade.re-initialize") }}';
+
+            pairForm.setAttribute('action', route);
+            pairHeader.classList.remove('hidden');
+
+            console.log(event.detail);
+
+            const pairWrapper = document.querySelector('[data-queueitemid="'+ event.detail.arguments.queue_db_id +'"]');
+            pairWrapper.parentElement.querySelector('.pair-form-wrap').classList.add('hidden');
+
+            const statusHandler = document.querySelector('.status-handler[data-itemid="'+ event.detail.arguments.itemId +'"]');
+            const msgHtml = '<span class="bg-red-600 font-normal ml-2 px-2 py-1 rounded text-sm">'+ event.detail.arguments.message +'</span>';
+
+            statusHandler.innerHTML = msgHtml;
+
+            if (event.detail.arguments.errorCode === 'missing_uipath') {
+                getTemplate('dashboard.trade.play.components.re-initiate-trade-btn', {
+                    'pairedItemData': {
+                        "queue_db_id": event.detail.arguments.queue_db_id
+                    }
+                }, pairFormWrap);
+            }
+        }
+    });
 </script>
