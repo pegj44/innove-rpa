@@ -245,8 +245,11 @@
             const remainingSlHtml = pairBody.querySelector('.remaining-sl');
             remainingSlHtml.textContent = '$'+ item.daily_draw_down.toFixed(0);
 
-            let convertedTp = item.tp * item.order_amount;
-            let convertedSl = item.sl * item.order_amount;
+            // let convertedTp = item.tp * item.order_amount;
+            // let convertedSl = item.sl * item.order_amount;
+
+            let convertedTp = item.convertedTp;
+            let convertedSl = item.convertedSl;
 
             const convertedTpHtml = pairBody.querySelector('.converted-tp');
             convertedTpHtml.textContent = '$'+ convertedTp.toFixed(0);
