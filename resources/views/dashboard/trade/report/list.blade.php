@@ -321,7 +321,7 @@
                                                 <span class="remaining-tp"></span>
                                             </div>
                                             <div class="bg-gray-700 w-1/2 relative">
-                                                <input type="number" {{ ((!$enableTradeControls)? 'readonly=readonly' : '') }} data-pair_val="tp" step="1" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
+                                                <input type="number" {{ ((!$enableTradeControls)? 'readonly=readonly' : '') }} data-pair_val="tp" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
                                                 <span class="converted-tp"></span>
                                             </div>
                                         </div>
@@ -331,7 +331,7 @@
                                                 <span class="remaining-sl"></span>
                                             </div>
                                             <div class="bg-gray-700 w-1/2 relative">
-                                                <input {{ ((!$enableTradeControls)? 'readonly=readonly' : '') }} type="number" step="1" data-pair_val="sl" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
+                                                <input {{ ((!$enableTradeControls)? 'readonly=readonly' : '') }} type="number" data-pair_val="sl" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
                                                 <span class="converted-sl"></span>
                                             </div>
                                         </div>
@@ -404,7 +404,7 @@
                                                 <span class="remaining-tp"></span>
                                             </div>
                                             <div class="bg-gray-700 w-1/2 relative">
-                                                <input {{ ((!$enableTradeControls)? 'readonly=readonly' : '') }} type="number" data-pair_val="tp" step="1" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
+                                                <input {{ ((!$enableTradeControls)? 'readonly=readonly' : '') }} type="number" data-pair_val="tp" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
                                                 <span class="converted-tp"></span>
                                             </div>
                                         </div>
@@ -414,7 +414,7 @@
                                                 <span class="remaining-sl"></span>
                                             </div>
                                             <div class="bg-gray-700 w-1/2 relative">
-                                                <input {{ ((!$enableTradeControls)? 'readonly=readonly' : '') }} type="number" step="1" data-pair_val="sl" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
+                                                <input {{ ((!$enableTradeControls)? 'readonly=readonly' : '') }} type="number" data-pair_val="sl" class="border-2 border-gray-600 block dark:bg-gray-900 dark:text-gray-300 w-full">
                                                 <span class="converted-sl"></span>
                                             </div>
                                         </div>
