@@ -6,6 +6,8 @@
     $pairItem1 = $pairedItemData['data'][$pair1ItemId];
     $pairItem2 = $pairedItemData['data'][$pair2ItemId];
 
+    $timeAgo = '';
+
     $unitReady = (!empty($pairedItemData['unit_ready']))? $pairedItemData['unit_ready'] : [];
     $keysIntersect = array_intersect($unitReady, $pairedItemKeys);
 
@@ -28,6 +30,7 @@
 
     if (isset($_GET['controls'])) {
         $canCloseTrade = true;
+        $timeAgo = now()->diffInMinutes($pairedItemData['created_at']);
     }
 @endphp
 <h2 id="accordion-paired-collapse-heading-{{$index}}" data-queue_group_id="{{ $pairedItemData['queue_db_id'] }}" data-queueItemId="{{ $pairedItemData['queue_db_id'] }}" class="flex pair-group">
@@ -336,7 +339,7 @@
                         @include('dashboard.trade.play.components.initializing-notif')
                     @else
                         @if($pairedItemData['status'] === 'error')
-                            {{--                                        @include('dashboard.trade.play.components.re-initiate-trade-btn')--}}
+{{--                            @include('dashboard.trade.play.components.re-initiate-trade-btn')--}}
                         @else
                             @include('dashboard.trade.play.components.initiate-trade-btn')
                         @endif
