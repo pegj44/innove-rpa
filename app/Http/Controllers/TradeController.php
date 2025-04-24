@@ -142,7 +142,7 @@ class TradeController extends Controller
     public function index()
     {
         $queueItems = requestApi('get', 'trade/queue');
-        $tradingAccounts = requestApi('get', 'trade/reports');
+        $tradingAccounts = requestApi('get', 'trade/reports', ['statusNotIn' => ['breached']]);
         $funders = requestApi('get', 'funders');
         $userSettings = requestApi('get', 'user/settings');
 
