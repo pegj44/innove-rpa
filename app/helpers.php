@@ -171,8 +171,10 @@ function getFunderAccountShortName($accountId)
         'Zero\d+k-s' => '',
         'LV-Zero\d+k-s' => '',
         'LV-\d+k-s' => '',
-        'ZeroDay\d+k-s' => 'ZDay-',
-        'LV-ZeroDay\d+k-s' => 'ZDay-',
+        'ZeroDay\d+k-s' => '',
+        'LV-ZeroDay\d+k-s' => '',
+        'UPTDay100k\d+k-s' => '',
+        'LV-UPTDay100k\d+k-s' => '',
     ];
 
     foreach ($toRemove as $pattern => $override) {
