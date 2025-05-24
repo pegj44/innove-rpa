@@ -33,6 +33,7 @@
     $itemPairHandler = strtolower($itemFunder) .'_'. $item['trading_account_credential']['user_account']['trading_unit']['unit_id'];
     $remainingNTrades = 10 - $item['n_trades'];
     $workingItemsHandler = (!empty($workingItemsHandler))? $workingItemsHandler : [];
+    $statuses = \App\Http\Controllers\TradingUnitController::getUnitStatuses();
 @endphp
 
 @if(!empty($controls))
@@ -45,7 +46,7 @@
         @endif
 
 
-        @if($item['trading_account_credential']['user_account']['trading_unit']['status'])
+        @if($item['trading_account_credential']['user_account']['trading_unit']['status'] == 1)
             @if(!hasFunderAccountCredential($item['trading_account_credential'], $item['trading_account_credential']['package']['funder']['id']))
                 <svg class="w-6 h-6 text-orange-400" data-tooltip-target="tooltip-right-{{ $item['id'] }}" data-tooltip-placement="right" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13V8m0 8h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
@@ -85,12 +86,12 @@
                 @endif
             @endif
         @else
-            <svg class="w-6 h-6 text-gray-400" data-tooltip-target="tooltip-right-{{ $item['id'] }}" data-tooltip-placement="right" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                <path fill-rule="evenodd" d="M8 10V7a4 4 0 1 1 8 0v3h1a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h1Zm2-3a2 2 0 1 1 4 0v3h-4V7Zm2 6a1 1 0 0 1 1 1v3a1 1 0 1 1-2 0v-3a1 1 0 0 1 1-1Z" clip-rule="evenodd"/>
-            </svg>
+            <div class="" data-tooltip-target="tooltip-right-{{ $item['id'] }}" data-tooltip-placement="right" aria-hidden="true">
+                {!! $statuses[$item['trading_account_credential']['user_account']['trading_unit']['status']]['html'] !!}
+            </div>
 
             <div id="tooltip-right-{{ $item['id'] }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                Someone is using this PC unit for account management purposes.
+                {{ $statuses[$item['trading_account_credential']['user_account']['trading_unit']['status']]['name'] }}
                 <div class="tooltip-arrow" data-popper-arrow></div>
             </div>
         @endif

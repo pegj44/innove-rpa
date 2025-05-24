@@ -145,6 +145,14 @@ class TradeController extends Controller
         $tradingAccounts = requestApi('get', 'trade/reports', ['statusNotIn' => ['breached']]);
         $funders = requestApi('get', 'funders');
         $userSettings = requestApi('get', 'user/settings');
+        $notConnectedUnitsApi = requestApi('get', 'trading-units/status/'. 4); // get not connected units
+        $notConnectedUnits = [];
+
+        if (!empty($notConnectedUnitsApi)) {
+            foreach ($notConnectedUnitsApi as $notConnectedUnit) {
+                $notConnectedUnits[] = $notConnectedUnit['name'];
+            }
+        }
 
         $filterSettings = (!empty($userSettings['trading_filters']['value']))? $userSettings['trading_filters']['value'] : [];
         $enableTradeControls = (!empty($userSettings['allow_trading_inputs_control']))? (bool) $userSettings['allow_trading_inputs_control']['value'] : true;
@@ -175,7 +183,8 @@ class TradeController extends Controller
             'tradingAccounts' => $tradingAccounts,
             'funders' => $funders,
             'enableTradeControls' => $enableTradeControls,
-            'filterSettings' => $filterSettings
+            'filterSettings' => $filterSettings,
+            'notConnectedUnits' => $notConnectedUnits
         ]);
     }
 

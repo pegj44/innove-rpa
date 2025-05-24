@@ -19,30 +19,16 @@
 
                         @php
                             $isConnected = true;
-                            $isEnabled = ($unit['status'])? 'checked' : '';
+                            $isEnabled = ($unit['status'] === 1)? 'checked' : '';
                             $hasActivity = (isset($activityCount[$unit['unit_id']]));
                         @endphp
+
                         <div class="flex flex-col justify-between block max-w-full min-w-[145px] p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
                             <div>
                                 <div class="flex justify-center gap-1">
-                                    @if($isEnabled)
-                                        @if($isConnected)
-                                            <svg class="w-[15px] h-[15px] text-green-400 dark:text-green-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                                <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm13.707-1.293a1 1 0 0 0-1.414-1.414L11 12.586l-1.793-1.793a1 1 0 0 0-1.414 1.414l2.5 2.5a1 1 0 0 0 1.414 0l4-4Z" clip-rule="evenodd"/>
-                                            </svg>
-                                            <div class="text-center text-xs text-green-400 dark:text-green-400">Connected</div>
-                                        @else
-                                            <svg class="w-[15px] h-[15px] text-red-400 dark:text-red-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                                <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v5a1 1 0 1 0 2 0V8Zm-1 7a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H12Z" clip-rule="evenodd"/>
-                                            </svg>
-                                            <div class="text-center text-xs text-red-400 dark:text-red-400">Disconnected</div>
-                                        @endif
-                                    @else
-                                        <svg class="w-[15px] h-[15px] text-gray-300 dark:text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                            <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm5.757-1a1 1 0 1 0 0 2h8.486a1 1 0 1 0 0-2H7.757Z" clip-rule="evenodd"/>
-                                        </svg>
-                                        <div class="text-center text-xs text-gray-300 dark:text-gray-300">Disabled</div>
-                                    @endif
+                                    <div class="text-center text-xs text-gray-300 dark:text-gray-300">
+                                        {!! $statusIcons[$unit['status']]['name'] !!}
+                                    </div>
                                 </div>
 
                                 <h5 class="text-xl text-center font-bold tracking-tight text-gray-900 dark:text-white mt-1">{{ $unit['name'] }}</h5>
@@ -93,7 +79,29 @@
                                     <label class="relative inline-flex items-center cursor-pointer">
                                         <input id="disable-unit-{{ $unit['id'] }}" type="hidden" name="status" value="">
                                         <input id="checkbox-{{ $unit['id'] }}" {{$isEnabled}} type="checkbox" value="1" class="sr-only peer">
-                                        <div x-on:click="requestUpdateUnitStatus({{$unit['id']}}, event, {{ $hasActivity }})" class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-900 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+{{--                                        <div x-on:click="requestUpdateUnitStatus({{$unit['id']}}, event, {{ $hasActivity }})" class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-900 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>--}}
+
+                                        <button id="dropdownButton_{{ $unit['id'] }}" data-dropdown-toggle="unitStatus_{{ $unit['id'] }}" class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-2 py-1 mr-1 text-center inline-flex items-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800" type="button">
+                                            {!! $statusIcons[$unit['status']]['html'] !!}
+                                            <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                                            </svg>
+                                        </button>
+
+                                        <!-- Dropdown menu -->
+                                        <div id="unitStatus_{{ $unit['id'] }}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
+                                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownButton_{{ $unit['id'] }}">
+                                                @foreach($statusIcons as $statusIconsId => $statusIconItem)
+                                                    <li>
+                                                        <a href="#" data-status="{{ $statusIconsId }}" data-id="{{ $unit['id'] }}" class="unit-status-dropdown block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                                            {!! $statusIconItem['html'] !!}
+                                                            {{ $statusIconItem['name'] }}
+                                                        </a>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+
                                     </label>
                                 </form>
 
@@ -360,6 +368,46 @@
                 location.reload();
             }
         });
+
+        function handleUnitStatusClick(event) {
+            event.preventDefault();
+            const status = this.getAttribute('data-status');
+            const id = this.getAttribute('data-id');
+            const loader = document.querySelector('.global-loader-wrap');
+
+            let route = "{{ route('trading-unit.update', '0000') }}";
+
+            route = route.replace('0000', id);
+
+            loader.classList.remove('hidden');
+
+            $.ajax({
+                url: route,
+                type: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": csrfToken,
+                },
+                data: JSON.stringify({
+                    status: status
+                }),
+                success: function(response) {
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", error);
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const unitLinks = document.querySelectorAll('a.unit-status-dropdown');
+
+            unitLinks.forEach(function(link) {
+                link.addEventListener('click', handleUnitStatusClick);
+            });
+        });
+
     </script>
 
 
