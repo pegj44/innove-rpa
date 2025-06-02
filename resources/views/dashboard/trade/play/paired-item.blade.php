@@ -339,7 +339,7 @@
                         @include('dashboard.trade.play.components.initializing-notif')
                     @else
                         @if($pairedItemData['status'] === 'error')
-{{--                            @include('dashboard.trade.play.components.re-initiate-trade-btn')--}}
+                            @include('dashboard.trade.play.components.re-initiate-trade-btn')
                         @else
                             @include('dashboard.trade.play.components.initiate-trade-btn')
                         @endif
