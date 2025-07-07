@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Illuminate\Support\Facades\Session;
 
+/**
+ * test
+ */
 class TradeController extends Controller
 {
     public static $futuresTpPips = 49;
