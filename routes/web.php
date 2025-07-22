@@ -113,9 +113,9 @@ Route::middleware(['auth_api', 'investor'])->group(function ()
         Route::get('/trade-accounts', 'tradeAccounts')->name('investor.trade-accounts');
         Route::get('/trade-history', 'tradeHistory')->name('investor.trade-history');
         Route::get('/profit-report', 'profitReport')->name('investor.profit-report');
-        Route::get('/funders', 'funders')->name('investor.funders');
+//        Route::get('/funders', 'funders')->name('investor.funders');
 
-        Route::get('accounts/users', 'userAccounts')->name('accounts.users');
+//        Route::get('accounts/users', 'userAccounts')->name('accounts.users');
         Route::get('accounts/funders', 'funderAccounts')->name('accounts.funders');
     });
 
